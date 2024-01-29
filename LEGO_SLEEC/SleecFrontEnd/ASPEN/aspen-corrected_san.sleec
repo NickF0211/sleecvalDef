@@ -1,0 +1,281 @@
+def_start
+	//** resolve c7, add log
+	event LogDroneAction
+	//***********************
+    event EncounterHuman
+    event HumanNearby
+    event IdentifyActivity
+    event InformHuman
+    event InformKeeper
+	event BackUp
+	event ExitArea
+	event PreparingDrone
+	event DeployDrone
+	event GroundDrone
+	event ReturnHome
+	event MonitorLand
+	event MonitorCarbon
+
+    event CollectSample // Separate event from DeployDrone because not all deployments may result in sample collection
+	event AvoidInterference
+	event EncounterWildlife
+	event UpdateTerritories  // Data must include land delineations as well as airfields
+	event DeletePictures
+	event TakePictures
+	event StoreData
+	event AnonymizeHuman
+	event ImplementASPEN
+event EnsureCompliance // Does not interfere or contradict with pre-existing jurisdictional protections
+
+	measure sameLanguage: boolean
+	measure humanUnderstands: boolean
+	measure unrelatedActivity: boolean
+	measure environmentDangerous: boolean // Bad weather, dangerous terrain ahead, etc
+	measure onIndigenousLand: boolean
+	measure landTreatyInPlace: boolean
+    measure relevantLand: boolean // In relevant food & shelter priorities for local humans and animals
+    measure privateTerritory: boolean
+    measure humanIdentified: boolean
+    measure carbonFootprint: scale(low, medium, high)
+	measure benefits: scale(low1, medium1, high1)
+	measure flightCondition: scale(dangerous, unsafe, safe, ideal)
+	measure wildlifeDisturbed: boolean
+	measure wildlifeInteractswithDrone: boolean
+	measure unKnownObject: boolean
+	measure damages: boolean
+	measure battery: scale(low2, medium2, high2)
+	measure store: scale(low3, medium3, high3)
+
+def_end
+
+rule_start
+	R1 when EncounterHuman and ({sameLanguage} and {humanUnderstands})
+    then InformHuman
+
+    R2 when EncounterHuman then IdentifyActivity
+
+    R2_1 when IdentifyActivity and {unrelatedActivity} then not StoreData
+
+    R3 when HumanNearby and {environmentDangerous} then InformHuman
+
+    //R4 when PreparingDrone and {onIndigenousLand} then not DeployDrone
+    //unless {landTreatyInPlace} then DeployDrone
+    
+    //***********  resolve situational conflict 1 (MERGE R4 and R13 in R4b)
+	// comment R4 and  R13, uncomment R4b
+    //R4b when PreparingDrone and (({onIndigenousLand} and (not {landTreatyInPlace})) or (({battery} = low) or (({store} = low) or {damages})))  then not DeployDrone
+     //************************************
+    
+	//*********** resolve concern 5 (Refine corrected and merge rule R4b) *******
+      R4bb when PreparingDrone and (({onIndigenousLand} and (not {landTreatyInPlace})) or 
+      (({battery} = low) or ((({store} = low) or {damages}) or ({flightCondition} = dangerous)
+      )))  then not DeployDrone
+    //************************************
+
+    R5 when DeployDrone and {relevantLand} then MonitorLand
+
+    R6 when CollectSample then AvoidInterference
+
+    R6_1 when DeployDrone then AvoidInterference
+
+    // Prior to deploying the drone, ensure territory jurisdictions updated
+    R7 when PreparingDrone then UpdateTerritories
+
+    // If area is private territory, then don’t deploy drone
+    R7_1 when PreparingDrone and {privateTerritory} then not DeployDrone
+
+    // If drone somehow still stumbles onto private territory
+    R7_2 when DeployDrone and {privateTerritory} then ExitArea
+
+    R8 when DeployDrone then MonitorCarbon
+
+    R8_1 when DeployDrone and (({carbonFootprint} > low) and  ({benefits} < medium))
+    then InformKeeper
+
+    R9 when TakePictures and {humanIdentified} then AnonymizeHuman
+    unless {unrelatedActivity} then DeletePictures
+    
+    //*********** resolve concern c7 (ADD two rules and an event)
+    R9b1 when DeletePictures then  InformKeeper
+    R9b2 when DeletePictures then  LogDroneAction
+	//*****************************************************************
+
+
+    R10 when ImplementASPEN then EnsureCompliance
+    //*********** resolve C7 (ADD a rule 10b) 
+    R10b when EnsureCompliance then InformKeeper
+	//*****************************************************************
+
+    R11 when DeployDrone and ({flightCondition} < safe) then ReturnHome
+    unless ({flightCondition} = dangerous) then GroundDrone
+
+    R11_cont when ReturnHome then InformKeeper
+
+    R11_cont_1 when GroundDrone then InformKeeper
+
+    R12 when EncounterWildlife then AvoidInterference
+    unless {wildlifeDisturbed} then BackUp
+    unless {wildlifeInteractswithDrone} then ExitArea within 1 minutes
+
+    R12_1 when EncounterWildlife and {wildlifeInteractswithDrone} then InformKeeper
+
+    //R13 when PreparingDrone and ((({battery} = low) or ({store} = low)) or {damages})
+    //then not DeployDrone
+
+	//**** Resolve redundancy, comment r14 (Delete)
+    //R14 when DeployDrone and {damages} then InformKeeper
+	//*****************************************************************
+
+    //R14_1 when DeployDrone and {damages} then GroundDrone
+    
+    //**** Resolve redundancy, comment r14 (Refine R14_1)
+    R14_1 when DeployDrone and ({damages} or  ({battery} = low)) then GroundDrone within 5 minutes
+	//*****************************************************************
+    
+    R15 when DeployDrone and {unKnownObject} then TakePictures
+    
+rule_end
+
+concern_start
+    c1 when PreparingDrone and {damages} then DeployDrone
+    c2 when PreparingDrone and ({battery} = low) then DeployDrone
+    c3 when DeployDrone and {damages} then not GroundDrone within 5 minutes
+    c4 when DeployDrone and ({battery} = low) then not GroundDrone within 5 minutes
+    c5 when PreparingDrone and ({flightCondition} = dangerous) then DeployDrone
+    c6 when DeployDrone and ({flightCondition} = dangerous) then not GroundDrone within 5 minutes
+    c7 when DeletePictures then not InformKeeper within 5 minutes
+    c8 when EnsureCompliance then not InformKeeper within 5 minutes
+concern_end
+
+
+purpose_start
+    p1 exists CollectSample // Separate event from DeployDrone because not all deployments may result in sample collection
+	p2 exists UpdateTerritories  // Data must include land delineations as well as airfields
+	p3 exists DeletePictures
+
+	p4 exists PreparingDrone and {damages} while DeployDrone eventually
+purpose_end
+
+
+//18 9 27
+//65 28 108
+//1day, 7m, 41m, 11m
+
+relation_start
+    //Yes: (3 | 1)
+    //J1: Yes, because the drone has to be on the land to monitor it. It cannot monitor land and exit the area at the same time.
+    conflict ExitArea MonitorLand
+
+    //No: (2 | 2)
+    //J1: While this is true for some scenarios, it is likely not mutually exclusive for ALL of IdentifyActivity. For example, it may be possible to both anonymizehuman and identifyActivity for some actions, like chopping wood, by blurring the face only. This may depend however on local laws...
+    //conflict AnonymizeHuman IdentifyActivity
+
+    //No: (2 | 2)
+    //J1: 'Yes' would imply that when a drone exits the area it is not possible for it to encounter a human but this seems like something that could not be guaranteed. Maybe 'should not' would be better if this was a safety precaution or if it is in fact impossible for them to occur simultaneously then it would be mutually exclusive
+    //J2: While the justification states that it cannot encounter WHEN exiting area, it is still possible for this to occur as the drone cannot control whether a human is encountered.
+    //conflict ExitArea EncounterHuman
+
+    //Yes: (3 | 0)
+    //J1: Yes, because the collection of samples cannot occur at the same time as returning home, as said by the justification, and I have no contradictions to this justification..
+    conflict ReturnHome CollectSample
+
+    //Yes: (3 | 1)
+    //J1: Yes, you cannot store data and delete pictures at the same time. However, if data is saved, can pictures be deleted afterwards? I.e are we viewing "store data" and "data is saved" as the single act of saving the data, or is this event happening for as long as the data is being stored...Either way, according to the justification both should not be possible, and I have no contradictions to this justification..
+    conflict StoreData DeletePictures
+
+
+    //Yes: (3 | 1)
+    //J1: Yes, because the collection of samples cannot occur at the same time as exiting area, as said by the justification, and I have no contradictions to this justification.
+    conflict ExitArea CollectSample
+
+     //Yes: (3 | 1)
+     //J1: Yes, because MonitorCarbon cannot occur at the same time as ExitArea, as said by the justification through the "when....it cannot..." sequence, and I have no contradictions to this justification..
+     conflict ExitArea MonitorCarbon
+
+     //Yes: (3 | 0)
+     //J1: Because of "when....it cannot..." sequence, and I have no contradictions to this justification..
+     conflict GroundDrone DeployDrone
+
+    //No: (1 | 3)
+    //J1: If the drone is attempting to avoid interference it should attempt to avoid encountering wildlife but as this is something that may still be possible, they are not mutually exclusive
+    // conflict AvoidInterference EncounterWildlife
+
+    //No: ( 2 | 2)
+    //J1: I think it is still possible for the drone to monitor its emissions while grounded, as long as it is ON.
+    conflict GroundDrone MonitorCarbon
+
+    //Yes (4 | 0)
+    //J1: Because the justification directly says implies and I do not think there is a scenario that contradicts this.
+    measure imply {environmentDangerous} (not ({flightCondition} = ideal))
+
+    //No (1 | 3)
+    //J1: While the justification says "implies", it should take into account that wildlifeDisturbed can be from multiple causes, so it does not necessarily have to imply wildlifeInteractswithDrone.
+    //measure imply {wildlifeDisturbed} {wildlifeInteractswithDrone}
+
+    //Yes (2 | 1)
+    //J1: I am not sure why private territory would be relevant for local humans and animals, for example someone's back yard would likely be a small patch of private land with no value to researchers. Thus, while some private territory may be relevant, is it not strong enough to be an implication.
+    measure imply {privateTerritory} {relevantLand}
+
+    //Yes (3 | 0)
+    //J1: None
+    measure conflict ({battery} = low) ({benefits} = high1)
+
+    //Yes (3 | 0)
+    //J1: Yes, because if wildlife is disturbed but the benefits are high, there may be other repercussions such as violating laws that make the benefits not worth it in the long run.
+    measure conflict {wildlifeDisturbed} ({benefits} = high1)
+
+    //Yes (2 | 1)
+    //J1: Yes, because if the drone is damaged, the risks outweigh the high benefits if the drone is unable to go home.
+    measure conflict {damages} ({benefits} = high1)
+
+
+    //Yes (3 | 0)
+    //J1: Yes, because if the drone is at risk, this outweighs the high benefits if the drone is unable to go home.
+    measure conflict {environmentDangerous} ({benefits} = high1)
+
+    // Yes (2 | 1)
+    //J1: A human can understand the drone and also be performing an unrelated activity to forest monitoring, such as taking a hike.
+    measure conflict {humanUnderstands} {unrelatedActivity}
+
+    //No (0 | 4)
+    //J1: 'May not" is used instead of saying that it is impossible for both to be true therefore they are not mutually exclusive
+    //J2: key word: "may not be required" i.e. it could be required in certain circumstances
+    //J3: This would depend on the laws of the indigenous tribe, so we cannot say it is mutually exclusive for every tribe's land. In general, anonymization regardless may be the norm
+    // measure conflict {onIndigenousLand} {anonymizeHuman}
+
+
+    //Yes ( 3| 0)
+    //J1: Yes, because if wildlife is interacted with and potentially disturbed, there may be other repercussions such as violating laws that make the benefits not worth it in the long run.
+    measure conflict {wildlifeInteractswithDrone} ({benefits} = high1)
+
+    //No ( 1 | 1)
+    //J1: flight conditions have to be poor to be mutually exclusive with high benefits. the prompt only mentions "flight condition" but not the content of the condition i.e. poor
+    //J2: Maybe flightcondition could be worded as flightConditionLow to be more specific, in which case they are mutually exclusive
+    //J3: Yes, because if the drone is at risk, this outweighs the high benefits if the drone is unable to go home.
+    // measure conflict {flightCondition} ({benefits} = high1)
+
+    //Yes (2 | 1)
+    //J1: If the benefits are high, the drone could potentially operate until the storage is full before deciding to return home, as this does not impact its ability to travel and land safely home.
+    measure conflict ({store} = low) ({benefits} = high1)
+
+
+    //Yes (4 | 0 )
+    //J1:Yes, you cannot identify and anonymize the human at the same time. Anonymizing likely occurs afterwards.
+    effect AnonymizeHuman (not {humanIdentified})
+
+    //Yes (4 | 0)
+    //If the environment is dangerous, it could impact flight conditions, making it equivalent. Even in scenarios where the danger to the environment is only on the ground (such as a fire), it impacts the drone's ability to fly and perform actions freely.
+    measure iff {environmentDangerous} ({flightCondition} = dangerous)
+
+    //No (2 | 2)
+    //they are not interchangeable. wildlife can be disturbed in other ways besides interaction with drone
+    // measure iff {wildlifeInteractswithDrone} {wildlifeDisturbed}
+
+    //No (0 | 2)
+    //No, because private land can be irrelevant to the drone's activities if it is someone's backyard for example
+    //measure iff {privateTerritory} {relevantLand}
+
+    //Yes (4 | 0)
+    //J1: Yes, because you cannot prepare the drone after deploying or during deployment
+    happenBefore PreparingDrone DeployDrone
+relation_end
