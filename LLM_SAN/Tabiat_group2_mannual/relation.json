@@ -1,0 +1,141 @@
+{
+    "name": "Tabiat_group2_mannual",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "ProcessData",
+                "event2": "FollowJurisdictionRules",
+                "justification": "Processing data implies following certain jurisdictional rules.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestReInput",
+                "event2": "NoticeAnomaly",
+                "justification": "Requesting for re-input might occur due to noticing some anomalies in the input.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ShowHelpIcon",
+                "event2": "UserRequestExplanation",
+                "justification": "Showing the help icon may occur as a response to the user requesting an explanation.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserOpenApp",
+                "event2": "UserUseApp",
+                "justification": "Opening the app is part of the process of using the app.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "NotifyUser",
+                "event2": "SendReport",
+                "justification": "Notifying the user may include sending a report.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestUserConsent",
+                "event2": "CheckConsentCapacity",
+                "justification": "Asking for user's consent involves checking if the user has the capacity to give consent.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestFileAccess",
+                "event2": "GiveAllTimeAccess",
+                "justification": "Requesting for file access conflicts with giving all time access, as the latter assumes access is already granted.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ShowHelpIcon",
+                "event2": "UserRequestExplanation",
+                "justification": "Showing the help icon is independent of a user requesting an explanation, they may conflict when a user has no need of explanation but is shown a help icon.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserOpenApp",
+                "event2": "UserUseApp",
+                "justification": "In order to use the app, the user has to open the app first.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestGuardianConsent",
+                "event2": "ProcessData",
+                "justification": "In certain cases, guardian's consent is needed before processing the data.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestUserConsent",
+                "event2": "ProcessData",
+                "justification": "Before data can be processed, users' consent should be requested.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestUserConsent",
+                "event2": "CheckConsentCapacity",
+                "justification": "Checking a user's consent capacity must happen before requesting user consent.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userHasConsentCapacity",
+                "measure2": "userConsent",
+                "justification": "If a user has the capacity to consent, then it implies they can give their consent.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "approvedDoctor",
+                "measure2": "approvedDataRecipient",
+                "justification": "An approved doctor implies that they are an approved data recipient, as doctors are typically recipients of patient data in a healthcare setting.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userHasConsentCapacity",
+                "measure2": "userConsent",
+                "justification": "If a user has the capacity to provide consent it doesn't necessarily mean they have given consent, so these are mutually exclusive.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "accessRevoked",
+                "measure2": "appUseConsent",
+                "justification": "If access is revoked, user's consent to use the app doesn't hold.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "approvedDataRecipient",
+                "measure2": "approvedDoctor",
+                "justification": "Assuming that the data recipient is a doctor, if a doctor is approved for data access, it's the same as the data recipient being approved.",
+                "equals": true
+            }
+        }
+    ]
+}

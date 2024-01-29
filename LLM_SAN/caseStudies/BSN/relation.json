@@ -1,0 +1,181 @@
+{
+    "name": "BSN",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "GivingCookingInstructions",
+                "event2": "UserWantsToCook",
+                "justification": "If the system gives cooking instructions it implies that the user wanted to cook in the first place thus triggering this event.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UpdateMap",
+                "event2": "CollectandRecordInformation",
+                "justification": "Updating the map implies that there was an event where information was collected and recorded to begin with.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "InterfereSafely",
+                "event2": "HumanOnFloor",
+                "justification": "If the system interferes safely, it is implied that there was a triggering event, like detecting a human on the floor.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ConsiderUserPractices",
+                "event2": "AgentDeployed",
+                "justification": "The act of considering user practices indicates that an agent was deployed, therefore it's a witness.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "MeetingUser",
+                "event2": "AgentDeployed",
+                "justification": "If the event of the meeting with the user happens, there must have been an agent being deployed which enabled such interaction.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "MeetingUser",
+                "event2": "PreparingDeployment",
+                "justification": "Meeting the user implies deployment was prepared, signaling A is a witness to B.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AllowUserToCook",
+                "event2": "UserWantsToCook",
+                "justification": "If the user is allowed to cook, it definitely implies that the user initially had the desire to cook.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CallEmergencyServices",
+                "event2": "AskUserIfOK",
+                "justification": "Once the emergency services have been called, it implies that there was an event in which a check was made to ascertain if the user was okay or not.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UpdateInformation",
+                "event2": "CollectandRecordInformation",
+                "justification": "Once the information has been updated, this implies that initial data collection and recording has happened.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AgentDeployed",
+                "event2": "PreparingDeployment",
+                "justification": "If an agent is deployed, that implies that there must have been an event prior to that where the deployment was prepared.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "MonitorMealTime",
+                "event2": "BeforeCookingBegins",
+                "justification": "Once the mealtime monitoring is in progress, it implies that the 'before cooking begins' event has already occurred.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ConsiderUserPractices",
+                "event2": "MeetingUser",
+                "justification": "If the system takes into consideration the user's practices, it is implied that there was an initial meeting with the user.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SmokeDetectorAlarm",
+                "event2": "CalibrateSpeech",
+                "justification": "Smoke detector alarm is a high priority event which requires immediate attention and would conflict with the non-emergency event of speech calibration.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AllowUserToCook",
+                "event2": "FoodPreparation",
+                "justification": "Allowing the user to cook may conflict with the system's own food preparation.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "FireSafetyMeasures",
+                "event2": "OpenWindows",
+                "justification": "Fire safety measures might involve closing all windows to prevent draft, which would conflict with open windows.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AskForEmergencyContact",
+                "event2": "CallEmergencyServices",
+                "justification": "Asking for an emergency contact and calling the emergency services at the same time might be conflicting as the focus should be on one action to effectively manage the situation.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "FoodPreparation",
+                "event2": "CallEmergencyServices",
+                "justification": "Food preparation and calling emergency services are two events that conflict as they represent differing priorities and can't effectively be handled simultaneously.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserChangeMind",
+                "event2": "GiveSuggestion",
+                "justification": "If a user changes their mind, any previous suggestion given no longer holds and hence these events conflict.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserChangeItemLocation",
+                "event2": "GiveSuggestion",
+                "justification": "User changing the location of an item might conflict with the system's suggestion based on initial item locations.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CollectandRecordInformation",
+                "event2": "InformUser",
+                "justification": "Collecting and recording information might conflict with the event of informing user, especially if the information collection process is intended to be confidential.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GiveUserDangerousObjects",
+                "event2": "UserHasLimitation",
+                "justification": "If the user has limitations, giving them dangerous objects could pose potential conflicts and increase risks.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RemindUserOfLimitations",
+                "event2": "GiveUserDangerousObjects",
+                "justification": "Reminding the user of their limitations conflicts with giving them dangerous objects, as these actions are contradictory in ensuring user safety.",
+                "conflicts": true
+            }
+        }
+    ]
+}

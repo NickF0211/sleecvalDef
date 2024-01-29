@@ -1,0 +1,146 @@
+[
+    {
+        "Relationship": {
+            "event1": "UpdateInformation",
+            "event2": "CollectandRecordInformation",
+            "justification": "The activity of updating information assumes that information must be collected and recorded.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "InformUser",
+            "justification": "Meeting user and informing user are two separate activities and not mutually exclusive.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userNeedsSpecialAccomodations",
+            "measure2": "userOccupied",
+            "justification": "Need for special accommodations and occupation of the user are two separate states and not mutually exclusive.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "InterfereSafely",
+            "justification": "The triggering of a smoke detector alarm does not prevent safe interference.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userOccupied",
+            "measure2": "alarmRestarts",
+            "justification": "The occupation of a user and the restarting of an alarm are not mutually exclusive states.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "BeforeCookingBegins",
+            "event2": "UserWantsToCook",
+            "justification": "Before starting cooking, it is assumed that the user wants to cook.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userAsksForAppropriateTasks",
+            "justification": "The authorization of a person and a user requesting appropriate tasks are not mutually exclusive states.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UpdateInformation",
+            "event2": "CollectandRecordInformation",
+            "justification": "Updating information and collecting and recording information are separate activities that do not exclude each other.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "safePathFound",
+            "measure2": "kitchenSafe",
+            "justification": "The finding of a safe path and the safety of the kitchen are not mutually exclusive states.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "alarmOn",
+            "measure2": "hazardDetected",
+            "justification": "If an alarm is on, it may indicate that a hazard has been detected.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentDeployed",
+            "justification": "Preparing deployment and deploying an agent are two separate activities that do not exclude each other.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "HumanOnFloor",
+            "event2": "CallEmergencyServices",
+            "justification": "Finding a human on the floor does not necessarily mean that emergency services will be called.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dataNeedsChecking",
+            "measure2": "personAuthorized",
+            "justification": "The need to check data and the authorization of a person are not mutually exclusive states.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "hazardDetected",
+            "measure2": "alarmOn",
+            "justification": "The detection of hazards and an alarm being on are not mutually exclusive states.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dataNeedsChecking",
+            "measure2": "userAsksForAppropriateTasks",
+            "justification": "The need to check data does not imply that a user will ask for appropriate tasks.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MonitorMealTime",
+            "event2": "TrackTime",
+            "justification": "The monitoring of meal times and tracking of time are two separate activities that do not exclude each other.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "BeforeCookingBegins",
+            "event2": "UserWantsToCook",
+            "justification": "Before starting cooking, it is assumed that the user wants to cook.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userNeedsSpecialAccomodations",
+            "measure2": "alarmRestarts",
+            "justification": "The need for special accommodations and the restarting of an alarm are not correlated.",
+            "implies": false
+        }
+    }
+]

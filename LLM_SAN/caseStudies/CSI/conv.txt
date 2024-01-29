@@ -1,0 +1,455 @@
+/usr/local/bin/python3 /Users/nickfeng/Downloads/OpenAIPlayground/main.py
+Here are my definitions:
+
+def_start
+
+	// Events
+	event PreparingDeployment
+	event AgentDeployed
+	event MeetingUser
+	event InformUser
+	event InformCaregiver
+	event CallEmergencyServices
+	event RemindLater
+	event AgentHasAppropriateAppearance
+	event AskForDetailLevelOfInstructions
+	event UseFirstPersonPluralLanguage
+	event CalibrateSpeech
+	event RemindUserOfLimitations
+	// Safety
+	event AskForEmergencyContact
+	event HumanOnFloor
+	event SmokeDetectorAlarm
+	event OpenWindows
+	event FireSafetyMeasures
+	event AskUserIfOK
+	event InterfereSafely
+	event UserHasLimitation
+	event CheckTemperature
+	event FoodPreparation
+	event TrackTime
+	event UserUnpredictable
+	event GiveUserDangerousObjects
+	// Cooking/kitchen related specifically
+	event MonitorMealTime
+	event BeforeCookingBegins
+	event UserWantsToCook
+	event AllowUserToCook
+	event GiveSuggestion
+	event GivingCookingInstructions
+	event ConsiderUserPractices
+	event UserChangeItemLocation
+	event UserChangeMind
+	event RecalculateApproach
+	// Privacy
+	event ProvideDataSummaries
+	event CollectandRecordInformation
+	event UpdateInformation
+	event ShowDataHistory
+	event UpdateMap
+
+	// measures
+	measure userOccupied: boolean
+	measure timeBetweenMeals: numeric
+	measure personAuthorized: boolean
+	measure dataNeedsChecking: boolean
+	measure userAsksForAppropriateTasks: boolean
+	measure userNeedsSpecialAccomodations: boolean
+	measure userDisablesAlarm: boolean
+	measure alarmRestarts: boolean
+	measure needLevel: scale(nlow, nmedium, nhigh)
+	measure humanAssents: boolean
+	measure safePathFound: boolean
+	measure hazardDetected: boolean
+	measure kitchenSafe: boolean
+	measure riskLevel: scale(low, medium, high)
+	measure alarmOn: boolean
+
+	// constants
+	constant maxTimeBetweenMeals = 28800 // is predetermined
+def_end
+
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A implies the occurrence of event B at exactly the same time, if yes,
+please say A witness B, if no, please say A NOT witness B. For example, if A is a special type of B, then
+occurrence of A implies the occurrence of B (DrinkingWater witness Drinking).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "witness": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with witness relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##witness##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A blocks the occurrence of event B at exactly the same time, if yes,
+please say A conflict B, if no, please say A NOT conflict B. For example, if A is the opposite action of B, then
+occurrence of A conflict the occurrence of B (OpenDoor conflict CloseDoor).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "conflicts": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with conflict relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Note that if A witness B and B conflict C, then it must be the case A conflict C. The pair you come up with must respect this relationship.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##conflict##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A must happen prior to the occurrence of event B, if yes,
+please say A HB B, if no, please say A NOT HB B. For example, if A is the pre-requisite of B, then
+occurrence of A must happen prior to the occurrence of B (CreateForm HB ShowForm).
+Please provide your justification for each answer in
+the following Json format:
+
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "HB": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some events pairs with HB relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##HB##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must hold, if yes,
+please say A implies B, if no, please say A NOT implies B. For example, if A is a stronger condition than B, then
+A implies B (doorLocked implies doorClosed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "implies": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with implies relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##implies##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must not hold, if yes,
+please say A ME B, if no, please say A NOT ME B. ME stands for mutually exclusive. For example, if A and B represents two mutually exclusive states, then
+A ME B (in the context of traffic light, redLightOn conflicts greenLightOn).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "ME": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with conflicts relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##ME##:
+'''json
+{your json goes here}
+'''
+
+
+For every pair of measures A and B, can you please answer the following questions:
+Is it the case that if A and B always have the same value, if yes,
+please say A equals B, if no, please say A NOT equals B. For example, if A and B represent the same measures with two different name, then
+A equals B (if the only vehicle presented is car, then carSpeed equals vehicleSpeed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "equals": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some measures pairs with equals relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##equals##:
+'''json
+{your json goes here}
+'''
+response time 29.998653173446655 and tokens 682
+Given the provided events, there seem to be connections that fit the criteria for the witness relationship. I analyzed the meaning of each event to make sure they are interconnected logically, not based on rules, leading to the following pairs:
+
+##witness##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "If a user expresses their desire to cook, it implies that preparations for cooking need to begin.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "AskForDetailLevelOfInstructions",
+            "justification": "When the user wants to cook, the assistant needs to adjust guidance level accordingly.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "FireSafetyMeasures",
+            "justification": "Implementation of fire safety is implied once the smoke detector alerts.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "CallEmergencyServices",
+            "justification": "When the smoke detector triggers an alarm, emergency services should be informed immediately.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentHasAppropriateAppearance",
+            "justification": "When preparing for deployment, the assistant should appear appropriately suited for the task.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserHasLimitation",
+            "event2": "UserNeedsSpecialAccomodations",
+            "justification": "When the user has limitations, special accommodations are implied to make the environment more accessible.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "HumanOnFloor",
+            "event2": "AskUserIfOK",
+            "justification": "If the assistant spots a human on the floor, it implies the need to check on their wellbeing.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GiveUserDangerousObjects",
+            "event2": "InterfereSafely",
+            "justification": "If an assistant gives user dangerous objects, it implies the need for safe interventions to prevent accidents.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "FireSafetyMeasures",
+            "event2": "OpenWindows",
+            "justification": "Implementing fire safety measures might imply opening windows to let out smoke.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserChangeMind",
+            "event2": "RecalculateApproach",
+            "justification": "If the user changes their mind, the assistant's approach should adapt accordingly.",
+            "witness": true
+        }
+    }
+]
+'''
+{'Relationship': {'event1': 'PreparingDeployment', 'event2': 'AgentHasAppropriateAppearance', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'SmokeDetectorAlarm', 'event2': 'OpenWindows', 'justification': '{fill in your justification}', 'witness': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'UserChangeMind', 'event2': 'RecalculateApproach', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'UserHasLimitation', 'event2': 'UserNeedsSpecialAccomodations', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'GiveUserDangerousObjects', 'event2': 'InterfereSafely', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'SmokeDetectorAlarm', 'event2': 'FireSafetyMeasures', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'FireSafetyMeasures', 'event2': 'OpenWindows', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'UserWantsToCook', 'event2': 'AskForDetailLevelOfInstructions', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'UserWantsToCook', 'event2': 'BeforeCookingBegins', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'HumanOnFloor', 'event2': 'AskUserIfOK', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'SmokeDetectorAlarm', 'event2': 'CallEmergencyServices', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+new test case 11
+Please trying to fill in the content consider the context given above.
+['{"Relationship": {"event1": "PreparingDeployment", "event2": "AgentHasAppropriateAppearance", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "SmokeDetectorAlarm", "event2": "OpenWindows", "justification": "{fill in your justification}", "witness": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "UserChangeMind", "event2": "RecalculateApproach", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "UserHasLimitation", "event2": "UserNeedsSpecialAccomodations", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "GiveUserDangerousObjects", "event2": "InterfereSafely", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "SmokeDetectorAlarm", "event2": "FireSafetyMeasures", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "FireSafetyMeasures", "event2": "OpenWindows", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "UserWantsToCook", "event2": "AskForDetailLevelOfInstructions", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "UserWantsToCook", "event2": "BeforeCookingBegins", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "HumanOnFloor", "event2": "AskUserIfOK", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "SmokeDetectorAlarm", "event2": "CallEmergencyServices", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}']
+
+Please provide your answer in the format:
+
+##relations##:
+'''json
+{your json goes here}
+'''
+Based on the semantics of the event names, I will provide the relationships and justifications for them.
+
+##relations##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentHasAppropriateAppearance",
+            "justification": "While preparing for deployment, it is not necessary that the agent has the appropriate appearance. It could be a step in the preparation process itself.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "OpenWindows",
+            "justification": "The triggering of a smoke detector alarm is independent from opening windows. They are not the same event and are not in conflict.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserChangeMind",
+            "event2": "RecalculateApproach",
+            "justification": "When a user changes their mind, this could trigger a recalculation of approach but it does not block it.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserHasLimitation",
+            "event2": "UserNeedsSpecialAccomodations",
+            "justification": "The event of identifying a user has a limitation doesn't block the event of making special accommodations. In fact, they go hand in hand.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GiveUserDangerousObjects",
+            "event2": "InterfereSafely",
+            "justification": "Giving a user dangerous objects doesn't block interfering safely. On the contrary, the latter should be triggered.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "FireSafetyMeasures",
+            "justification": "Triggering of a smoke detector alarm does not block conducting fire safety measures. On the contrary, it stimulates their implementation.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "FireSafetyMeasures",
+            "event2": "OpenWindows",
+            "justification": "Fire safety measures do not block the opening of windows. In many cases, opening windows is part of fire safety measures to let out smoke.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "AskForDetailLevelOfInstructions",
+            "justification": "A user's desire to cook does not conflict with asking for the level of instruction detail. In fact, it's a necessary part of the process.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "A user's desire to cook does not block the preparatory stage before cooking begins. Instead, it leads to it.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "HumanOnFloor",
+            "event2": "AskUserIfOK",
+            "justification": "A human being on the floor does not conflict with asking the user if they're okay. On the contrary, such a situation makes asking necessary.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "CallEmergencyServices",
+            "justification": "The triggering of a smoke detector alarm does not conflict with calling emergency services. It is a response to such an event.",
+            "conflicts": false
+        }
+    }
+]
+'''
+response time 29.998653173446655 and tokens 821
+new test case 0
+
+Process finished with exit code 0

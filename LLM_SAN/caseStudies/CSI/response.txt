@@ -1,0 +1,85 @@
+##witness##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "If a user expresses their desire to cook, it implies that preparations for cooking need to begin.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "AskForDetailLevelOfInstructions",
+            "justification": "When the user wants to cook, the assistant needs to adjust guidance level accordingly.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "FireSafetyMeasures",
+            "justification": "Implementation of fire safety is implied once the smoke detector alerts.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "CallEmergencyServices",
+            "justification": "When the smoke detector triggers an alarm, emergency services should be informed immediately.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentHasAppropriateAppearance",
+            "justification": "When preparing for deployment, the assistant should appear appropriately suited for the task.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserHasLimitation",
+            "event2": "UserNeedsSpecialAccomodations",
+            "justification": "When the user has limitations, special accommodations are implied to make the environment more accessible.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "HumanOnFloor",
+            "event2": "AskUserIfOK",
+            "justification": "If the assistant spots a human on the floor, it implies the need to check on their wellbeing.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GiveUserDangerousObjects",
+            "event2": "InterfereSafely",
+            "justification": "If an assistant gives user dangerous objects, it implies the need for safe interventions to prevent accidents.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "FireSafetyMeasures",
+            "event2": "OpenWindows",
+            "justification": "Implementing fire safety measures might imply opening windows to let out smoke.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserChangeMind",
+            "event2": "RecalculateApproach",
+            "justification": "If the user changes their mind, the assistant's approach should adapt accordingly.",
+            "witness": true
+        }
+    }
+]
+'''

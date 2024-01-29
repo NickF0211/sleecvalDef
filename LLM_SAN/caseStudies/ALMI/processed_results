@@ -1,0 +1,333 @@
+{
+    "name": "ALMI",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "UserWantsToCook",
+                "event2": "BeforeCookingBegins",
+                "justification": "Before cooking begins, the user must want to cook.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SmokeDetectorAlarm",
+                "event2": "CallEmergencyServices",
+                "justification": "When a smoke detector alarm is raised, it implies that emergency services are notified.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AgentDeployed",
+                "event2": "MeetUser",
+                "justification": "When an agent is deployed, it means that the agent meets the user.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "HumanOnFloor",
+                "event2": "AskUserIfOK",
+                "justification": "If a human is found on the floor, asking if the user is okay is an immediate response.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AllowUserToCook",
+                "event2": "MonitorMealTime",
+                "justification": "When a user is allowed to cook, the mealtime needs to be monitored for safety reasons.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AskForDetailLevelOfInstructions",
+                "event2": "GivingCookingInstructions",
+                "justification": "Asking for the detail level of instructions implies giving cooking instructions to the user.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AskForEmergencyContact",
+                "event2": "PreparingDeployment",
+                "justification": "Asking for an emergency contact is a part of the process of preparing for deployment.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AgentHasAppropriateAppearance",
+                "event2": "MeetingUser",
+                "justification": "Ensuring that the agent has an appropriate appearance implies that the agent meets the user.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserChangeItemLocation",
+                "event2": "UpdateMap",
+                "justification": "When a user changes the location of an item, it implies updating the map.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserUnpredictable",
+                "event2": "RecalculateApproach",
+                "justification": "If a user is unpredictable, it implies that the approach needs to be recalculated.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserUnpredictable",
+                "event2": "UseFirstPersonPluralLanguage",
+                "justification": "When the user is unpredictable, using first person plural language might not be the best approach.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "FireSafetyMeasures",
+                "event2": "OpenWindows",
+                "justification": "In case of a fire, opening windows might contradict the fire safety measures.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserWantsToCook",
+                "event2": "FoodPreparation",
+                "justification": "If the user wants to cook, food preparation by an assistant might conflict with their desires.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserHasLimitation",
+                "event2": "AllowUserToCook",
+                "justification": "If a user has a limitation, allowing them to cook might pose a risk.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CallEmergencyServices",
+                "event2": "RemindLater",
+                "justification": "In an emergency situation, reminding later could conflict with the urgency of calling emergency services.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CollectandRecordInformation",
+                "event2": "ProvideDataSummaries",
+                "justification": "While collecting data, providing summaries might conflict as it could overload the user.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "PreparingDeployment",
+                "event2": "AgentDeployed",
+                "justification": "Preparing a deployment must happen before the agent is actually deployed.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "BeforeCookingBegins",
+                "event2": "UserWantsToCook",
+                "justification": "Before cooking begins should occur prior to the user wanting to cook.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserChangeItemLocation",
+                "event2": "RecalculateApproach",
+                "justification": "If a user changes the location of an item, the approach should be recalculated afterward.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserChangeMind",
+                "event2": "GiveSuggestion",
+                "justification": "If a user changes their mind, new suggestions are made afterward to accommodate their new preference.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "OpenWindows",
+                "event2": "CheckTemperature",
+                "justification": "After windows are opened, the temperature should be checked to ensure comfort.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GiveUserDangerousObjects",
+                "event2": "InterfereSafely",
+                "justification": "If dangerous objects are given to the user, it's important to ensure their safety afterward.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "HumanOnFloor",
+                "event2": "CallEmergencyServices",
+                "justification": "If a human is found on the floor, calling emergency services should happen afterward.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SmokeDetectorAlarm",
+                "event2": "FireSafetyMeasures",
+                "justification": "If a smoke detector alarm is activated, fire safety measures should be implemented afterward.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserWantsToCook",
+                "event2": "AllowUserToCook",
+                "justification": "After a user expresses their wish to cook, the decision to allow them to cook is made afterward.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserHasLimitation",
+                "event2": "ConsiderUserPractices",
+                "justification": "If a user has a limitation, their practices should be considered afterward to provide a tailored experience.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userDisablesAlarm",
+                "measure2": "alarmOn",
+                "justification": "If the user disables the alarm, implies that the alarm was on.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "personAuthorized",
+                "measure2": "userOccupied",
+                "justification": "If a person is authorized to do something, it implies the user is occupied with that person's activities.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "humanAssents",
+                "measure2": "userAsksForAppropriateTasks",
+                "justification": "When a human assents or agrees, it implies that the user is asking for appropriate tasks.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "safePathFound",
+                "measure2": "hazardDetected",
+                "justification": "Finding a safe path implies that a hazard has been detected that needs to be avoided.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "alarmRestarts",
+                "measure2": "alarmOn",
+                "justification": "If the alarm restarts, this implies that the alarm is on.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userDisablesAlarm",
+                "measure2": "alarmOn",
+                "justification": "If a user disables the alarm, it implies that the alarm is not on.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "hazardDetected",
+                "measure2": "safePathFound",
+                "justification": "If a hazard is detected, it implies that a safe path has not been found.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "personAuthorized",
+                "measure2": "userOccupied",
+                "justification": "If a person is authorized to do something, it might imply the user is not occupied with other activities.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "alarmRestarts",
+                "measure2": "userDisablesAlarm",
+                "justification": "If the alarm restarts, the status in which user disables the alarm doesn't hold.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userNeedsSpecialAccomodations",
+                "measure2": "kitchenSafe",
+                "justification": "When a user needs special accommodations, the kitchen may not be safe without those accommodations.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userDisablesAlarm",
+                "measure2": "alarmRestarts",
+                "justification": "These two measures are not equivalent. A user disabling an alarm is a different event from an alarm restarting.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "riskLevel",
+                "measure2": "needLevel",
+                "justification": "Risk level and need level might not always be the same as they likely refer to different things (risk of a situation vs need for assistance).",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "personAuthorized",
+                "measure2": "userOccupied",
+                "justification": "Person authorized and user occupied are not equivalent. A person being authorized doesn't necessarily mean the user is occupied.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "safePathFound",
+                "measure2": "hazardDetected",
+                "justification": "Safe path found and hazard detected may not always be identical as detecting a hazard doesn't necessarily mean a safe path is found.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userNeedsSpecialAccomodations",
+                "measure2": "userAsksForAppropriateTasks",
+                "justification": "User needs special accommodations and user asks for appropriate tasks are not equivalent measures.",
+                "equals": false
+            }
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userOccupied",
+            "justification": "The authorization of a person doesn't necessarily mean they are currently occupied with the system. Depending on the context, they could be authorized but not presently engaged.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "alarmOn",
+            "measure2": "hazardDetected",
+            "justification": "When an alarm is turned on, it generally indicates the detection of a hazard. However, a fault in the alarm system or a false alarm could trigger the alarm without a real hazard. Thus, not mutually exclusive.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AskUserIfOK",
+            "event2": "SmokeDetectorAlarm",
+            "justification": "The event of asking a user if they are OK doesn't inherently conflict with a smoke detector alarm. If the smoke alarm is sounding, it would be appropriate to ask the user if they are OK.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserHasLimitation",
+            "event2": "UserNeedsSpecialAccomodations",
+            "justification": "The existence of a user's limitation doesn't conflict with the need for special accommodations. In fact, these accommodations are often needed because of existing limitations.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "A user wanting to cook doesn't inherently conflict with something happening before cooking begins. The desire to cook can arise anytime, and it would generally precede the initiation of any cooking-related processes.",
+            "conflicts": false
+        }
+    }
+]
+'''

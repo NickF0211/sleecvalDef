@@ -1,0 +1,83 @@
+```json
+[
+    {
+        "Relationship": {
+            "event1": "ShowHelpIcon",
+            "event2": "UserRequestExplanation",
+            "justification": "Showing the help icon is independent of a user requesting an explanation, they may conflict when a user has no need of explanation but is shown a help icon.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "RequestReInput",
+            "event2": "NoticeAnomaly",
+            "justification": "Requesting for a re-input is usually a result of noticing an anomaly. Therefore, the two do not conflict but are dependent.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "approvedDataRecipient",
+            "measure2": "approvedDoctor",
+            "justification": "An approved data recipient does not imply it is an approved doctor as the recipient could be any approved entity, not necessarily a doctor.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "RequestUserConsent",
+            "event2": "CheckConsentCapacity",
+            "justification": "Requesting user consent does not conflict with checking consent capacity, as the latter usually precedes the former.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "approvedDoctor",
+            "measure2": "approvedDataRecipient",
+            "justification": "An approved doctor implies that they are an approved data recipient, as doctors are typically recipients of patient data in a healthcare setting.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userHasConsentCapacity",
+            "measure2": "userConsent",
+            "justification": "If a user has the capacity to provide consent it doesn't necessarily mean they have given consent, so these are mutually exclusive.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "NotifyUser",
+            "event2": "SendReport",
+            "justification": "Notifying a user does not conflict with sending a report. A report could be a part of the notification.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserOpenApp",
+            "event2": "UserUseApp",
+            "justification": "Opening an app and using it are part of the same process and do not conflict.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "RequestUserConsent",
+            "event2": "CheckConsentCapacity",
+            "justification": "Checking a user's consent capacity must happen before requesting user consent.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "ProcessData",
+            "event2": "FollowJurisdictionRules",
+            "justification": "Processing data does not conflict with following jurisdiction rules. In fact, it assumes that the jurisdiction rules will be adhered to during the process.",
+            "conflicts": false
+        }
+    }
+]

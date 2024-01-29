@@ -1,0 +1,197 @@
+{
+    "name": "Tabiat",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "AllowSendData",
+                "event2": "SystemCollectData",
+                "justification": "AllowSendData event can witness SystemCollectData event because generally data can only be collected when the system is allowed to send data.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserConsented",
+                "event2": "SystemCollectData",
+                "justification": "UserConsented event can witness SystemCollectData event because data collection can generally only occur if the user has given consent.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemTurnOnSensor",
+                "event2": "SystemCollectData",
+                "justification": "SystemTurnOnSensor event can witness SystemCollectData event because turning on sensor can generally precede collecting data from the sensor.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemDataBreach",
+                "event2": "SystemInformUserAboutDataBreach",
+                "justification": "SystemDataBreach event can witness SystemInformUserAboutDataBreach event because user generally gets informed about a data breach after it occurs.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserConformIsFamilarwithTechnology",
+                "event2": "SystemConfig",
+                "justification": "UserConformIsFamilarwithTechnology event can witness SystemConfig event because system configuration can be adjusted based on whether user is familiar with the technology or not.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ChangeSystemLanguage",
+                "event2": "UseUserLanguage",
+                "justification": "ChangeSystemLanguage event can witness UseUserLanguage event because system language is generally changed to the user's preferred language.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserChoosePronous",
+                "event2": "SystemConfig",
+                "justification": "UserChoosePronous event can witness SystemConfig event because system configuration can be adjusted based on the pronouns chosen by the user.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserSubmitData",
+                "event2": "SystemRecivingMessageFromClinician",
+                "justification": "UserSubmitData event can witness SystemRecivingMessageFromClinician event because after user submits data, system may receive instructions from the clinician based on those data.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "StopSystemDataCollection",
+                "event2": "SystemCollectData",
+                "justification": "These events conflict because you can't stop and continue data collection at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemTurnOffSensor",
+                "event2": "SystemCollectData",
+                "justification": "These events conflict because you can't collect data when the sensor is turned off.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserRequestWithdrawConsent",
+                "event2": "SystemCollectData",
+                "justification": "These events conflict because the system can't collect data when the user requests to withdraw consent.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserConsented",
+                "event2": "SystemCollectData",
+                "justification": "UserConsented event must happen before SystemCollectData as the system needs user consent to collect data.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemTurnOnSensor",
+                "event2": "SystemCollectData",
+                "justification": "SystemTurnOnSensor event must happen before SystemCollectData as the system needs to turn on sensor in order to collect data.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AllowSendData",
+                "event2": "SystemCollectData",
+                "justification": "AllowSendData event must happen before SystemCollectData as the system cannot collect data until it is allowed to send data.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemDataBreach",
+                "event2": "SystemInformUserAboutDataBreach",
+                "justification": "SystemDataBreach event must happen before SystemInformUserAboutDataBreach as the system cannot inform user about data breach until it has occurred.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "StopDataCollection",
+                "event2": "UserRequestStopDataCollection",
+                "justification": "StopDataCollection event must happen before UserRequestStopDataCollection as the user cannot request to stop data collection until it has been stopped.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserConsentWithdraw",
+                "event2": "UserRequestWithdrawConsent",
+                "justification": "UserConsentWithdraw event must happen before UserRequestWithdrawConsent as the user cannot request to withdraw consent until it has been withdrawn.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userHasConsented",
+                "measure2": "SystemCollectData",
+                "justification": "If userHasConsented is true then the SystemCollectData may also hold, as the user consent generally allows the system to collect data.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userRequestedStopDataCollection",
+                "measure2": "StopSystemDataCollection",
+                "justification": "If userRequestedStopDataCollection is true then the StopSystemDataCollection may also hold, as the user request generally leads the system to stop data collection.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userComfortablewithTech",
+                "measure2": "UserConformIsFamilarwithTechnology",
+                "justification": "If userComfortablewithTech is true then the UserConformIsFamilarwithTechnology may also hold, as the user being comfortable with technology implies that user is familiar with technology.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userRequestedStopDataCollection",
+                "measure2": "userHasConsented",
+                "justification": "If userRequestedStopDataCollection is true then userHasConsented generally would not be true, as the user request to stop data collection generally means user has withdrawn consent.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userIsPraying",
+                "measure2": "userIsSleeping",
+                "justification": "If userIsPraying is true then userIsSleeping generally would not be true, as a user can't be praying and sleeping at the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "systemlangauge",
+                "measure2": "userLanguage",
+                "justification": "Based on the assumption that the system language changes according to the user's preferred language",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "systemUsedPronous",
+                "measure2": "userPreferredPronouns",
+                "justification": "Based on the assumption that system uses the pronouns preferred by the user",
+                "equals": true
+            }
+        }
+    ]
+}

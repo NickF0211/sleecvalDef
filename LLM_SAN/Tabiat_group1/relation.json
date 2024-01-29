@@ -1,0 +1,213 @@
+{
+    "name": "Tabiat_group1",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "SystemTurnOnSensor",
+                "event2": "AllowSendData",
+                "justification": "When the sensor is turned on, it allows data to be sent.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemDataBreach",
+                "event2": "SystemInformUserAboutDataBreach",
+                "justification": "When a data breach occurs, the system should inform the user.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserConsented",
+                "event2": "UserSubmitData",
+                "justification": "Once the user has given consent, they may then submit data.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemRelayMessageToUser",
+                "event2": "SystemInformUser",
+                "justification": "When the system relays a message, it is informing the user.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemTurnOffSensor",
+                "event2": "AllowSendData",
+                "justification": "Turning off the sensor conflicts with sending data.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemCollectData",
+                "event2": "SystemTurnOffSensor",
+                "justification": "Collecting data outright conflicts with turning sensor off, as active sensors are required for data collection.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserRequestStopDataCollection",
+                "event2": "AllowSendData",
+                "justification": "When the user requests to stop data collection, this contradicts the system sending data.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemTurnOnSensor",
+                "event2": "UserRequestStopDataCollection",
+                "justification": "System's sensor activation conflicts with a user request for data collection termination since the sensor being on typically assumes ongoing data collection.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserConsented",
+                "event2": "SystemTurnOffSensor",
+                "justification": "User consent to data collection conflicts with the system disabling sensors, as consent generally allows sensor-powered data collection.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemTurnOnSensor",
+                "event2": "SystemTurnOffSensor",
+                "justification": "Turning on sensor outright conflicts with concurrently turning off sensor.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserRequestWithdrawConsent",
+                "event2": "UserConsented",
+                "justification": "Withdrawing consent is the opposite of giving consent.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserConsentWithdraw",
+                "event2": "SystemAccesstHealthSummary",
+                "justification": "The withdrawal of consent conflicts with system access to health data.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserConsented",
+                "event2": "SystemCollectData",
+                "justification": "Consent must be given before the system can collect a user's data.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserConsented",
+                "event2": "UserSubmitData",
+                "justification": "User consent must naturally precede the user submitting data, as the user would not usually submit data without first giving consent.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserChoosePronous",
+                "event2": "SystemUsedPronous",
+                "justification": "The user must choose their preferred pronouns before the system can use them.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemTurnOnSensor",
+                "event2": "SystemCollectData",
+                "justification": "The sensor must be turned on before data can be collected.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserConsented",
+                "event2": "AllowSendData",
+                "justification": "Before data can be sent, the user must give their consent.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ChangeSystemLanguage",
+                "event2": "UpdateSystemLanguage",
+                "justification": "The system language must be changed before it can be updated.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemTurnOnSensor",
+                "event2": "AllowSendData",
+                "justification": "Turning on sensor must occur prior to the system being permitted to sending data as sensor data is typically sent.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "systemLanguage",
+                "measure2": "userLanguage",
+                "justification": "System language and user language being identical implies that the system has LANGUAGE settings adaptive to the user's language.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userComfortablewithTech",
+                "measure2": "UserSubmitData",
+                "justification": "If a user is comfortable with technology, that implies they might submit data.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "systemUsedPronous",
+                "measure2": "userPreferredPronouns",
+                "justification": "System usage of chosen pronouns implies user has previously identified preferred pronouns, given a respectful and well-functioning system.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userConsented",
+                "measure2": "AllowSendData",
+                "justification": "User consent implies that data can be sent.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userPreferredPronouns",
+                "measure2": "systemUsedPronous",
+                "justification": "If a user sets preferred pronouns, and the system is respectful, the system using those pronouns is implied.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userRequestedStopDataCollection",
+                "measure2": "userConsented",
+                "justification": "If the user requests to stop data collection, that excludes the possibility they consented.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userPreferredPronouns",
+                "measure2": "systemUsedPronous",
+                "justification": "The systems's used pronouns should match the user's preferred pronouns.",
+                "equals": true
+            }
+        }
+    ]
+}

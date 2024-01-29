@@ -1,0 +1,261 @@
+{
+    "name": "casper_manual",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "AskConsent",
+                "event2": "InformUser",
+                "justification": "Asking for consent is informing the user about something.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "DeleteOldPrescription",
+                "event2": "PrescriptionChanges",
+                "justification": "Deleting an old prescription can be considered as part of prescription changes.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "StartCookingTutorial",
+                "event2": "InformUser",
+                "justification": "Before a cooking tutorial can begin, the user must be informed.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GiveMedReminder",
+                "event2": "GiveReminders",
+                "justification": "Giving a medication reminder is a specific type of giving reminders.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "EnterRoom",
+                "event2": "Moving",
+                "justification": "Entering a room is a kind of movement.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GiveMealReminders",
+                "event2": "GiveReminders",
+                "justification": "Giving meal reminders is a specific type of giving reminders.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SkipSharpObjects",
+                "event2": "BeforeStartCookingTutorial",
+                "justification": "SkipSharpObjects can be considered as part of a process before starting a cooking tutorial.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AskTutorialPreference",
+                "event2": "InformUser",
+                "justification": "Asking for a tutorial preference from the user is one of the ways to inform the user.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CollectPersonData",
+                "event2": "DetectionPerson",
+                "justification": "Collecting person's data is a specific type of detecting person.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "InstructUser",
+                "event2": "InformUser",
+                "justification": "Instructing the user is a specific type of informing the user.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserSleeping",
+                "event2": "StartCookingTutorial",
+                "justification": "If the user is sleeping, a cooking tutorial can't be initiated.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "StartCookingTutorial",
+                "event2": "UserCommunicating",
+                "justification": "Starting a cooking tutorial might disrupt user communication, therefore they normally wouldn't occur simultaneously.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AskTutorialPreference",
+                "event2": "UserCommunicating",
+                "justification": "These normally wouldn't occur simultaneously, as asking for tutorial preference might disrupt user communication.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GiveMedReminder",
+                "event2": "UserRequestAloneTime",
+                "justification": "If the user requests alone time, giving a medication reminder would be an interruption, hence conflict.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserRequestID",
+                "event2": "ConfirmPersonAuthorization",
+                "justification": "If the user is requesting ID, it implies they have not yet confirmed their identity.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "InstructUser",
+                "event2": "UserCommunicating",
+                "justification": "Instruction might interrupt user's communication and thus conflict.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AskConsent",
+                "event2": "UserCommunicating",
+                "justification": "Asking for consent might disrupt user's communication, therefore may result in conflict.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserRequestAloneTime",
+                "event2": "GiveReminders",
+                "justification": "If the user requests alone time, reminders shouldn't be given.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserCommunicating",
+                "event2": "InformUser",
+                "justification": "If the user is currently communicating, it might not be appropriate to inform them of other things.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GiveMealReminders",
+                "event2": "UserRequestAloneTime",
+                "justification": "If the user requests alone time, giving meal reminders would be an interruption and hence conflict.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserPraying",
+                "event2": "StartCookingTutorial",
+                "justification": "If the user is praying, starting a cooking tutorial would be an interruption.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserEating",
+                "event2": "GiveMealReminders",
+                "justification": "If the user is currently eating, they do not need meal reminders.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "DetectPerson",
+                "event2": "InstructUser",
+                "justification": "The system has to detect a person before it can instruct them.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "BeforeEnterRoom",
+                "event2": "EnterRoom",
+                "justification": "Before entering the room must occur prior to actually entering the room.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ConfirmPersonAuthorization",
+                "event2": "GiveReminders",
+                "justification": "Person's authorization should be confirmed before giving any reminders.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "InformUser",
+                "event2": "StartCookingTutorial",
+                "justification": "The user must be informed about the cooking tutorial before it starts.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userFound",
+                "measure2": "userInRoom",
+                "justification": "If the user is found, it implies they are in the room (context-dependent).",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userInRoom",
+                "measure2": "occupied",
+                "justification": "If the user is in the room, it implies the room is occupied.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userFound",
+                "measure2": "occupied",
+                "justification": "If a user is found, it implies that some space is occupied. ",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "mobility",
+                "measure2": "occupied",
+                "justification": "If mobility holds (the person is moving), it implies the space is occupied.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userSleeping",
+                "measure2": "userInKitchen",
+                "justification": "If the user is sleeping, they cannot be in the kitchen at the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "lightsOn",
+                "measure2": "userSleeping",
+                "justification": "If the lights are on, it suggests the user is not sleeping.",
+                "ME": true
+            }
+        }
+    ]
+}

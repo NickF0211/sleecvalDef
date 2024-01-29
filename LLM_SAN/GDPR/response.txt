@@ -1,0 +1,497 @@
+##witness##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "StartDPAProcess",
+            "event2": "EvaluateDPAProcess",
+            "justification": "The start of the DPA Process suggests that the evaluation of the process already happened",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAComplete",
+            "event2": "DPAIncomplete",
+            "justification": "Completion of a DPA cannot occur at the same time it is still incomplete",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPATerminate",
+            "event2": "DPAActive",
+            "justification": "If DPA is terminated then it could not be active.",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InformSubject",
+            "event2": "ProcessPersonalData",
+            "justification": "Informing the subject doesn't imply that the personal data is being processed.",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "ProvideControllerInformation",
+            "event2": "ObtainControllerConsent",
+            "justification": "Providing information to a controller does not necessarily imply that the consent of the controller has been obtained.",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "ChangeSubProcessor",
+            "event2": "EngageSubProcessor",
+            "justification": "Changing a sub-processor implies that a sub-processor has already been engaged.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InformController",
+            "event2": "DPAMade",
+            "justification": "Informing the controller suggests that a DPA agreement has been made.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AllowAudits",
+            "event2": "HelpAuditors",
+            "justification": "Allowing audits doesn't imply helping auditors anymore than auditors presence implies they'll be helped.",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "EngageSubProcessor",
+            "event2": "DPATerminate",
+            "justification": "Engaging a sub-processor does not imply the termination of the DPA.",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DataBreach",
+            "event2": "DPAUpdate",
+            "justification": "Data breach does not imply that the DPA is being updated.",
+            "witness": false
+        }
+    }
+]
+```
+
+##conflict##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "EvaluateDPAProcess",
+            "event2": "DPATerminate",
+            "justification": "Evaluating a DPA process conflicts with terminating the DPA process.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAComplete",
+            "event2": "StartDPAProcess",
+            "justification": "Completing a DPA cannot occur at the same time it is being started.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "RemovePersonalData",
+            "event2": "ProcessPersonalData",
+            "justification": "Processing and removing personal data are conflicting events.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPATerminate",
+            "event2": "DPAUpdate",
+            "justification": "DPA cannot be updated if it has been terminated.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "EngageSubProcessor",
+            "event2": "DPAIncomplete",
+            "justification": "Engaging a subprocessor conflicts with not having the DPA process complete.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DataBreach",
+            "event2": "DataCompliance",
+            "justification": "Data breach incidents conflict with compliance to data protection rules.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "RespondToRequest",
+            "event2": "DPATerminate",
+            "justification": "Responding to a request to access data conflicts with terminating the DPA.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "ObtainControllerConsent",
+            "event2": "DPATerminate",
+            "justification": "Obtaining controller's consent and terminating the DPA are conflicting events.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "RemovePersonalData",
+            "event2": "EvaluateSecurity",
+            "justification": "Removing personal information conflicts with evaluating the security of data.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "EngageSubProcessor",
+            "event2": "DPATerminate",
+            "justification": "Engaging a sub-processor and terminating the DPA are conflicting events.",
+            "conflicts": true
+        }
+    }
+]
+```
+
+##HB##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "EvaluateDPAProcess",
+            "event2": "StartDPAProcess",
+            "justification": "DPA process needs to be evaluated before starting it.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "StartDPAProcess",
+            "event2": "DPAComplete",
+            "justification": "DPA process needs to start before it can be completed.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "StartDPAProcess",
+            "event2": "EngageSubProcessor",
+            "justification": "The DPA process needs to begin before a subprocessor can be engaged.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "EvaluateDPAProcess",
+            "event2": "DPAUpdate",
+            "justification": "The DPA process should be evaluated before it can be updated.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAMade",
+            "event2": "DPATerminate",
+            "justification": "DPA agreement needs to be made before it can be terminated.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAMade",
+            "event2": "ProcessPersonalData",
+            "justification": "The DPA agreement needs to be made before starting to process personal data.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAMade",
+            "event2": "ChangeSubProcessor",
+            "justification": "A DPA agreement needs to be made before a subprocessor can be changed.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InformController",
+            "event2": "ObtainControllerConsent",
+            "justification": "The controller needs to be informed about changes before their consent can be obtained.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DataBreach",
+            "event2": "InformController",
+            "justification": "Data breach needs to occur before controller can be informed about it.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PassSecurity",
+            "event2": "DPAComplete",
+            "justification": "Passing security evaluation should occur before DPA process can be marked complete.",
+            "HB": true
+        }
+    }
+]
+```
+
+##implies##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "dpaActive",
+            "measure2": "dataCompliance",
+            "justification": "If DPA is active, it should imply that data is being handled in compliance with data protection laws.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "specificControllerAuth",
+            "measure2": "genControllerAuth",
+            "justification": "If specific controller authorization is granted, it implies general controller authorization has been obtained.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personData",
+            "measure2": "dpaPurpose",
+            "justification": "If personal data exists, it doesn't necessarily imply that the purpose of the DPA has been stated.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "rulesConform",
+            "measure2": "art28Compliance",
+            "justification": "If the DPA is in conformance with rules, it doesn't necessarily imply that it is in compliance with Article 28.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "securityEnsured",
+            "measure2": "confidentialityEnsured",
+            "justification": "If security has been ensured, it doesn't necessarily imply that confidentiality has been assured.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "lawRequires",
+            "measure2": "genControllerAuth",
+            "justification": "If law requires processing, it does not necessarily imply that general controller authorization has been obtained.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "measureTaken",
+            "measure2": "riskLevel",
+            "justification": "If measure has been taken, it doesn't necessarily imply it is related to risk level.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "controllerInstructions",
+            "measure2": "informingAllowed",
+            "justification": "If controller gave processor instructions, it doesn't imply informing is allowed.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "processorID",
+            "measure2": "controllerID",
+            "justification": "Knowledge of the processor's ID does not imply the controller's ID has been revealed",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "processorInfo",
+            "measure2": "controllerInfo",
+            "justification": "Having the processor's information does not automatically imply the controller's information has been divulged.",
+            "implies": false
+        }
+    }
+]
+```
+
+##ME##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "personalData",
+            "measure2": "RemovePersonalData",
+            "justification": "If personal data does not exist, it cannot be removed and vice versa."
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dpaActive",
+            "measure2": "DPATerminate",
+            "justification": "If DPA is active, it cannot be terminated and vice versa."
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "processorID",
+            "measure2": "controllerID",
+            "justification": "The processor's ID and the controller's ID should be mutually exclusive as they are unique identifiers for different entities."
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personalData",
+            "measure2": "ProcessPersonalData",
+            "justification": "The existence and processing of personal data are not mutually exclusive."
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "art28Compliance",
+            "measure2": "genControllerAuth",
+            "justification": "Compliance with Article 28 and obtaining general controller authorization are not mutually exclusive."
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "confidentialityEnsured",
+            "measure2": "securityEnsured",
+            "justification": "Ensuring confidentiality and security are not mutually exclusive."
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "riskLevel",
+            "measure2": "measureTaken",
+            "justification": "Risk level and the action of taking measures are not mutually exclusive."
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "controllerInstructions",
+            "measure2": "informingAllowed",
+            "justification": "Providing controller instructions and allowing informing are not mutually exclusive."
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "processorInfo",
+            "measure2": "controllerInfo",
+            "justification": "Processor info and controller info are mutually exclusive as they contain information about different entities."
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personalData",
+            "measure2": "lawRequires",
+            "justification": "The existence of personal data and the law's requirement for its processing are not mutually exclusive."
+        }
+    }
+]
+```
+
+##equals##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "dpaCategories",
+            "measure2": "dpaNature",
+            "justification": "The category and nature of a DPA might not always be the same.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "processorID",
+            "measure2": "processorInfo",
+            "justification": "Processor's ID and Info might be different metrics.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "genControllerAuth",
+            "measure2": "specificControllerAuth",
+            "justification": "General and specific authorizations for a controller may not always be the same.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "securityEnsured",
+            "measure2": "confidentialityEnsured",
+            "justification": "Security assurance and confidentiality assurance might not always be equivalent.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "controllerInfo",
+            "measure2": "controllerInstructions",
+            "justification": "Controller information and instructions might not always be the same.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "informingAllowed",
+            "measure2": "ObtainControllerConsent",
+            "justification": "Being allowed to inform and obtaining consent are not always the same.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "controllerID",
+            "measure2": "controllerInfo",
+            "justification": "Controller's ID and Info might be different metrics.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "typesOfRisk",
+            "measure2": "riskLevel",
+            "justification": "The type and level of risk may not always be the same.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dataCompliance",
+            "measure2": "rulesConform",
+            "justification": "Data Compliance and Rules Conformance might not always be the same metrics.",
+            "equals": false
+        }
+    }
+]
+```

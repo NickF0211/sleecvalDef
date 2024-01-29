@@ -1,0 +1,480 @@
+Here is the grammar for my DSL:
+
+###
+Specification:
+    "def_start" definitions+=Definition+ "def_end" ruleBlock=RuleBlock (concernBlock = ConcernBlock)? (purposeBlock = PurposeBlock)?
+     (relBlock = RelBlock)?
+;
+
+Defblock:
+    "def_start" definitions+=Definition+ "def_end"
+;
+
+Definition:
+    Event | Measure | Constant
+;
+
+Event:
+    "event" name=ID
+;
+
+Measure:
+    BoolMeasure | NumMeasure | ScalarMeasure
+;
+
+Constant:
+    "constant" name=ID "=" value=Value
+;
+
+Value:
+    value=INT | "->" constant=[Constant]
+;
+
+BoolValue:
+    "true" | "false"
+;
+
+Type:
+    Boolean | Numeric | Scale
+;
+
+BoolMeasure:
+    "measure" name=ID ":" type=Boolean;
+
+NumMeasure:
+    "measure" name=ID ":" type=Numeric;
+
+ScalarMeasure:
+    "measure" name=ID ":" type=Scale;
+
+Boolean:
+    "boolean"
+;
+
+Numeric:
+    "numeric"
+;
+
+Scale:
+    "scale" "(" scaleParams+=ScaleParam ("," scaleParams+=ScaleParam)* ")"
+;
+
+ScaleParam:
+    name=ID
+;
+
+RuleBlock:
+    "rule_start" rules+=Rule+ "rule_end"
+;
+
+Rule:
+    name=ID "when" trigger=Trigger ("and" condition=MBoolExpr)? "then" response=Response
+;
+
+Comment:
+  /\/\/.*$/
+;
+
+ConcernBlock:
+    "concern_start" concerns = Concern+ "concern_end"
+    ;
+
+Concern:
+    name=ID "exists" trigger=Trigger ("and" condition=MBoolExpr)? ("while" response=ExtendedResponse)? ("meanwhile" '(' next=Headless_Concern ')' )? |
+    name=ID "when" trigger=Trigger ("and" condition=MBoolExpr)? ("then" response=ExtendedResponse)? ("meanwhile" '(' next=Headless_Concern ')' )?
+;
+
+Headless_Concern:
+   "exists" trigger=Trigger ("and" condition=MBoolExpr)? ("while" response=ExtendedResponse)? ("meanwhile" '(' next=Headless_Concern ')' )? |
+    "when" trigger=Trigger ("and" condition=MBoolExpr)? ("then" response=ExtendedResponse)? ("meanwhile" '(' next=Headless_Concern ')' )?
+;
+
+PurposeBlock:
+    "purpose_start" purposes = Purpose+ "purpose_end"
+    ;
+
+Purpose:
+    name=ID "exists" trigger=Trigger ("and" condition=MBoolExpr)? ("while" response=ExtendedResponse)? ("meanwhile" '(' next=Headless_Concern ')' )?|
+    name=ID "when" trigger=Trigger ("and" condition=MBoolExpr)? ("then" response=ExtendedResponse)? ("meanwhile" '(' next=Headless_Concern ')' )?
+;
+
+Trigger:
+    event=[Event]
+;
+
+BoolExp:
+    BoolTerminal | Negation | BinaryOp;
+
+BoolTerminal:
+    value = BoolValue |  "{" ID=[BoolMeasure] "}";
+
+Negation:
+    "(" "not"  expr = BoolExp ")";
+
+BinaryOp:
+    BoolBinaryOp | NumericalOp | ScalarBinaryOp;
+
+ScalarBinaryOp:
+    "(" lhs = ScalarTerminal op = RelOp rhs=ScalarTerminal ")";
+
+ScalarTerminal:
+    "{" ID=[ScalarMeasure] "}" | value =[ScaleParam];
+
+BoolBinaryOp:
+    "(" lhs = BoolExp op = BoolOp rhs=BoolExp ")";
+
+NumericalOp:
+    "(" lhs = NumExp op = RelOp rhs=NumExp ")";
+
+NumExp:
+    NumTerminal | NumBinOp;
+
+NumTerminal:
+      value = Value | "{" ID=[NumMeasure] "}" | ID = [Constant]  ;
+
+NumBinOp:
+    "(" lhs = NumExp op = BinaryArth rhs = NumExp ")";
+
+BinaryArth:
+    "+" | "-" | "*" ;
+
+MBoolExpr:
+    BoolExp
+;
+
+ExtendedResponse:
+    head=Response ("while" next= ExtendedResponse)?
+;
+
+Response:
+   occ=Occ (alternative=Alternative)?  (nd=ND)? (defeater+=Defeater*)?
+;
+
+InnerResponse:
+    "{" occ=Occ (alternative=Alternative)? (nd=ND)? ( (defeater+=Defeater*) )? "}" |
+    occ=Occ  (alternative=Alternative)? (nd=ND)?
+;
+
+Occ:
+    neg?="not" event=Trigger (limit=TimeLimit)? (inf=INF)?;
+
+INF:
+    token = "eventually"
+;
+
+TimeLimit:
+    "within" end=TimeValue | "within" "[" start=TimeValue "," end=TimeValue "]" ;
+
+TimeValue:
+     value=NumExp unit=TimeUnit
+;
+
+Alternative:
+    "otherwise" response=InnerResponse;
+
+ND:
+    "else" response=InnerResponse;
+
+
+Defeater:
+    "unless" expr=MBoolExpr ("then" response=InnerResponse)?
+;
+
+RelOp:
+    "<=" | ">=" | "<>" | "<" | ">"  | "="
+;
+
+
+BoolOp:
+    "and" | "or"
+;
+
+TimeUnit:
+    "seconds" | "minutes" | "hours" | "days"
+;
+
+EventRel:
+    rel=RelType lhs=[Event] rhs=[Event]
+;
+
+RelType:
+    "witness" | "conflict" | "coincide" | "happenBefore"
+;
+
+MRelType:
+    "imply" | "conflict" | "iff" | "negate"
+;
+
+
+MeasureRel:
+    ("measure" rel=MRelType lhs=MBoolExpr rhs=MBoolExpr) |
+    ("measure" rel=MRelType lhs=[BoolMeasure] rhs=[BoolMeasure])
+;
+
+MeasureInv:
+    "measure" "invariant" expr = MBoolExpr
+;
+
+Relation:
+    EventRel | MeasureRel | MeasureInv | Causation | Effect
+;
+
+Causation:
+    "causation" cause=[Event] effect=MBoolExpr
+;
+
+Effect:
+    "effect" cause=[Event] effect=MBoolExpr
+;
+
+RelBlock:
+    "rel_start" relations+=Relation+ "rel_end"
+;
+###
+
+Here are my definitions:
+
+
+def_start
+	// Events before driving starts
+	event UserTurnOnSystem
+	event UserTurnOffSystem
+	event TurnOnSensors
+	event TurnOffSensors
+	event CheckSystemComponents
+	event SystemReady
+	event TakeUserInput
+	event CalculateShortestPath
+	event ReadyToDrive
+	event GetReadyToDrive
+	event AskIfUserReadyToDrive
+	event DisplayCarInformation
+	// Events during driving
+	event CarDriving
+	event SlowDown			// But not stop completely
+	event TurnOnHazardsAndTemporarilyStop // Different than temporarily stopping just by hazards, i.e. situation is dangerous and we’re not just temporarily stopping for lights
+	event TemporarilyStopCar		// Different than parking, system not turned off
+	event ParkVehicle		// On road shoulder or parking area
+	// Parking also implies stopping car and turning of system
+	event DisplayError		// Error is internal, i.e car systems not properly working
+	event DisplayAlert 		// Alert is external, includes information
+	event DisplayRoute
+	event ChangeSpeed
+	event ChangeLanes
+	event ChangeCurrentDriving
+	event TakeNewInput
+	event TakeShortestPath
+	event MaintainEqualDistance
+	event StayCenteredinLane
+	event SeeTrafficLight
+	event WaitUntilChanges
+	event RecordPeople
+	// User requests related
+	event UserChangeRoute
+	event UserCancelPath
+	event UserRequestSpeedChange
+	event AskForClarification
+	// Priority vehicle related
+	event PriorityVehicleNearby
+	event MakeSpace			// Such as emergency corridor or use the shoulder
+
+	// Measures before driving starts
+	measure destinationExists: boolean
+	measure pathExists: boolean
+	// Events during driving
+	measure objectInPath: boolean		// Sth in front of car, i.e pedestrian, animal, stationary vehicle
+	measure carsInFront: boolean		// Moving thing in front
+	measure carsBehind: boolean
+	measure actionIsLegal: boolean
+	// User requests related
+
+	// Priority vehicle related
+	measure userRequestedLaneChange: boolean
+	measure ambulanceBehindCar: boolean
+	measure ambulanceOnOppositeSide: boolean
+	measure ambulanceNextToCar: boolean
+
+	measure environmentClear: boolean	// Other moving vehicles on road, either next to, in front, behind
+	measure riskLevel: scale(low, medium, high)
+	measure withinLane: boolean
+	measure multipleLanes: boolean		// Whether 1 lane or multiple
+	measure commandClear: boolean
+	measure laneExists: boolean
+	measure userTurnedOffSystem: boolean
+	measure recognizeInput: boolean
+	measure redLight: boolean
+	measure yellowLight: boolean
+	measure greenLight: boolean
+	measure previousLight: scale(red, yellow, green)
+	measure doorClosed: boolean
+	measure seatBeltOn: boolean
+	measure userSaysYes: boolean
+	measure peopleConsentObtained: boolean
+def_end
+
+
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A implies the occurrence of event B at exactly the same time, if yes,
+please say A witness B, if no, please say A NOT witness B. For example, if A is a special type of B, then
+occurrence of A implies the occurrence of B (DrinkingWater witness Drinking).
+Please provide your justification for each answer in
+the following Json format:
+
+{Relationship:
+{event1:  name of EVENT A}
+{event2: name of Event B}
+{justification: your justification}
+{witness: true / false}
+}
+
+
+Please generate a single JSON file that includes some events pairs with witness relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##witness##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A blocks the occurrence of event B at exactly the same time, if yes,
+please say A conflict B, if no, please say A NOT conflict B. For example, if A is the opposite action of B, then
+occurrence of A conflict the occurrence of B (OpenDoor conflict CloseDoor).
+Please provide your justification for each answer in
+the following Json format:
+
+{Relationship:
+{event1:  name of EVENT A}
+{event2: name of Event B}
+{justification: your justification}
+{conflicts: true / false}
+}
+
+
+Please generate a single JSON file that includes some events pairs with conflict relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Note that if A witness B and B conflict C, then it must be the case A conflict C. The pair you come up with must respect this relationship.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##conflict##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A must happen prior to the occurrence of event B, if yes,
+please say A HB B, if no, please say A NOT HB B. For example, if A is the pre-requisite of B, then
+occurrence of A must happen prior to the occurrence of B (CreateForm HB ShowForm).
+Please provide your justification for each answer in
+the following Json format:
+
+
+{Relationship:
+{event1:  name of EVENT A}
+{event2: name of Event B}
+{justification: your justification}
+{HB: true / false}
+}
+
+Please generate a single JSON file that includes some events pairs with HB relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##HB##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of BoolExp (over measures, including BoolMeasuret and BoolExp over other measures) A and B, can you please answer the following questions:
+Is it the case that if A holds then B must hold, if yes,
+please say A implies B, if no, please say A NOT implies B. For example, if A is a stronger condition than B, then
+A implies B (doorLocked implies doorClosed).
+Please provide your justification for each answer in
+the following Json format:
+
+{Relationship:
+{measure1:  name of measure A}
+{measure2: name of measure B}
+{justification: your justification}
+{implies: true / false}
+}
+
+
+Please generate a single JSON file that includes some measures pairs with implies relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##implies##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of BoolExp (over measures, including BoolMeasuret and BoolExp over other measures)  A and B, can you please answer the following questions:
+Is it the case that if A holds then B must not hold, if yes,
+please say A ME B, if no, please say A NOT ME B. ME stands for mutually exclusive. For example, if A and B represents two mutually exclusive states, then
+A ME B (in the context of traffic light, redLightOn conflicts greenLightOn).
+Please provide your justification for each answer in
+the following Json format:
+
+{Relationship:
+{measure1:  name of measure A}
+{measure2: name of measure B}
+{justification: your justification}
+{ME: true / false}
+}
+
+
+Please generate a single JSON file that includes some measures pairs with conflicts relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##ME##:
+'''json
+{your json goes here}
+'''
+
+
+For every pair of BoolExp (over measures, including BoolMeasuret and BoolExp over other measures) A and B, can you please answer the following questions:
+Is it the case that if A and B always have the same value, if yes,
+please say A equals B, if no, please say A NOT equals B. For example, if A and B represent the same measures with two different name, then
+A equals B (if the only vehicle presented is car, then carSpeed equals vehicleSpeed).
+Please provide your justification for each answer in
+the following Json format:
+
+{Relationship:
+{measure1:  name of measure A}
+{measure2: name of measure B}
+{justification: your justification}
+{equals: true / false}
+}
+
+
+Please generate a single JSON file that includes some measures pairs with equals relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##equals##:
+'''json
+{your json goes here}
+'''

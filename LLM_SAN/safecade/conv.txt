@@ -1,0 +1,470 @@
+/usr/local/bin/python3 /Users/nickfeng/Downloads/OpenAIPlayground/main.py
+Here are my definitions:
+
+def_start
+
+	// Events
+	event PreparingDeployment
+	event AgentDeployed
+	event MeetingUser
+	event InformUser
+	event InformCaregiver
+	event CallEmergencyServices
+	event RemindLater
+	event AgentHasAppropriateAppearance
+	event AskForDetailLevelOfInstructions
+	event UseFirstPersonPluralLanguage
+	event CalibrateSpeech
+	event RemindUserOfLimitations
+	// Safety
+	event AskForEmergencyContact
+	event HumanOnFloor
+	event SmokeDetectorAlarm
+	event OpenWindows
+	event FireSafetyMeasures
+	event AskUserIfOK
+	event InterfereSafely
+	event UserHasLimitation
+	event CheckTemperature
+	event FoodPreparation
+	event TrackTime
+	event UserUnpredictable
+	event GiveUserDangerousObjects
+	// Cooking/kitchen related specifically
+	event MonitorMealTime
+	event BeforeCookingBegins
+	event UserWantsToCook
+	event AllowUserToCook
+	event GiveSuggestion
+	event GivingCookingInstructions
+	event ConsiderUserPractices
+	event UserChangeItemLocation
+	event UserChangeMind
+	event RecalculateApproach
+	// Privacy
+	event ProvideDataSummaries
+	event CollectandRecordInformation
+	event UpdateInformation
+	event ShowDataHistory
+	event UpdateMap
+
+	// measures
+	measure userOccupied: boolean
+	measure timeBetweenMeals: numeric
+	measure personAuthorized: boolean
+	measure dataNeedsChecking: boolean
+	measure userAsksForAppropriateTasks: boolean
+	measure userNeedsSpecialAccomodations: boolean
+	measure userDisablesAlarm: boolean
+	measure alarmRestarts: boolean
+	measure needLevel: scale(nlow, nmedium, nhigh)
+	measure humanAssents: boolean
+	measure safePathFound: boolean
+	measure hazardDetected: boolean
+	measure kitchenSafe: boolean
+	measure riskLevel: scale(low, medium, high)
+	measure alarmOn: boolean
+
+	// constants
+	constant maxTimeBetweenMeals = 28800 // is predetermined
+def_end
+
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A implies the occurrence of event B at exactly the same time, if yes,
+please say A witness B, if no, please say A NOT witness B. For example, if A is a special type of B, then
+occurrence of A implies the occurrence of B (DrinkingWater witness Drinking).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "witness": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with witness relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##witness##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A blocks the occurrence of event B at exactly the same time, if yes,
+please say A conflict B, if no, please say A NOT conflict B. For example, if A is the opposite action of B, then
+occurrence of A conflict the occurrence of B (OpenDoor conflict CloseDoor).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "conflicts": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with conflict relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Note that if A witness B and B conflict C, then it must be the case A conflict C. The pair you come up with must respect this relationship.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##conflict##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A must happen prior to the occurrence of event B, if yes,
+please say A HB B, if no, please say A NOT HB B. For example, if A is the pre-requisite of B, then
+occurrence of A must happen prior to the occurrence of B (CreateForm HB ShowForm).
+Please provide your justification for each answer in
+the following Json format:
+
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "HB": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some events pairs with HB relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##HB##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must hold, if yes,
+please say A implies B, if no, please say A NOT implies B. For example, if A is a stronger condition than B, then
+A implies B (doorLocked implies doorClosed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "implies": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with implies relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##implies##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must not hold, if yes,
+please say A ME B, if no, please say A NOT ME B. ME stands for mutually exclusive. For example, if A and B represents two mutually exclusive states, then
+A ME B (in the context of traffic light, redLightOn conflicts greenLightOn).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "ME": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with conflicts relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##ME##:
+'''json
+{your json goes here}
+'''
+
+
+For every pair of measures A and B, can you please answer the following questions:
+Is it the case that if A and B always have the same value, if yes,
+please say A equals B, if no, please say A NOT equals B. For example, if A and B represent the same measures with two different name, then
+A equals B (if the only vehicle presented is car, then carSpeed equals vehicleSpeed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "equals": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some measures pairs with equals relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##equals##:
+'''json
+{your json goes here}
+'''
+response time 41.253865003585815 and tokens 1048
+Based on the definitions provided, here are my interpretations:
+
+##witness##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "When a user wants to cook, it logical that the events leading to the cooking process would begin",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GiveUserDangerousObjects",
+            "event2": "InterfereSafely",
+            "justification": "Whenever the agent gives the user dangerous objects it will also interferes safely",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "AgentDeployed",
+            "justification": "For an agent to meet the user, the agent would have initially been deployed. Therefore, the event 'MeetingUser' witnesses 'AgentDeployed'",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "WaveHands",
+            "event2": "Greet",
+            "justification": "The action of waving hands usually comes with a greeting. Therefore, the action 'WaveHands' witnesses 'Greet'",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UseFirstPersonPluralLanguage",
+            "event2": "Speak",
+            "justification": "The action of 'Using first person plural language' implies that the agent is speaking. Therefore, the event 'UseFirstPersonPluralLanguage' witnesses 'Speak'",
+            "witness": true
+        }
+    }
+]
+'''
+
+
+##conflict##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "OpenWindows",
+            "event2": "FireSafetyMeasures",
+            "justification": "Often, in case of a fire, opening windows can exacerbate smoke and fire spread. So, 'OpenWindows' conflicts with 'FireSafetyMeasures'",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserHasLimitation",
+            "event2": "UserUnpredictable",
+            "justification": "If the user has certain limitations, then their actions cannot be unpredictable. Therefore, 'UserHasLimitation' conflicts with 'UserUnpredictable'",
+            "conflicts": true
+        }
+    }
+]
+'''
+
+
+##HB##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "GiveSuggestion",
+            "justification": "Before any suggestions can be given, the user must express their intention to cook. Therefore, 'UserWantsToCook' must happen before 'GiveSuggestion'",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AskForDetailLevelOfInstructions",
+            "event2": "GivingCookingInstructions",
+            "justification": "Before giving instructions, the agent must ask for the level of detail. So, 'AskForDetailLevelOfInstructions' must happen before 'GivingCookingInstructions'",
+            "HB": true
+        }
+    }
+]
+'''
+
+
+##implies##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "userDisablesAlarm",
+            "measure2": "alarmOn",
+            "justification": "If the user disables the alarm, it implies that the alarm is no longer on",
+            "implies": true
+        }
+    }
+]
+'''
+
+
+##ME##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "alarmOn",
+            "measure2": "userDisablesAlarm",
+            "justification": "If the alarm is on, it could not have been disabled by the user, and vice versa. Hence, these states are mutually exclusive.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userOccupied",
+            "measure2": "userUnpredictable",
+            "justification": "If a user is occupied, it implies that they are engaged in a task and their actions are not unpredictable at that moment",
+            "ME": true
+        }
+    }
+]
+'''
+
+
+##equals##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "userOccupied",
+            "measure2": "userOccupied",
+            "justification": "Both are the same measures with the same name",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "timeBetweenMeals",
+            "measure2": "timeBetweenMeals",
+            "justification": "Both are the same measures with the same name",
+            "equals": true
+        }
+    }
+]
+'''
+inconsistent userDisablesAlarm implies alarmOn
+{'Relationship': {'event1': 'UserWantsToCook', 'event2': 'BeforeCookingBegins', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'MeetingUser', 'event2': 'AgentDeployed', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'GiveUserDangerousObjects', 'event2': 'InterfereSafely', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'WaveHands', 'event2': 'Greet', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'UseFirstPersonPluralLanguage', 'event2': 'Speak', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'UserWantsToCook', 'event2': 'BeforeCookingBegins', 'justification': '{fill in your justification}', 'HB': '{fill in here, true of false}'}}
+new test case 6
+Please trying to fill in the content consider the context given above.
+['{"Relationship": {"event1": "UserWantsToCook", "event2": "BeforeCookingBegins", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "MeetingUser", "event2": "AgentDeployed", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "GiveUserDangerousObjects", "event2": "InterfereSafely", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "WaveHands", "event2": "Greet", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "UseFirstPersonPluralLanguage", "event2": "Speak", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "UserWantsToCook", "event2": "BeforeCookingBegins", "justification": "{fill in your justification}", "HB": "{fill in here, true of false}"}}']
+
+Please provide your answer in the format:
+
+##relations##:
+'''json
+{your json goes here}
+'''
+Based on the events definitions given and their relationship, here are my interpretations:
+
+##relations##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "These two events are not mutually exclusive but they don't imply occurrence of each other at the same time",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "AgentDeployed",
+            "justification": "These events are linked chronologically but do not imply the occurrence of each other simultaneously",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GiveUserDangerousObjects",
+            "event2": "InterfereSafely",
+            "justification": "Giving dangerous objects would require the agent to interfere safely but they don't imply occurrence of each other at the same time",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UseFirstPersonPluralLanguage",
+            "event2": "Speak",
+            "justification": "Using first person plural language is a part of speaking but it doesn't imply that the agent is speaking all the time",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "The event of the user wanting to cook must occur before the process of cooking can begin",
+            "HB": true
+        }
+    }
+]
+'''
+response time 41.253865003585815 and tokens 363
+new test case 0
+
+Process finished with exit code 0

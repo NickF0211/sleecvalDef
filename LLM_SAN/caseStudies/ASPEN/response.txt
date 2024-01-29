@@ -1,0 +1,363 @@
+##witness##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentDeployed",
+            "justification": "The act of preparing the deployment does not necessarily mean the agent will be deployed at exactly the same time.",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AgentDeployed",
+            "event2": "MeetingUser",
+            "justification": "An agent deployment does not necessarily include meeting the user at exactly the same time.",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetigUser",
+            "event2": "AgentHasAppropriateAppearance",
+            "justification": "If the agent is meeting the user, it implies the agent should have an appropriate appearance.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AskForEmergencyContact",
+            "event2": "CallEmergencyServices",
+            "justification": "The occurrence of asking for an emergency contact does not necessarily mean the emergency services will be called at the same time.",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "If a user wants to cook, it implies that there will be a sequence of preparing to cook which includes 'BeforeCookingBegins'.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "AllowUserToCook",
+            "justification": "If a user wants to cook, it suggests that the system will allow the user to cook.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "GivingCookingInstructions",
+            "justification": "If a user wants to cook, it implies the system's action to give cooking instructions.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "CollectandRecordInformation",
+            "event2": "UpdateInformation",
+            "justification": "The fact that you are collecting and recording information implies that updates will be made.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "HumanOnFloor",
+            "event2": "AskUserIfOK",
+            "justification": "If a human is on the floor, it naturally implies that the system will ask if the user is okay.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "HumanOnFloor",
+            "event2": "CallEmergencyServices",
+            "justification": "The occurrence of a human on the floor may imply calling emergency services but not necessarily at the exact same time.",
+            "witness": false
+        }
+    }
+]
+'''
+
+##conflict##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "InterfereSafely",
+            "event2": "UserUnpredictable",
+            "justification": "Safe interference is challenging when a user is unpredictable.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GiveUserDangerousObjects",
+            "event2": "UserHasLimitation",
+            "justification": "If a user has limitations, it's not safe to give them dangerous objects.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserChangeMind",
+            "event2": "GivingCookingInstructions",
+            "justification": "If the user changes their mind, it could conflict with the cooking instructions being given.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "Cooking",
+            "justification": "If the smoke detector alarm is activated, it conflicts with the process of cooking.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "OpenWindows",
+            "justification": "If the smoke detector alarm is activated, it suggests that windows should be opened, so there is no conflict between these two events.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "CollectandRecordInformation",
+            "event2": "ProvideDataSummaries",
+            "justification": "Collecting and recording information does not conflict with providing data summaries, they can both occur at the same time.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentDeployed",
+            "justification": "Preparing the deployment of the agent conflicts with the event when the agent is already deployed.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InformUser",
+            "event2": "InformCaregiver",
+            "justification": "Informing the user does not conflict with informing the caregiver, they can occur at the same time.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "FoodPreparation",
+            "justification": "If a user wants to cook, it does not conflict with the process of preparing food.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InterfereSafely",
+            "event2": "CallEmergencyServices",
+            "justification": "Safe interference might conflict with the need to call emergency services if the situation is dangerous for the user.",
+            "conflicts": true
+        }
+    }
+]
+'''
+
+##HB##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentDeployed",
+            "justification": "The agent's deployment should logically follow its preparation.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AgentDeployed",
+            "event2": "MeetingUser",
+            "justification": "An agent must be deployed before it can meet the user.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AskForEmergencyContact",
+            "event2": "CallEmergencyServices",
+            "justification": "Emergency contact information should be asked for before emergency services are called.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserHasLimitation",
+            "event2": "RemindUserOfLimitations",
+            "justification": "The system must know the user has limitations before it can remind the user of them.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "User's decision to cook must happen before cooking begins.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "GivingCookingInstructions",
+            "justification": "User's decision to cook must happen before giving cooking instructions.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "InformUser",
+            "justification": "The system must meet the user before it can inform them.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "HumanOnFloor",
+            "event2": "AskUserIfOK",
+            "justification": "The system must detect the human on the floor before it can ask if they're okay.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "MonitorMealTime",
+            "justification": "User's intention to cook should come before monitoring meal time.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "CallEmergencyServices",
+            "justification": "The smoke detector alarm must go off before the system calls emergency services.",
+            "HB": true
+        }
+    }
+]
+'''
+
+##implies##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "alarmRestarts",
+            "measure2": "alarmOn",
+            "justification": "If the alarm restarts, then it must be on.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userAsksForAppropriateTasks",
+            "justification": "If a person is authorized, then that doesn't necessarily mean they will ask for appropriate tasks.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userDisablesAlarm",
+            "measure2": "alarmRestarts",
+            "justification": "If a user disables the alarm, then that doesn't necessarily mean it will restart.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userNeedsSpecialAccomodations",
+            "measure2": "userOccupied",
+            "justification": "If a user needs special accommodations, that doesn't mean they are occupied.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userAsksForAppropriateTasks",
+            "measure2": "userOccupied",
+            "justification": "If a user asks for appropriate tasks, this suggests they are engaged or occupied.",
+            "implies": true
+        }
+    }
+]
+'''
+
+##ME##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "alarmOn",
+            "measure2": "userDisablesAlarm",
+            "justification": "If an alarm is on, it cannot be disabled at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "alarmRestarts",
+            "measure2": "userDisablesAlarm",
+            "justification": "If an alarm is restarting, it cannot be disabled at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userNeedsSpecialAccomodations",
+            "justification": "Being an authorized person and needing special accommodations are not mutually exclusive conditions, they can both exist simultaneously.",
+            "ME": false
+        }
+    }
+]
+'''
+
+##equals##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "alarmOn",
+            "measure2": "alarmRestarts",
+            "justification": "An alarm being on and an alarm restarting are two different measures, they do not necessarily hold the same value",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userAsksForAppropriateTasks",
+            "justification": "Being an authorized person and asking for appropriate tasks are two different measures, they do not necessarily hold the same value",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userDisablesAlarm",
+            "measure2": "userNeedsSpecialAccomodations",
+            "justification": "User disabling the alarm and user needing special accommodations are two different measures, they do not necessarily hold the same value",
+            "equals": false
+        }
+    }
+]
+'''

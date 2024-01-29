@@ -1,0 +1,895 @@
+/usr/local/bin/python3 /Users/nickfeng/Downloads/OpenAIPlayground/main.py
+Here are my definitions:
+
+def_start
+
+	// Events
+	event PreparingDeployment
+	event AgentDeployed
+	event MeetingUser
+	event InformUser
+	event InformCaregiver
+	event CallEmergencyServices
+	event RemindLater
+	event AgentHasAppropriateAppearance
+	event AskForDetailLevelOfInstructions
+	event UseFirstPersonPluralLanguage
+	event CalibrateSpeech
+	event RemindUserOfLimitations
+	// Safety
+	event AskForEmergencyContact
+	event HumanOnFloor
+	event SmokeDetectorAlarm
+	event OpenWindows
+	event FireSafetyMeasures
+	event AskUserIfOK
+	event InterfereSafely
+	event UserHasLimitation
+	event CheckTemperature
+	event FoodPreparation
+	event TrackTime
+	event UserUnpredictable
+	event GiveUserDangerousObjects
+	// Cooking/kitchen related specifically
+	event MonitorMealTime
+	event BeforeCookingBegins
+	event UserWantsToCook
+	event AllowUserToCook
+	event GiveSuggestion
+	event GivingCookingInstructions
+	event ConsiderUserPractices
+	event UserChangeItemLocation
+	event UserChangeMind
+	event RecalculateApproach
+	// Privacy
+	event ProvideDataSummaries
+	event CollectandRecordInformation
+	event UpdateInformation
+	event ShowDataHistory
+	event UpdateMap
+
+	// measures
+	measure userOccupied: boolean
+	measure timeBetweenMeals: numeric
+	measure personAuthorized: boolean
+	measure dataNeedsChecking: boolean
+	measure userAsksForAppropriateTasks: boolean
+	measure userNeedsSpecialAccomodations: boolean
+	measure userDisablesAlarm: boolean
+	measure alarmRestarts: boolean
+	measure needLevel: scale(nlow, nmedium, nhigh)
+	measure humanAssents: boolean
+	measure safePathFound: boolean
+	measure hazardDetected: boolean
+	measure kitchenSafe: boolean
+	measure riskLevel: scale(low, medium, high)
+	measure alarmOn: boolean
+
+	// constants
+	constant maxTimeBetweenMeals = 28800 // is predetermined
+def_end
+
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A implies the occurrence of event B at exactly the same time, if yes,
+please say A witness B, if no, please say A NOT witness B. For example, if A is a special type of B, then
+occurrence of A implies the occurrence of B (DrinkingWater witness Drinking).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "witness": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with witness relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##witness##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A blocks the occurrence of event B at exactly the same time, if yes,
+please say A conflict B, if no, please say A NOT conflict B. For example, if A is the opposite action of B, then
+occurrence of A conflict the occurrence of B (OpenDoor conflict CloseDoor).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "conflicts": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with conflict relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Note that if A witness B and B conflict C, then it must be the case A conflict C. The pair you come up with must respect this relationship.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##conflict##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A must happen prior to the occurrence of event B, if yes,
+please say A HB B, if no, please say A NOT HB B. For example, if A is the pre-requisite of B, then
+occurrence of A must happen prior to the occurrence of B (CreateForm HB ShowForm).
+Please provide your justification for each answer in
+the following Json format:
+
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "HB": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some events pairs with HB relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##HB##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must hold, if yes,
+please say A implies B, if no, please say A NOT implies B. For example, if A is a stronger condition than B, then
+A implies B (doorLocked implies doorClosed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "implies": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with implies relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##implies##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must not hold, if yes,
+please say A ME B, if no, please say A NOT ME B. ME stands for mutually exclusive. For example, if A and B represents two mutually exclusive states, then
+A ME B (in the context of traffic light, redLightOn conflicts greenLightOn).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "ME": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with conflicts relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##ME##:
+'''json
+{your json goes here}
+'''
+
+
+For every pair of measures A and B, can you please answer the following questions:
+Is it the case that if A and B always have the same value, if yes,
+please say A equals B, if no, please say A NOT equals B. For example, if A and B represent the same measures with two different name, then
+A equals B (if the only vehicle presented is car, then carSpeed equals vehicleSpeed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "equals": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some measures pairs with equals relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##equals##:
+'''json
+{your json goes here}
+'''
+response time 149.71439790725708 and tokens 3501
+##witness##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "If the user wants to cook, naturally it means before cooking has begun",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InformUser",
+            "event2": "AskForDetailLevelOfInstructions",
+            "justification": "When informing the user, asking for the detail level of instructions may be a part of the process",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "AskForEmergencyContact",
+            "justification": "When first meeting the user, agent should ask for emergency contact, a safety measure",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "FireSafetyMeasures",
+            "event2": "CheckTemperature",
+            "justification": "Checking temperature could be part of the fire safety measures",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "CallEmergencyServices",
+            "justification": "If the smoke detector alarm goes off, it's highly likely the emergency services would be called",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "OpenWindows",
+            "event2": "FireSafetyMeasures",
+            "justification": "Opening windows could be part of the fire safety measures",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AllowUserToCook",
+            "event2": "FoodPreparation",
+            "justification": "If user is allowed to cook, the food preparation process starts",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MonitorMealTime",
+            "event2": "TrackTime",
+            "justification": "To monitor meal time, tracking time is necessary",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GivingCookingInstructions",
+            "event2": "UseFirstPersonPluralLanguage",
+            "justification": "Using first person plural language could be a mode of giving cooking instructions",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserChangeMind",
+            "event2": "RecalculateApproach",
+            "justification": "If user changes their mind, approach needs to recalculated accordingly",
+            "witness": true
+        }
+    }
+]
+```
+
+##conflict##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "CallEmergencyServices",
+            "justification": "While meeting the user, there shouldn't be a need to call emergency services. These events don't usually occur simultaneously.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AskUserIfOK",
+            "event2": "CallEmergencyServices",
+            "justification": "If asking the user if they're okay, it implies that emergency services shouldn't be called at this point.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MonitorMealTime",
+            "event2": "HumanOnFloor",
+            "justification": "While monitoring meal time, there shouldn't be a case of a human on floor. These two events are unlikely to occur together.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AllowUserToCook",
+            "event2": "SmokeDetectorAlarm",
+            "justification": "If smoke detector goes on, it implies something has gone wrong with cooking process. The user shouldn't be allowed to cook in such a case.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "FoodPreparation",
+            "event2": "SmokeDetectorAlarm",
+            "justification": "While food is being prepared, a smoke detector going off is sign of a problem, these events are conflicting.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AskForEmergencyContact",
+            "event2": "CallEmergencyServices",
+            "justification": "If you are asking for emergency contact, it means you shouldn't be calling the emergency services at same time.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "BeforeCookingBegins",
+            "event2": "GivingCookingInstructions",
+            "justification": "Cooking instructions are usually given during the cooking process, not before it begins.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserUnpredictable",
+            "event2": "InformCaregiver",
+            "justification": "If the user is unpredictable, informing the caregiver might not be the best course of action at that exact moment.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentDeployed",
+            "justification": "Preparing for deployment and the agent being deployed cannot happen at the same moment.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GivingCookingInstructions",
+            "event2": "InformUser",
+            "justification": "If the assistant is preoccupied with giving cooking instructions, it cannot inform user about other aspects at same time.",
+            "conflicts": true
+        }
+    }
+]
+```
+
+##HB##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentDeployed",
+            "justification": "Preparing Deployment must happen before the agent is deployed",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "FireSafetyMeasures",
+            "event2": "SmokeDetectorAlarm",
+            "justification": "Fire safety measures should be in place before any smoke detector alarm starts",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AskForEmergencyContact",
+            "event2": "CallEmergencyServices",
+            "justification": "Emergency contact should be asked before any call the emergency services happens",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "InformUser",
+            "justification": "The assistant should meet the user before informing them about anything",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "AskForDetailLevelOfInstructions",
+            "justification": "The assistant should meet the user before asking for their preferred level of instruction detail",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "GivingCookingInstructions",
+            "justification": "The user's desire to cook should occur before the assistant starts giving cooking instructions",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "AllowUserToCook",
+            "justification": "The user's desire to cook should be identified before allowing them to cook",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "FoodPreparation",
+            "justification": "The user's desire to cook should be identified before the food preparation starts",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PrepareFood",
+            "event2": "MonitorMealTime",
+            "justification": "Food preparation should be started before meal time can be monitored",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "CollectandRecordInformation",
+            "event2": "ProvideDataSummaries",
+            "justification": "Data should be collected and recorded before data summaries can be provided",
+            "HB": true
+        }
+    }
+]
+```
+
+##implies##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "userDisablesAlarm",
+            "measure2": "alarmOn",
+            "justification": "If the user disables the alarm, it implies that the alarm was on before",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userAsksForAppropriateTasks",
+            "measure2": "userOccupied",
+            "justification": "If the user is asking for appropriate tasks, it likely implies they are not currently occupied",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userNeedsSpecialAccomodations",
+            "measure2": "personAuthorized",
+            "justification": "If the user needs special accommodations, it's likely that a person authorized to make those accommodations is involved",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "hazardDetected",
+            "measure2": "kitchenSafe",
+            "justification": "A detected hazard would usually imply that the kitchen is not safe",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "alarmRestarts",
+            "measure2": "alarmOn",
+            "justification": "If the alarm restarts, it signifies that the alarm is on",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "humanAssents",
+            "measure2": "personAuthorized",
+            "justification": "If a human assents, it would imply that a person authorized gave their approval",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "safePathFound",
+            "measure2": "hazardDetected",
+            "justification": "If a safe path is found, it implies there were hazards that had to be avoided",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dataNeedsChecking",
+            "measure2": "personAuthorized",
+            "justification": "If data needs checking, it would imply that a person authorized is involved to ensure accuracy",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "riskLevel",
+            "measure2": "kitchenSafe",
+            "justification": "If the risk level is high, it implies that the kitchen is not safe",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "timeBetweenMeals",
+            "measure2": "userOccupied",
+            "justification": "Long time between meals might imply that the user is occupied with other tasks",
+            "implies": true
+        }
+    }
+]
+```
+
+##ME##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "userDisablesAlarm",
+            "measure2": "alarmOn",
+            "justification": "If the user disables the alarm, it cannot be on",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userAsksForAppropriateTasks",
+            "measure2": "userOccupied",
+            "justification": "If the user is asking for appropriate tasks, they cannot be occupied",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userNeedsSpecialAccomodations",
+            "justification": "If a person is authorized, it doesn't mean the user needs special accommodations, these two measures don't necessarily coincide",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "hazardDetected",
+            "measure2": "kitchenSafe",
+            "justification": "If a hazard is detected, the kitchen cannot be considered safe",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "alarmRestarts",
+            "measure2": "userDisablesAlarm",
+            "justification": "If the alarm restarts, it cannot be that the user has disabled the alarm",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "humanAssents",
+            "measure2": "userUnpredictable",
+            "justification": "If a human assents, the user cannot be unpredictable at the same time",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "safePathFound",
+            "measure2": "hazardDetected",
+            "justification": "If a safe path is found, it means a hazard was not detected at the same time",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dataNeedsChecking",
+            "measure2": "personAuthorized",
+            "justification": "If the data needs checking, it doesn't mean that the person authorized to check it is available",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "riskLevel",
+            "measure2": "kitchenSafe",
+            "justification": "If the risk level is high, the kitchen cannot be considered safe",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "timeBetweenMeals",
+            "measure2": "userOccupied",
+            "justification": "A long time between meals doesn't necessarily mean that the user is occupied",
+            "ME": true
+        }
+    }
+]
+```
+
+##equals##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "needLevel",
+            "measure2": "riskLevel",
+            "justification": "The level of needs can be directly proportional to the level of risk but in a different context. This might hold true in some contexts but not all, thus information given is not sufficient to establish equality",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "humanAssents",
+            "justification": "A person being authorized does not guarantee that a human assents and vice versa. These are different concerns.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "alarmOn",
+            "measure2": "userDisablesAlarm",
+            "justification": "Alarm being on and user disabling the alarm are two separate occurrences and don't exactly represent the same measure.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userOccupied",
+            "measure2": "userAsksForAppropriateTasks",
+            "justification": "A user being occupied and asking for appropriate tasks represent different circumstances and measures.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dataNeedsChecking",
+            "measure2": "personAuthorized",
+            "justification": "Data needing checking and person being authorized are two separate measures. They don't represent the same.",
+            "equals": false
+        }
+    }
+]
+```
+The above responses for the equals relationship represent less than 10 pairs by design. After careful consideration, these are the only pairs that can be compared for equality based on the available context. Additional pairs may be determined with more contextual information.
+inconsistent timeBetweenMeals implies userOccupied
+inconsistent dataNeedsChecking implies personAuthorized
+inconsistent userNeedsSpecialAccomodations implies personAuthorized
+inconsistent userAsksForAppropriateTasks implies userOccupied
+inconsistent riskLevel implies kitchenSafe
+inconsistent safePathFound implies hazardDetected
+inconsistent hazardDetected implies kitchenSafe
+inconsistent userDisablesAlarm implies alarmOn
+{'Relationship': {'event1': 'UserChangeMind', 'event2': 'RecalculateApproach', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'MeetingUser', 'event2': 'AskForEmergencyContact', 'justification': '{fill in your justification}', 'HB': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'GivingCookingInstructions', 'event2': 'UseFirstPersonPluralLanguage', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'UserWantsToCook', 'event2': 'BeforeCookingBegins', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'OpenWindows', 'event2': 'FireSafetyMeasures', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'FireSafetyMeasures', 'event2': 'CheckTemperature', 'justification': '{fill in your justification}', 'HB': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'humanAssents', 'measure2': 'personAuthorized', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'SmokeDetectorAlarm', 'event2': 'CallEmergencyServices', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'MeetingUser', 'event2': 'AskForEmergencyContact', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'AllowUserToCook', 'event2': 'FoodPreparation', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'FireSafetyMeasures', 'event2': 'CheckTemperature', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'InformUser', 'event2': 'AskForDetailLevelOfInstructions', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'OpenWindows', 'event2': 'CheckTemperature', 'justification': '{fill in your justification}', 'witness': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'UserWantsToCook', 'event2': 'BeforeCookingBegins', 'justification': '{fill in your justification}', 'HB': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'MonitorMealTime', 'event2': 'TrackTime', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'alarmRestarts', 'measure2': 'alarmOn', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+new test case 16
+Please trying to fill in the content consider the context given above.
+['{"Relationship": {"event1": "UserChangeMind", "event2": "RecalculateApproach", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "MeetingUser", "event2": "AskForEmergencyContact", "justification": "{fill in your justification}", "HB": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "GivingCookingInstructions", "event2": "UseFirstPersonPluralLanguage", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "UserWantsToCook", "event2": "BeforeCookingBegins", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "OpenWindows", "event2": "FireSafetyMeasures", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "FireSafetyMeasures", "event2": "CheckTemperature", "justification": "{fill in your justification}", "HB": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "humanAssents", "measure2": "personAuthorized", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "SmokeDetectorAlarm", "event2": "CallEmergencyServices", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "MeetingUser", "event2": "AskForEmergencyContact", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "AllowUserToCook", "event2": "FoodPreparation", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "FireSafetyMeasures", "event2": "CheckTemperature", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "InformUser", "event2": "AskForDetailLevelOfInstructions", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "OpenWindows", "event2": "CheckTemperature", "justification": "{fill in your justification}", "witness": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "UserWantsToCook", "event2": "BeforeCookingBegins", "justification": "{fill in your justification}", "HB": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "MonitorMealTime", "event2": "TrackTime", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "alarmRestarts", "measure2": "alarmOn", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}']
+
+Please provide your answer in the format:
+
+##relations##:
+'''json
+{your json goes here}
+'''
+##relations##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "UserChangeMind",
+            "event2": "RecalculateApproach",
+            "justification": "If user changes their mind, approach needs to recalculated accordingly",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "AskForEmergencyContact",
+            "justification": "When first meeting the user, agent should ask for emergency contact, a safety measure",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GivingCookingInstructions",
+            "event2": "UseFirstPersonPluralLanguage",
+            "justification": "Using first person plural language could be a mode of giving cooking instructions",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "If the user wants to cook, naturally it means before cooking has begun",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "OpenWindows",
+            "event2": "FireSafetyMeasures",
+            "justification": "Opening windows could be part of the fire safety measures",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "FireSafetyMeasures",
+            "event2": "CheckTemperature",
+            "justification": "Checking temperature could be part of the fire safety measures",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "humanAssents",
+            "measure2": "personAuthorized",
+            "justification": "If a human assents, it would imply that a person authorized gave their approval",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "CallEmergencyServices",
+            "justification": "If the smoke detector alarm goes off, it's highly likely the emergency services would be called",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "AskForEmergencyContact",
+            "justification": "When first meeting the user, agent should ask for emergency contact, a safety measure",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AllowUserToCook",
+            "event2": "FoodPreparation",
+            "justification": "If user is allowed to cook, the food preparation process starts",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "FireSafetyMeasures",
+            "event2": "CheckTemperature",
+            "justification": "Checking temperature could be part of the fire safety measures",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InformUser",
+            "event2": "AskForDetailLevelOfInstructions",
+            "justification": "When informing the user, asking for the detail level of instructions may be a part of the process",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "OpenWindows",
+            "event2": "CheckTemperature",
+            "justification": "When the windows are open, it could be related to an action to check or modify temperature",
+            "witness": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "If the user wants to cook, naturally it means before cooking has begun",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MonitorMealTime",
+            "event2": "TrackTime",
+            "justification": "To monitor meal time, tracking time is necessary",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "alarmRestarts",
+            "measure2": "alarmOn",
+            "justification": "If the alarm restarts, it signifies that the alarm is on",
+            "ME": false
+        }
+    }
+]
+```
+response time 149.71439790725708 and tokens 958
+new test case 0
+
+Process finished with exit code 0

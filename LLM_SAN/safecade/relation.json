@@ -1,0 +1,117 @@
+{
+    "name": "safecade",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "MeetingUser",
+                "event2": "AgentDeployed",
+                "justification": "For an agent to meet the user, the agent would have initially been deployed. Therefore, the event 'MeetingUser' witnesses 'AgentDeployed'",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UseFirstPersonPluralLanguage",
+                "event2": "Speak",
+                "justification": "The action of 'Using first person plural language' implies that the agent is speaking. Therefore, the event 'UseFirstPersonPluralLanguage' witnesses 'Speak'",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserWantsToCook",
+                "event2": "BeforeCookingBegins",
+                "justification": "When a user wants to cook, it logical that the events leading to the cooking process would begin",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "WaveHands",
+                "event2": "Greet",
+                "justification": "The action of waving hands usually comes with a greeting. Therefore, the action 'WaveHands' witnesses 'Greet'",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GiveUserDangerousObjects",
+                "event2": "InterfereSafely",
+                "justification": "Whenever the agent gives the user dangerous objects it will also interferes safely",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserHasLimitation",
+                "event2": "UserUnpredictable",
+                "justification": "If the user has certain limitations, then their actions cannot be unpredictable. Therefore, 'UserHasLimitation' conflicts with 'UserUnpredictable'",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "OpenWindows",
+                "event2": "FireSafetyMeasures",
+                "justification": "Often, in case of a fire, opening windows can exacerbate smoke and fire spread. So, 'OpenWindows' conflicts with 'FireSafetyMeasures'",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AskForDetailLevelOfInstructions",
+                "event2": "GivingCookingInstructions",
+                "justification": "Before giving instructions, the agent must ask for the level of detail. So, 'AskForDetailLevelOfInstructions' must happen before 'GivingCookingInstructions'",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserWantsToCook",
+                "event2": "GiveSuggestion",
+                "justification": "Before any suggestions can be given, the user must express their intention to cook. Therefore, 'UserWantsToCook' must happen before 'GiveSuggestion'",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserWantsToCook",
+                "event2": "BeforeCookingBegins",
+                "justification": "The event of the user wanting to cook must occur before the process of cooking can begin",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userOccupied",
+                "measure2": "userUnpredictable",
+                "justification": "If a user is occupied, it implies that they are engaged in a task and their actions are not unpredictable at that moment",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "alarmOn",
+                "measure2": "userDisablesAlarm",
+                "justification": "If the alarm is on, it could not have been disabled by the user, and vice versa. Hence, these states are mutually exclusive.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userOccupied",
+                "measure2": "userOccupied",
+                "justification": "Both are the same measures with the same name",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "timeBetweenMeals",
+                "measure2": "timeBetweenMeals",
+                "justification": "Both are the same measures with the same name",
+                "equals": true
+            }
+        }
+    ]
+}

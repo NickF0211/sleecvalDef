@@ -1,0 +1,485 @@
+{
+    "name": "autoCar",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "UserTurnOnSystem",
+                "event2": "SystemReady",
+                "justification": "When the user turns on the system, it implies that the system is ready for use",
+                "witness": false
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CarDriving",
+                "event2": "ChangeSpeed",
+                "justification": "While the car is driving, it can change its speed but it's not always the case that speed changes every time the car drives",
+                "witness": false
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CarDriving",
+                "event2": "StayCenteredinLane",
+                "justification": "When the car is driving, it generally needs to stay centered in the lane. But, driving doesn't mean the car is always centered in the lane",
+                "witness": false
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserTurnOffSystem",
+                "event2": "SystemReady",
+                "justification": "When the user turns off the system, it no longer implies that the system is ready for use",
+                "witness": false
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "TurnOffSensors",
+                "event2": "SystemReady",
+                "justification": "Turning off the sensors would usually mean the system is not ready for use",
+                "witness": false
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GetReadyToDrive",
+                "event2": "SystemReady",
+                "justification": "Getting the car ready to drive would likely mean the system is ready",
+                "witness": false
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "TakeUserInput",
+                "event2": "CalculateShortestPath",
+                "justification": "Taking user input for a destination can initiate the calculation for the shortest path, but there might be some time lapse between these events",
+                "witness": false
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "MakeSpace",
+                "event2": "PriorityVehicleNearby",
+                "justification": "The action of making space often implies a priority vehicle is nearby, but they do not have to occur exactly at the same time",
+                "witness": false
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AskIfUserReadyToDrive",
+                "event2": "SystemReady",
+                "justification": "Asking the user if they are ready to drive usually happens after the system is ready, but they do not have to occur exactly at the same time",
+                "witness": false
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CarDriving",
+                "event2": "MaintainEqualDistance",
+                "justification": "While the car is driving, it can maintain an equal distance from the cars around it, but driving doesn't always imply maintaining an equal distance",
+                "witness": false
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CarDriving",
+                "event2": "TurnOffSensors",
+                "justification": "While the car is driving, turning off the sensors would conflict with the car's operation",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserTurnOnSystem",
+                "event2": "UserTurnOffSystem",
+                "justification": "If user turns on the system, it can't be turned off at the exact same moment. They represent contrasting actions",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CarDriving",
+                "event2": "ParkVehicle",
+                "justification": "If car is driving, it can't be parked at the same time, these events are mutually exclusive",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GetReadyToDrive",
+                "event2": "UserTurnOffSystem",
+                "justification": "Getting ready to drive implies the system is on and thus conflicts with turning off the system",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "TakeUserInput",
+                "event2": "UserTurnOffSystem",
+                "justification": "Taking user input requires the system to be on and thus conflicts with turning off the system",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CalculateShortestPath",
+                "event2": "UserTurnOffSystem",
+                "justification": "Calculating the shortest path involves the system being on and thus conflicts with turning off the system",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CalculateShortestPath",
+                "event2": "UserCancelPath",
+                "justification": "If the shortest path is being calculated, cancelling that path would interrupt the process, causing a conflict",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "MakeSpace",
+                "event2": "StayCenteredinLane",
+                "justification": "Making space for a priority vehicle might require the car to move out of the center of its lane, causing a conflict with staying centered in lane",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "TurnOnHazardsAndTemporarilyStop",
+                "event2": "CarDriving",
+                "justification": "Turning on the hazards and temporarily stopping the car would conflict with the car moving",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "DisplayError",
+                "event2": "SystemReady",
+                "justification": "Displaying an error and having the system ready are conflicting states",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserTurnOnSystem",
+                "event2": "SystemReady",
+                "justification": "Before the system can be ready, the user must turn it on",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserTurnOnSystem",
+                "event2": "GetReadyToDrive",
+                "justification": "Before the car can get ready to drive, the user must turn on the system",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserTurnOnSystem",
+                "event2": "TakeUserInput",
+                "justification": "User input can only be taken after the system is turned on",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "TakeUserInput",
+                "event2": "CalculateShortestPath",
+                "justification": "Before the system can calculate the shortest path, it needs to take user input for the destination",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GetReadyToDrive",
+                "event2": "CarDriving",
+                "justification": "Before the car can drive, it needs to be ready to drive first",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CalculateShortestPath",
+                "event2": "CarDriving",
+                "justification": "The car needs to calculate the shortest path before it starts driving",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemReady",
+                "event2": "DisplayCarInformation",
+                "justification": "Car information can be displayed only when the system is ready",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "TurnOnSensors",
+                "event2": "CarDriving",
+                "justification": "Before the car begins driving, the sensors must be turned on",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CarDriving",
+                "event2": "ChangeSpeed",
+                "justification": "Speed can be changed only when the car is on the move",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "TakeUserInput",
+                "event2": "ReadyToDrive",
+                "justification": "Before the car is ready to drive, it needs to take user input on where to drive to",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "doorClosed",
+                "measure2": "destinationExists",
+                "justification": "If the door is closed, the car is likely to be enroute to its destination. However, in some settings, this may not always be the case",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "seatBeltOn",
+                "measure2": "CarDriving",
+                "justification": "If the seat belt is on, it's likely the car is driving. However, one can also put on the seat belt without driving the car",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userTurnedOffSystem",
+                "measure2": "CarDriving",
+                "justification": "If the user has turned off the system, the car is likely not driving. However, the user could be turning off non-essential systems while driving",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userTurnedOffSystem",
+                "measure2": "CheckSystemComponents",
+                "justification": "When the user turns off the system, it usually means the system components are not being checked. However, in some settings, this may not always be the case",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "doorClosed",
+                "measure2": "CarDriving",
+                "justification": "If the door is closed, it's likely the car is driving. However, the door can be closed without the car driving",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "actionIsLegal",
+                "measure2": "CarDriving",
+                "justification": "If the car is doing something legal, it's likely the car is driving. However, a legal action doesn't always imply car driving",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "objectInPath",
+                "measure2": "CarDriving",
+                "justification": "A car usually drives despite there being objects in its path. However, a car could still be patrolling with an object in path",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "recognizeInput",
+                "measure2": "CalculateShortestPath",
+                "justification": "If the car's system recognizes the input, it's likely going to calculate the shortest path. However, it might only be recognizing the input, not acting upon it",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "recognizeInput",
+                "measure2": "CheckSystemComponents",
+                "justification": "By recognizing user input, the car's system is effectively checking some of its components. However, it may not check the entire system",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "careInFront",
+                "measure2": "CheckSystemComponents",
+                "justification": "If there's a car in front, the car's system is likely checking its components to ensure it's working properly. However, the mere presence of a car in front does not necessarily imply this check",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "redLight",
+                "measure2": "greenLight",
+                "justification": "If the car's light indicator is showing red, then it cannot be showing green at the same as red and green lights are mutually exclusive",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "greenLight",
+                "measure2": "yellowLight",
+                "justification": "If the car's light indicator is showing green, then it cannot be showing yellow at the same time as they are mutually exclusive states",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userTurnedOffSystem",
+                "measure2": "SystemReady",
+                "justification": "If the user has turned off the system, then the system cannot be ready, as these states are mutually exclusive",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "actionIsLegal",
+                "measure2": "userTurnedOffSystem",
+                "justification": "If the user has turned off the system, then the car cannot be performing legal actions on its own as these states are mutually exclusive",
+                "ME": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "pathExists",
+                "measure2": "userTurnedOffSystem",
+                "justification": "If the user has turned off the system, then the car cannot have a path calculated, as these states are mutually exclusive",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "multipleLanes",
+                "measure2": "withinLane",
+                "justification": "If the car is within a lane, it doesn't necessarily mean there are multiple lanes present. Therefore, these conditions are not mutually exclusive",
+                "ME": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "redLight",
+                "measure2": "yellowLight",
+                "justification": "If the car's light indicator is showing red, then it cannot be showing yellow at the same time as they are mutually exclusive states",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "doorClosed",
+                "measure2": "CarDriving",
+                "justification": "If the car door is closed, the car can be driving or be stationary, therefore these conditions are not mutually exclusive",
+                "ME": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userTurnedOffSystem",
+                "measure2": "seatBeltOn",
+                "justification": "If the user has turned off the system, the user's seat belt could either be on or off, therefore these conditions are not mutually exclusive",
+                "ME": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "objectInPath",
+                "measure2": "CarDriving",
+                "justification": "If there's an object in the path, the car can still be in a driving state or not, therefore these two measures are not mutually exclusive",
+                "ME": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "doorClosed",
+                "measure2": "doorClosed",
+                "justification": "These are the same measures",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "seatBeltOn",
+                "measure2": "seatBeltOn",
+                "justification": "These are the same measures",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userTurnedOffSystem",
+                "measure2": "userTurnedOffSystem",
+                "justification": "These are the same measures",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "recognizeInput",
+                "measure2": "recognizeInput",
+                "justification": "These are the same measures",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "redLight",
+                "measure2": "redLight",
+                "justification": "These are the same measures",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "yellowLight",
+                "measure2": "yellowLight",
+                "justification": "These are the same measures",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "greenLight",
+                "measure2": "greenLight",
+                "justification": "These are the same measures",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "doorClosed",
+                "measure2": "doorClosed",
+                "justification": "These are the same measures",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "actionIsLegal",
+                "measure2": "actionIsLegal",
+                "justification": "These are the same measures",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "objectInPath",
+                "measure2": "objectInPath",
+                "justification": "These are the same measures",
+                "equals": true
+            }
+        }
+    ]
+}

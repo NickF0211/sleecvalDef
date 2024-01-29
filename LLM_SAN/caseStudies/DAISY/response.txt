@@ -1,0 +1,126 @@
+##witness##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "Before cooking begins, the user must express a desire to cook. Therefore, if 'UserWantsToCook' happens, it means 'BeforeCookingBegins' also happens.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserHasLimitation",
+            "event2": "UserNeedsSpecialAccomodations",
+            "justification": "If a user has limitation, he might need special accommodation. So, if 'UserHasLimitation' happens, it likely means 'UserNeedsSpecialAccomodations' is happening as well.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AskUserIfOK",
+            "event2": "SmokeDetectorAlarm",
+            "justification": "When smoke detector alarm is happening, the system might ask the user if they are okay. This suggests if 'AskUserIfOK' happens, it means 'SmokeDetectorAlarm' is likely occurring",
+            "witness": true
+        }
+    }
+]
+'''
+
+##conflict##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "OpenWindows",
+            "event2": "FireSafetyMeasures",
+            "justification": "During a fire, windows are often to be kept closed as a safety measure, hence 'OpenWindows' conflicts with 'FireSafetyMeasures'.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AllowUserToCook",
+            "event2": "AskForEmergencyContact",
+            "justification": "In case of allowing user to cook, implying normal conditions, usually an emergency contact isn't asked, which implies something might be wrong.",
+            "conflicts": true
+        }
+    }
+]
+'''
+
+##HB##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentDeployed",
+            "justification": "The agent must be prepared for its deployment before the actual deployment occurs.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "InformUser",
+            "justification": "The system must meet the user before informing him",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "FireSafetyMeasures",
+            "event2": "SmokeDetectorAlarm",
+            "justification": "Taking safety measures must precede the smoke detector alarms",
+            "HB": true
+        }
+    }
+]
+'''
+
+##implies##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "alarmOn",
+            "measure2": "hazardDetected",
+            "justification": "Newbies often imply that a hazard has been detected, thus triggering the alarm system.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userOccupied",
+            "justification": "If a person is authorized to use the system, they are often occupied with the system.",
+            "implies": true
+        }
+    }
+]
+'''
+
+##ME##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "kitchenSafe",
+            "measure2": "hazardDetected",
+            "justification": "If the kitchen is safe, it means that no hazards have been detected. Thus 'kitchenSafe' and 'hazardDetected' are mutually exclusive.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "alarmOn",
+            "measure2": "kitchenSafe",
+            "justification": "If the alarm is on, it indicates a hazardous condition or problem, and thus the kitchen is not safe. The 'alarmOn' and 'kitchenSafe' are mutually exclusive.",
+            "ME": true
+        }
+    }
+]
+'''
+

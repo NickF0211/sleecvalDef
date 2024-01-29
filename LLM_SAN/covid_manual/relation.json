@@ -1,0 +1,317 @@
+{
+    "name": "casper_manual",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "NoticeRedFlag",
+                "event2": "NoticeAnomaly",
+                "justification": "Noticing a red flag implies noticing an anomaly.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ProvideDemonstration",
+                "event2": "EnsureSocialNorms",
+                "justification": "If a demonstration is provided, it implies ensuring social norms.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "DisclosureRequest",
+                "event2": "DiscloseInformation",
+                "justification": "Disclosure request and disclosing information can't happen at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SendReport",
+                "event2": "NotifyUser",
+                "justification": "Sending report and notifying user can't happen at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserRequestExplanation",
+                "event2": "ProvideExplanation",
+                "justification": "User requesting explanation and providing explanation can't happen at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserOpenApp",
+                "event2": "UserUseApp",
+                "justification": "User opening the app and user using the app can't happen at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestUserConsent",
+                "event2": "CheckConsentCapacity",
+                "justification": "Requesting user consent and checking consent capacity can't happen at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ProvideInstructions",
+                "event2": "ShowHelpIcon",
+                "justification": "Providing instructions and showing help icon can't happen at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestFileAccess",
+                "event2": "GiveAllTimeAccess",
+                "justification": "Requesting file access and giving all-time access can't happen at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SendAppropriateNotification",
+                "event2": "ProvideInstructions",
+                "justification": "Sending appropriate notification and providing instructions can't happen at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ProcessData",
+                "event2": "FollowJurisdictionRules",
+                "justification": "Processing data and following jurisdiction rules can't happen at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestGuardianConsent",
+                "event2": "CheckRecipient",
+                "justification": "Requesting guardian consent and checking the recipient can't happen at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CheckConsentCapacity",
+                "event2": "ApproveDataRecipient",
+                "justification": "Consent capacity must be checked before approving a data recipient.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserOpenApp",
+                "event2": "UserUseApp",
+                "justification": "User needs to open the app before using it.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "NotifyUser",
+                "event2": "SendAppropriateNotification",
+                "justification": "The user must first be notified before an appropriate notification is sent.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserRequestExplanation",
+                "event2": "ProvideExplanation",
+                "justification": "User must request an explanation before one is provided.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ProvideInstructions",
+                "event2": "ShowHelpIcon",
+                "justification": "Instructions must be provided before showing the help icon.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "DisclosureRequest",
+                "event2": "DiscloseInformation",
+                "justification": "Disclosure request must happen before disclosing information.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ProvideDemonstration",
+                "event2": "EnsureSocialNorms",
+                "justification": "A demonstration must be provided before ensuring social norms.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestFileAccess",
+                "event2": "GiveAllTimeAccess",
+                "justification": "File access request must be made before granting all-time access.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "culturalIndicatorX",
+                "measure2": "EnsureCulturalNorms",
+                "justification": "If cultural indicator X holds then it implies ensuring of cultural norms.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "isFirstTime",
+                "measure2": "demonstrationRequired",
+                "justification": "If it's a user's first time, a demonstration is often required.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "dataProcessConsent",
+                "measure2": "userConsent",
+                "justification": "If consent for data processing is given then it implies user's consent.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userHasConsentCapacity",
+                "measure2": "userConsent",
+                "justification": "If a user has consent capacity then it implies user's consent.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "dataProcessConsent",
+                "measure2": "appUseConsent",
+                "justification": "Consent for data processing implies consent for app use, as app use involves processing data.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userConsent",
+                "measure2": "appUseConsent",
+                "justification": "If the user gives their consent, then it implies they consent to use the app.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "critical",
+                "measure2": "NoticeRedFlag",
+                "justification": "If it is critical then it implies noticing a red flag.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "accessRevoked",
+                "measure2": "NoticeAnomaly",
+                "justification": "If access is revoked it implies noticing an anomaly.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userHasConsentCapacity",
+                "measure2": "appUseConsent",
+                "justification": "If a user has the capacity to consent, it implies they can give consent for app use.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "approvedDoctor",
+                "measure2": "approvedDataRecipient",
+                "justification": "If a doctor is approved then it implies data recipient's approval.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userConsent",
+                "measure2": "accessRevoked",
+                "justification": "If the user gives consent, access can't be revoked at the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "appUseConsent",
+                "measure2": "accessRevoked",
+                "justification": "If app use consent is given, access can't be revoked at the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userHasConsentCapacity",
+                "measure2": "accessRevoked",
+                "justification": "If the user has consent capacity, access can't be revoked at the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "approvedDoctor",
+                "measure2": "accessRevoked",
+                "justification": "If a doctor is approved, access can't be revoked at the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "dataProcessConsent",
+                "measure2": "accessRevoked",
+                "justification": "If data processing consent is given, access can't be revoked at the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "culturalIndicatorX",
+                "measure2": "accessRevoked",
+                "justification": "If cultural indicator X holds, access can't be revoked at the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "isFirstTime",
+                "measure2": "approvedDoctor",
+                "justification": "If it's a user's first time, a doctor cannot be approved at the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "approvedDataRecipient",
+                "measure2": "accessRevoked",
+                "justification": "If a data recipient is approved, access can't be revoked at the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "explanationAvailable",
+                "measure2": "accessRevoked",
+                "justification": "If an explanation is available, access can't be revoked at the same time.",
+                "ME": true
+            }
+        }
+    ]
+}

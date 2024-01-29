@@ -1,0 +1,11 @@
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "approvedDoctor",
+            "measure2": "approvedDataRecipient",
+            "justification": "An approved doctor and an approved data recipient aren't necessarily mutually exclusive. It's possible for a doctor to be an approved recipient of data.",
+            "ME": false
+        }
+    }
+]

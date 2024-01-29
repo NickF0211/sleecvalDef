@@ -1,0 +1,10 @@
+[
+    {
+        "Relationship": {
+            "event1": "DataCollected",
+            "event2": "DeleteData",
+            "justification": "Data cannot be deleted at the exact moment it is being collected. The collection action needs to complete before deletion.",
+            "conflicts": false
+        }
+    }
+]

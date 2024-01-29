@@ -1,0 +1,203 @@
+##witness##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "BeforeCookingBegins",
+            "justification": "When a user expresses the desire to cook, it implies that before cooking begins.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserChangeMind",
+            "event2": "RecalculateApproach",
+            "justification": "If a user changes their mind concerning a certain aspect, the approach would need to be recalculated.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "CallEmergencyServices",
+            "justification": "When the smoke detector alarm goes off, it implies that the emergency services need to be called.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GiveUserDangerousObjects",
+            "event2": "InterfereSafely",
+            "justification": "If there is a need to give user dangerous objects, there will be a need to interfere safely.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AskForEmergencyContact",
+            "event2": "PreparingDeployment",
+            "justification": "When requesting for emergency contacts, it implies preparations for deployment.",
+            "witness": true
+        }
+    }
+]
+```
+
+##conflict##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "CallEmergencyServices",
+            "event2": "InformUser",
+            "justification": "When emergency services are being called, the user does not usually need to be informed at the same time. The priority is the emergency.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SmokeDetectorAlarm",
+            "event2": "OpenWindows",
+            "justification": "A smoke detector alarm normally requires windows to be closed, not opened.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "FoodPreparation",
+            "event2": "FireSafetyMeasures",
+            "justification": "With fire safety measures in place, these could interfere with normal food preparation.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "CollectandRecordInformation",
+            "event2": "ProvideDataSummaries",
+            "justification": "Collection and recording of data generally occurs prior to providing data summaries. They cannot typically occur simultaneously.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "CheckTemperature",
+            "event2": "UserUnpredictable",
+            "justification": "The act of checking temperature requires something predictable and methodological, while the user being unpredictable could interfere with this.",
+            "conflicts": true
+        }
+    }
+]
+```
+
+##HB##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "PreparingDeployment",
+            "event2": "AgentDeployed",
+            "justification": "An agent must be prepared for deployment before it can be deployed.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AgentDeployed",
+            "event2": "MeetingUser",
+            "justification": "The agent must be deployed before the event of meeting a user can occur.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingUser",
+            "event2": "InformUser",
+            "justification": "The user should be met before they can be informed.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MonitorMealTime",
+            "event2": "UserWantsToCook",
+            "justification": "The mealtime should be monitored before the user decides they want to cook.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "BeforeCookingBegins",
+            "event2": "AllowUserToCook",
+            "justification": "Before the user starts to cook, there should be a consideration to allow user to do so.",
+            "HB": true
+        }
+    }
+]
+```
+
+##implies##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "dataNeedsChecking",
+            "measure2": "userAsksForAppropriateTasks",
+            "justification": "If the data needs checking, it implies the user is asking for appropriate tasks.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userDisablesAlarm",
+            "measure2": "alarmRestarts",
+            "justification": "If the user disables the alarm, it implies the alarm needs to be restarted.",
+            "implies": true
+        }
+    }
+]
+```
+
+##ME##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userDisablesAlarm",
+            "justification": "An authorized person is unlikely to disable the alarm. These measures are mutually exclusive under normal circumstances.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userNeedsSpecialAccomodations",
+            "measure2": "userAsksForAppropriateTasks",
+            "justification": "If a user needs special accommodations, they are unlikely to ask for tasks that are not appropriate for them, making these measures mutually exclusive.",
+            "ME": true
+        }
+    }
+]
+```
+
+##equals##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "alarmRestarts",
+            "measure2": "alarmOn",
+            "justification": "When the alarm restarts, it is on, making these measures equivalent.",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userNeedsSpecialAccomodations",
+            "measure2": "UserHasLimitation",
+            "justification": "These measures refer to the same state - the user needing special accommodations or the user having limitations - and are therefore equivalent.",
+            "equals": true
+        }
+    }
+]
+```

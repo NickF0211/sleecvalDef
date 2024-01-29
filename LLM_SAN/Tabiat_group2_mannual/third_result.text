@@ -1,0 +1,85 @@
+{
+    "name": "example",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "UserOpenApp",
+                "event2": "UserUseApp",
+                "justification": "Opening the app is part of the process of using the app.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestUserConsent",
+                "event2": "CheckConsentCapacity",
+                "justification": "Asking for user's consent involves checking if the user has the capacity to give consent.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestReInput",
+                "event2": "NoticeAnomaly",
+                "justification": "Requesting for re-input might occur due to noticing some anomalies in the input.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "NotifyUser",
+                "event2": "SendReport",
+                "justification": "Notifying the user may include sending a report.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ProcessData",
+                "event2": "FollowJurisdictionRules",
+                "justification": "Processing data implies following certain jurisdictional rules.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestFileAccess",
+                "event2": "GiveAllTimeAccess",
+                "justification": "Requesting for file access conflicts with giving all time access, as the latter assumes access is already granted.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestUserConsent",
+                "event2": "ProcessData",
+                "justification": "Before data can be processed, users' consent should be requested.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserOpenApp",
+                "event2": "UserUseApp",
+                "justification": "In order to use the app, the user has to open the app first.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestGuardianConsent",
+                "event2": "ProcessData",
+                "justification": "In certain cases, guardian's consent is needed before processing the data.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "accessRevoked",
+                "measure2": "appUseConsent",
+                "justification": "If access is revoked, user's consent to use the app doesn't hold.",
+                "ME": true
+            }
+        }
+    ]
+}

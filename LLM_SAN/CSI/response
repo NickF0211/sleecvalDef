@@ -1,0 +1,510 @@
+##witness##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "ExamineState",
+            "event2": "CollectPatientData",
+            "justification": "Examine state would include the collection of patient data.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "Speaking",
+            "event2": "AddressUserName",
+            "justification": "When speaking, one could be addressing the username.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UsePreferredName",
+            "event2": "AddressUserName",
+            "justification": "Using a preferred name would include addressing the user name.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "TrainingDaisy",
+            "event2": "CollectingTrainingData",
+            "justification": "Training Daisy would include collecting training data.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingPatient",
+            "event2": "MeetingUser",
+            "justification": "Meeting a patient would include meeting the user.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "ProvideInfo",
+            "event2": "UserRequestInfo",
+            "justification": "Providing information is often followed by the user requesting information.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PreparingExamination",
+            "event2": "PreparingTasks",
+            "justification": "Preparing examination is a subset task and hence, includes preparing tasks.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "CheckUnderstanding",
+            "event2": "UserUnderstands",
+            "justification": "In order to ensure that the user understands, one must first check understanding.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "CheckUnderstanding",
+            "event2": "UserRequestInfo",
+            "justification": "In order to ensure that the user understands, one must first check understanding and the user may request info.",
+            "witness": true
+        }
+    },
+    {
+         "Relationship": {
+            "event1": "RobotStopSession",
+            "event2": "UserEndSession",
+            "justification": "When the robot stops the session, it implies that the user is also ending the session.",
+            "witness": true
+        }
+    }
+]
+
+##conflict##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "RobotStopSession",
+            "event2": "MeetingPatient",
+            "justification": "if the robot stops the session, the meeting with the patient cannot occur at the same time.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "RobotStopSession",
+            "event2": "PreparingExamination",
+            "justification": "if the robot stops the session, preparing for examination cannot occur at the same time.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "RobotStopSession",
+            "event2": "CollectPatientData",
+            "justification": "if the robot stops the session, the collection of patient data cannot occur at the same time.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "ExamineState",
+            "event2": "RobotStopSession",
+            "justification": "if examination of state is ongoing, the robot cannot stop the session at the same time.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AddressUserName",
+            "event2": "RobotStopSession",
+            "justification": "if addressing the username is ongoing, the robot cannot stop the session at the same time.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "TrainingDaisy",
+            "event2": "RobotStopSession",
+            "justification": "if training Daisy is ongoing, the robot cannot stop the session at the same time.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserEndSession",
+            "event2": "MeetingPatient",
+            "justification": "If the user ends the session, the meeting with the patient cannot occur at the same time.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserEndSession",
+            "event2": "PreparingExamination",
+            "justification": "If the user ends the session, preparing for examination cannot occur at the same time.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserEndSession",
+            "event2": "ExamineState",
+            "justification": "If the user ends the session, examining the state cannot occur at the same time.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserEndSession",
+            "event2": "MeetingUser",
+            "justification": "If the user ends the session, meeting the user cannot occur at the same time.",
+            "conflicts": true
+        }
+    }
+]
+
+##HB##:
+```json
+[
+    {
+        "Relationship": {
+            "event1": "MeetingPatient",
+            "event2": "PreparingExamination",
+            "justification": "The meeting with the patient must occur before preparing the examination.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "ObtainConsent",
+            "event2": "ConfirmConsent",
+            "justification": "Obtaining consent must occur prior to the confirmation of consent.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PreparingExamination",
+            "event2": "ExamineState",
+            "justification": "Preparing for examination must occur prior to the actual examination of state.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserRequestInfo",
+            "event2": "ProvideInfo",
+            "justification": "The user must request information prior to the provision of said information.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InstructionFail",
+            "event2": "RepeatInstruction",
+            "justification": "The instruction must fail before it can be repeated.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "CheckUnderstanding",
+            "event2": "UserUnderstands",
+            "justification": "Checking understanding must happen before we can confirm the user understands.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "RequestHumanAgent",
+            "event2": "CallSupport",
+            "justification": "The request for a human agent must happen before calling support.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PrepareTasks",
+            "event2": "ExecuteTasks",
+            "justification": "Preparing tasks must be done before executing tasks.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "CollectPatientData",
+            "event2": "TrainingDaisy",
+            "justification": "Collecting patient data must be done before Training Daisy.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MeetingPatient",
+            "event2": "ExamineState",
+            "justification": "Meeting the patient must occur before examining the state.",
+            "HB": true
+        }
+    }
+]
+
+##implies##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "userPayingAttention",
+            "measure2": "userSensoryNeedsMet",
+            "justification": "If the user is paying attention, it implies their sensory needs have been met.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "urgentNeed",
+            "measure2": "severityOfState",
+            "justification": "If there is an urgent need, it implies a severe state.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "informationAvailable",
+            "measure2": "userDataInformed",
+            "justification": "If information is available, it implies that the user data can be informed.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dataRelevantToContext",
+            "measure2": "dataNoiseConsidered",
+            "justification": "If data is relevant to the context, it implies that data noise is considered.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "patientComfortable",
+            "measure2": "stablePsychologicalState",
+            "justification": "If the patient is comfortable, it implies they have a stable psychological state.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "trainingDataRepresentative",
+            "measure2": "dataRelevantToContext",
+            "justification": "If the training data is representative, it implies the data is relevant to the context.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userConsentAvalaible",
+            "measure2": "guardianConsentAvalaible",
+            "justification": "If the user can give consent, it implies that the guardian can also give consent.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "medicalEmergency",
+            "measure2": "urgentNeed",
+            "justification": "If there is a medical emergency, it implies that there is an urgent need.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "culturalIndicatorA",
+            "measure2": "genderTypeB",
+            "justification": "A cultural indicator doesn't necessarily imply a specific gender type.",
+            "implies": false
+        }
+    },
+    {
+          "Relationship": {
+            "measure1": "userDirectsOtherwise",
+            "measure2": "directlyToUser",
+            "justification": "If the user directs otherwise, it implies that the information can be directed to the user.",
+            "implies": true
+        }
+    }
+]
+
+##ME##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "informationAvailable",
+            "measure2": "informationDisclosureNotPermitted",
+            "justification": "If information is available, it's not possible to not permit information disclosure at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dataRelevantToContext",
+            "measure2": "dataUnnecessary",
+            "justification": "If data is relevant, it cannot be unnecessary at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userConsentAvalaible",
+            "measure2": "UserUnableToConsent",
+            "justification": "If user consent is available, it's not possible that the user is unable to consent at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "urgentNeed",
+            "measure2": "stablePhysicalState",
+            "justification": "If there is an urgent need, the patient cannot be in a stable physical state at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "behaviorAggressive",
+            "measure2": "patientComfortable",
+            "justification": "If the behavior is aggressive, the patient cannot be comfortable at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "medicalEmergency",
+            "measure2": "stablePhysicalState",
+            "justification": "If there is a medical emergency, the patient cannot be in a stable physical state at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dataNoiseConsidered",
+            "measure2": "dataUnnecessary",
+            "justification": "If data noise is considered, the data cannot be unnecessary at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userSensoryNeedsMet",
+            "measure2": "timeElapsed", //timeElapsed is treated as if its high value is a negative scenario
+            "justification": "If the user's sensory needs are met, a lot of time hasn't necessarily passed.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "informationDisclosureNotPermitted",
+            "measure2": "userDataInformed",
+            "justification": "If information disclosure is not permitted, the user data cannot be informed simultaneously.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "patientComfortable",
+            "measure2": "behaviorAggressive",
+            "justification": "If the patient is comfortable, they cannot be exhibiting aggressive behavior simultaneously.",
+            "ME": true
+        }
+    }
+]
+
+##equals##:
+```json
+[
+    {
+        "Relationship": {
+            "measure1": "userNameUnknown",
+            "measure2": "userNameUnknown",
+            "justification": "Same measure.",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "genderTypeB",
+            "measure2": "genderTypeB",
+            "justification": "Same measure.",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "urgentNeed",
+            "measure2": "urgentNeed",
+            "justification": "Same measure.",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userPayingAttention",
+            "measure2": "userPayingAttention",
+            "justification": "Same measure.",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "severityOfState",
+            "measure2": "severityOfState",
+            "justification": "Same measure.",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "timeElapsed",
+            "measure2": "timeElapsed",
+            "justification": "Same measure.",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "informationAvailable",
+            "measure2": "informationAvailable",
+            "justification": "Same measure.",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "bodyPartInvolvedInExam",
+            "measure2": "bodyPartInvolvedInExam",
+            "justification": "Same measure.",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "dataRelevantToContext",
+            "measure2": "dataRelevantToContext",
+            "justification": "Same measure.",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "patientComfortable",
+            "measure2": "patientComfortable",
+            "justification": "Same measure.",
+            "equals": true
+        }
+    }
+]
+```

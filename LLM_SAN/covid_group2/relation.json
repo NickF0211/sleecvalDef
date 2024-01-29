@@ -1,0 +1,349 @@
+{
+    "name": "casper_group2",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "CasperRecognizeIssues",
+                "event2": "UserIrregularBehavior",
+                "justification": "When the system recognizes an issue, it indicates that the user had irregular behavior",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperContactSupporter",
+                "event2": "CasperMonitorUser",
+                "justification": "When the system contacts a supporter, this implies that it is monitoring the user",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperAddressUser",
+                "event2": "CasperUnderstandUserCulturePreference",
+                "justification": "When the system addresses a user, it may need to understand the user's cultural preferences",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperRecordConsent",
+                "event2": "PatientRefuseConsent",
+                "justification": "If the patient refuses consent, it cannot be recorded",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperGiveSignal",
+                "event2": "CasperStopSignal",
+                "justification": "Casper cannot give a signal and stop a signal at the same time",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "NominatedPersonFollowUp",
+                "event2": "NominatedPersonLeave",
+                "justification": "A nominated person cannot follow up if they are leaving.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperRecordConsent",
+                "event2": "CasperRemoveConsent",
+                "justification": "The system cannot record and remove consent at the same time",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperRemindUser",
+                "event2": "CasperMonitorUserForTask",
+                "justification": "If Casper is reminding the user, it implies that it's not in the process of monitoring the user for the task.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperExitRoom",
+                "event2": "CasperMoving",
+                "justification": "Exiting a room is a type of movement but it's a more specific event, so they can't occur simultaneously.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperGiveInstruction",
+                "event2": "UserComplainUnclearInstruction",
+                "justification": "If the user is complaining about unclear instruction, it means Casper has either stopped giving instructions or the instructions were not clear",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperStart",
+                "event2": "CasperStopMoving",
+                "justification": "If Casper has just started, it cannot be simultaneously stopping its movement which indicates an end or pause in activity.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperRemindUser",
+                "event2": "UserFinishTask",
+                "justification": "If Casper is reminding the user, it implies that the task is not yet finished.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperGiveInstruction",
+                "event2": "UserRequestExplanation",
+                "justification": "If Casper is currently giving an instruction, the User cannot request an explanation simultaneously as they need to hear the full instruction first.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "NominatedPersonNotFollowUp",
+                "event2": "NominatedPersonFollowUp",
+                "justification": "The nominated person can either follow up or not, but not both at the same time",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserFinishTask",
+                "event2": "CasperMonitorUserForTask",
+                "justification": "If the user has finished the task, it is unlikely that Casper is still monitoring the user for the same task",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperStart",
+                "event2": "CasperMoving",
+                "justification": "If Casper has just started, it cannot be simultaneously moving.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperStopMoving",
+                "event2": "CasperMoving",
+                "justification": "The system cannot stop and move at the same time",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperExitRoom",
+                "event2": "CasperStopMoving",
+                "justification": "Casper can't simultaneously be stopping its movement and exiting a room, as exiting the room requires movement.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperContactHealthCareProvider",
+                "event2": "CasperContactSupporter",
+                "justification": "Assuming the system can only contact one entity at a time",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperPrepareMeal",
+                "event2": "CasperIntendToPrepareMeal",
+                "justification": "If Casper is in the process of preparing a meal, it cannot simultaneously be in the state of intending to prepare that meal.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperExitRoom",
+                "event2": "CasperEnterRoom",
+                "justification": "Casper cannot exit a room while entering the room at the same time",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperPrepareMeal",
+                "event2": "CasperConfirmUserPreferredMeal",
+                "justification": "Casper cannot prepare the meal and confirm the user's preference at the same time",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserComplainUnclearInstruction",
+                "event2": "CasperRecognizeIssues",
+                "justification": "The user must first complain about unclear instruction before the system can recognize an issue",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperMoving",
+                "event2": "CasperExitRoom",
+                "justification": "The system must be moving before it can exit a room",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperAddressUser",
+                "event2": "CasperUnderstandUserCulturePreference",
+                "justification": "Before Casper can understand the user's cultural preference, it needs to initiate communication by addressing the user.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperMoving",
+                "event2": "CasperStopMoving",
+                "justification": "The system must be moving before it can stop moving",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperPrepareMeal",
+                "event2": "CasperConfirmUserPreferredMeal",
+                "justification": "The system should confirm user's preferred meal before preparing the meal",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperAddressUser",
+                "event2": "UserRequestExplanation",
+                "justification": "The system must first address the user before the user can request an explanation",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperStart",
+                "event2": "CasperMonitorUser",
+                "justification": "The system must start before it can start monitoring the user",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperStart",
+                "event2": "CasperStopMoving",
+                "justification": "The system must start before it can stop moving",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "NominatedPersonLeave",
+                "event2": "NominatedPersonFollowUp",
+                "justification": "The nominated person must leave before following up",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperStart",
+                "event2": "CasperExitRoom",
+                "justification": "Casper needs to start operating before it can perform tasks such as exiting a room.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperGiveInstruction",
+                "event2": "UserRequestExplanation",
+                "justification": "User can request explanation only after the system gives instruction",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperStart",
+                "event2": "CasperMoving",
+                "justification": "The system must start before it can move",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CasperPrepareMeal",
+                "event2": "CasperIntendToPrepareMeal",
+                "justification": "Before Casper can physically prepare a meal, it needs to have the intention to do so.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userDangerLevel",
+                "measure2": "casperUsedLanguage",
+                "justification": "If the user's danger level is high, it implies that Casper needs to use a more specific language for alerts",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userDangerLevel",
+                "measure2": "casperSpeed",
+                "justification": "If the danger level for the user is high, it implies that Casper must move with increased speed to assist the user",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userDisturbed",
+                "measure2": "reminderSeverity",
+                "justification": "If the user is disturbed, it implies the severity of the reminder might be high, provoking a reaction from the user",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "casperUserDistance",
+                "measure2": "casperLocation",
+                "justification": "If the distance between Casper and the user is known, it implies a location for Casper is determined",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userRequestedMovement",
+                "measure2": "casperSpeed",
+                "justification": "If the user requests movement, it implies that Casper must adjust its speed",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "patientConsented",
+                "measure2": "casperUsedLanguage",
+                "justification": "If the patient consented, it implies that the Casper used a language understandable by the patient.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userRequestedMovement",
+                "measure2": "userDisturbed",
+                "justification": "If the user has requested movement, they're unlikely to be disturbed at the same time",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "patientConsented",
+                "measure2": "userDisturbed",
+                "justification": "If a patient has consented, it means they are not disturbed by the system's action",
+                "ME": true
+            }
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+[{
+"Relationship": {
+	"event1": "FastFoodRestaurantDetected",
+	"event2": "UserRequestSpeedChange",
+	"Justification": "The detection of a fast food restaurant does not inherently cause a conflict with the user's request to change speed. The user may not want to stop for food, thus no conflict arises.",
+	"conflicts": "False"
+}},
+{
+"Relationship": {
+	"event1": "DisplayAlert",
+	"event2": "DisplayError",
+	"Justification": "Displaying an alert and displaying an error are not necessarily conflicting actions. An alert can warn of an impending issue while an error indicates an issue has occurred.",
+	"conflicts": "False"
+}},
+{
+"Relationship": {
+	"event1": "DisplayError",
+	"event2": "TurnOffSensors",
+	"Justification": "Displaying an error does not inherently conflict with the action to turn off sensors. An error could alert to an issue that prompts turning off the sensors, hence no conflict arises.",
+	"conflicts": "False"
+}},
+{
+"Relationship": {
+	"event1": "CarDriving",
+	"event2": "ChangeSpeed",
+	"Justification": "Driving a car and changing the car's speed are not conflicting actions. While driving, the car's speed may need to be adjusted which doesn't disrupt the act of driving.",
+	"conflicts": "False"
+}},
+{
+"Relationship": {
+	"event1": "CarDriving",
+	"event2": "ChangeLanes",
+	"Justification": "Driving a car and changing lanes are not conflicting actions. Changing lanes is part of the driving process when the car is in motion.",
+	"conflicts": "False"
+}},
+{
+"Relationship": {
+	"event1": "SystemReady",
+	"event2": "TurnOnSensors",
+	"Justification": "Having the system ready does not conflict with the action of turning on sensors. The sensors might need to be turned on for the system to be prepared.",
+	"conflicts": "False"
+}},
+{
+"Relationship": {
+	"event1": "SystemReady",
+	"event2": "UserTurnOnSystem",
+	"Justification": "The system being ready does not conflict with the user turning on the system. The system must be turned on to reach a state of readiness.",
+	"conflicts": "False"
+}},
+{
+"Relationship": {
+	"event1": "CheckSystemComponents",
+	"event2": "SystemReady",
+	"Justification": "Checking system components does not conflict with the system being ready. The system components would be checked to ensure the system is ready.",
+	"conflicts": "False"
+}}
+]
+'''

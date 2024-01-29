@@ -1,0 +1,512 @@
+[
+    {
+        "Relationship": {
+            "event1": "SystemTurnOnSensor",
+            "event2": "SystemCollectData",
+            "justification": "Turning on a sensor in a system usually triggers the collection of data.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserChoosePronous",
+            "event2": "UseUserLanguage",
+            "justification": "When a user chooses their pronouns, it implies simultaneously that the system should use the user's preferred language mode.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserConformIsFamilarwithTechnology",
+            "event2": "SystemConfig",
+            "justification": "If a user confirms they're familiar with technology, this could trigger the system configuration process.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemDataBreach",
+            "event2": "AlertUser",
+            "justification": "In the event of a data breach, the system would alert the user about the situation.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemInformUserAboutDataBreach",
+            "event2": "AlertUser",
+            "justification": "Informing a user about a data breach would inherently involve alerting the user.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserSubmitData",
+            "event2": "SystemCollectData",
+            "justification": "User submitting data would automatically trigger its collection by the system.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemRelayMessageToUser",
+            "event2": "SystemCollectData",
+            "justification": "Relaying a message to the user might require the system to collect relevant data.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemTurnOffSensor",
+            "event2": "StopSystemDataCollection",
+            "justification": "Turning off a sensor in a system usually stops the collection of data.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserRequestStopDataCollection",
+            "event2": "StopSystemDataCollection",
+            "justification": "If a user requests to stop data collection, it would immediately trigger the system to stop data collection.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserRequestWithdrawConsent",
+            "event2": "UserConsentWithdraw",
+            "justification": "If a user requests to withdraw consent, it implies the consent is withdrawn.",
+            "witness": true
+        }
+    }
+]
+'''
+
+##conflict##
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "SystemTurnOnSensor",
+            "event2": "SystemTurnOffSensor",
+            "justification": "Turning on a sensor conflicts with turning it off.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AllowSendData",
+            "event2": "StopSystemDataCollection",
+            "justification": "Allowing the data to be sent conflicts with stopping data collection.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserConsented",
+            "event2": "UserConsentWithdraw",
+            "justification": "User consenting to something conflicts with the same user withdrawing that consent.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemCollectData",
+            "event2": "SystemDeleteData",
+            "justification": "Collecting data conflicts with deleting data.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemRecivingMessageFromClinician",
+            "event2": "SystemDeleteMessage",
+            "justification": "Receiving a message conflicts with deleting a message.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemTurnOnSensor",
+            "event2": "StopDataCollection",
+            "justification": "If a system's sensors are turned on, it conflicts with the action of stopping data collection.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserSubmitData",
+            "event2": "UserRequestStopDataCollection",
+            "justification": "User submitting data conflicts with the user requesting to stop data collection.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserChoosePronous",
+            "event2": "ChangeSystemLanguage",
+            "justification": "User choosing pronouns refers to personalization settings that may conflict with changing the system's overall language.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemPeroidicCheck",
+            "event2": "SystemDeleteData",
+            "justification": "System performing a periodic check could conflict with deletion of data.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemCollectData",
+            "event2": "StopSystemDataCollection",
+            "justification": "The event of collecting data conflicts with stopping the collection of data.",
+            "conflicts": true
+        }
+    }
+]
+'''
+
+##HB##
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "UserConsented",
+            "event2": "SystemCollectData",
+            "justification": "Before the system starts collecting data, user consent should be obtained.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemTurnOnSensor",
+            "event2": "SystemCollectData",
+            "justification": "System turning on the sensor should happen prior to the system collecting data.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemConfig",
+            "event2": "AllowSendData",
+            "justification": "The system needs to be properly configured before it can send data.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserRequestWithdrawConsent",
+            "event2": "UserConsentWithdraw",
+            "justification": "User requesting to withdraw consent must happen prior to the actual withdrawal of consent.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "ChangeSystemLanguage",
+            "event2": "SystemConfig",
+            "justification": "Changing the system language should happen prior to the system configuration.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserChoosePronous",
+            "event2": "UseUserLanguage",
+            "justification": "A user choosing their pronouns should happen prior to the system using the user's preferred language.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserConformIsFamilarwithTechnology",
+            "event2": "SystemConfig",
+            "justification": "The user confirming that they are familiar with technology must happen before the system can be properly configured.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemDataBreach",
+            "event2": "AlertUser",
+            "justification": "The system needs to first identify a data breach before it can alert the user.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserSubmitData",
+            "event2": "AllowSendData",
+            "justification": "User submitting data must occur before the system can allow the data to be sent.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "SystemTurnOffSensor",
+            "event2": "StopSystemDataCollection",
+            "justification": "System turning off a sensor must occur prior to stopping the data collection.",
+            "HB": true
+        }
+    }
+]
+'''
+
+##implies##
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "userComfortablewithTech",
+            "measure2": "userHasConsented",
+            "justification": "If a user is comfortable with technology, it implies they have likely consented to its use.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsPraying",
+            "measure2": "userIsBusy",
+            "justification": "If a user is praying, it implies they are busy and unlikely to be able to interact with the system.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsSleeping",
+            "measure2": "userIsBusy",
+            "justification": "If a user is sleeping, it implies they are busy and will not interact with the system.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userRequestedStopDataCollection",
+            "measure2": "userHasConsented",
+            "justification": "If a user requests to stop data collection, it implies they had previously consented to its collection.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "systemRequireID",
+            "measure2": "userHasConsented",
+            "justification": "Just because a system requires ID, doesn't necessarily mean a user has given consent.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userStressed",
+            "measure2": "userHasConsented",
+            "justification": "Even if a user is stressed, it doesn't necessarily mean they've given consent.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsBusy",
+            "measure2": "userHasConsented",
+            "justification": "Just because a user is busy, doesn't necessarily mean they've given consent.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsSleeping",
+            "measure2": "userComfortablewithTech",
+            "justification": "If a user is sleeping doesn't necessarily mean they are comfortable with technology.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userConcerned",
+            "measure2": "userHasConsented",
+            "justification": "Just because a user is concerned, doesn't necessarily mean they've given consent. It might be the opposite.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userRequestedStopDataCollection",
+            "measure2": "userComfortablewithTech",
+            "justification": "The request to stop data collection doesn't necessarily mean the user is comfortable with technology.",
+            "implies": false
+        }
+    }
+]
+'''
+
+##ME##
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "userIsSleeping",
+            "measure2": "userIsPraying",
+            "justification": "If a user is sleeping, they cannot simultaneously be praying.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userRequestedStopDataCollection",
+            "measure2": "userHasConsented",
+            "justification": "If a user has requested to stop data collection, they can't have consented to it at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsBusy",
+            "measure2": "userIsSleeping",
+            "justification": "If a user is busy, they can't be sleeping at the same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "systemRequireID",
+            "measure2": "userConcerned",
+            "justification": "If the system requires ID, it doesn't mean the user is concerned. The states are independent.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsPraying",
+            "measure2": "userIsBusy",
+            "justification": "If a user is praying, it doesn't necessarily mean they can't be busy doing something.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userStressed",
+            "measure2": "userIsPraying",
+            "justification": "A user can be stressed and praying at the same time.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userComfortablewithTech",
+            "measure2": "userIsSleeping",
+            "justification": "Being comfortable with technology and sleeping are not mutually exclusive states.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsBusy",
+            "measure2": "userIsPraying",
+            "justification": "A user can be busy and praying at the same time.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userStressed",
+            "measure2": "userIsBusy",
+            "justification": "A user can be stressed and be busy at the same time.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userComfortablewithTech",
+            "measure2": "userHasConsented",
+            "justification": "Comfort with technology and consenting are not mutually exclusive states.",
+            "ME": false
+        }
+    }
+]
+'''
+
+##equals##
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "userLanguage",
+            "measure2": "systemlangauge",
+            "justification": "If the system is designed to match the user's language preference, then both measures would be the same.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userPreferredPronouns",
+            "measure2": "systemUsedPronous",
+            "justification": "If the system uses the user's preferred pronouns, then these two measures would be the same.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsPraying",
+            "measure2": "userIsSleeping",
+            "justification": "These measures are not equal as they represent two different user states.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsBusy",
+            "measure2": "userRequestedStopDataCollection",
+            "justification": "These measures are not equal. Being busy does not equate to requesting to stop data collection.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsBusy",
+            "measure2": "userLastTimeActive",
+            "justification": "These measures are not equal. Being busy does not equate to the last time a user was active.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userStressed",
+            "measure2": "userConcerned",
+            "justification": "These measures are not equal. A user can be stressed without necessarily being concerned and vice versa.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsBusy",
+            "measure2": "userLastTimeReceiveMessage",
+            "justification": "These measures are not equal. Being busy does not equate to the last time a user received a message.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsBusy",
+            "measure2": "userIsPraying",
+            "justification": "These measures are not equal. Being busy does not exactly mean the user is praying.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userStressed",
+            "measure2": "userIsSleeping",
+            "justification": "These measures are not equal. Being stressed does not equate to a user sleeping.",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userIsBusy",
+            "measure2": "userIsSleeping",
+            "justification": "These measures are not equal. Being busy does not equate to a user sleeping.",
+            "equals": false
+        }
+    }
+]

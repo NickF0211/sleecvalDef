@@ -1,0 +1,485 @@
+{
+    "name": "DAISY",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "UseDefaultasEnglish",
+                "event2": "Speaking",
+                "justification": "Using English as a default implies that some form of speaking is taking place.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UseChoicenLanguage",
+                "event2": "Speaking",
+                "justification": "Using a chosen language implies that some form of speaking is taking place.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserRequestInfo",
+                "event2": "MeetingUser",
+                "justification": "If a user is making a request for information, it implies that a meeting with the user has taken place.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "PreparingTasks",
+                "event2": "ExamineState",
+                "justification": "When preparing tasks, one needs to examine the state of affairs.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RepeatInstruction",
+                "event2": "InstructionFail",
+                "justification": "Repeating an instruction implies that the initial instruction failed.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ConfirmConsent",
+                "event2": "ObtainConsent",
+                "justification": "Confirming consent implies that consent has already been obtained.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ExaminationContinuable",
+                "event2": "ExaminingPatient",
+                "justification": "If the examination is considered continuable, it implies that examining the patient is taking place.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CallSupport",
+                "event2": "InstructionFail",
+                "justification": "Calling for support may imply an instruction has failed necessitating the need for extra help.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "NotTouchUnnecessarily",
+                "event2": "ExaminingPatient",
+                "justification": "The instruction not to touch unnecessarily implies an interaction with the patient which includes examining the patient.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "CollectPatientData",
+                "event2": "MeetingPatient",
+                "justification": "Collecting patient data would necessitates a meeting with the patient.",
+                "witness": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RobotStopSession",
+                "event2": "MeetingPatient",
+                "justification": "If the robot stops a session, it is unlikely to participate in meeting a patient at the same moment.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserEndSession",
+                "event2": "InstructionFail",
+                "justification": "If a user ends the session, instruction failure cannot occur as there is no ongoing session for an instruction to fail in.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "NotDisclosePersonalInformation",
+                "event2": "CollectPatientData",
+                "justification": "Not disclosing personal information conflicts with the event of collecting patient data.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestHumanAgent",
+                "event2": "RobotStopSession",
+                "justification": "If a human agent is requested, it may conflict with the event of the robot stopping the session as the human agent could potentially continue the session.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserRequestInfo",
+                "event2": "UserEndSession",
+                "justification": "A user ending the session conflicts with them requesting information, as they cannot request information without an ongoing session.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "InformUserandandReferToHumanCarer",
+                "event2": "RobotStopSession",
+                "justification": "If the robot is in the process of informing user and referring to human carer, it is likely not in the process of stopping the session.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "EnsurePrivateSpace",
+                "event2": "EnsureLegalPresence",
+                "justification": "Ensuring a private space may conflict with ensuring a legal presence as a private space may lack other individuals considering privacy demands.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ExamineState",
+                "event2": "InformUserandandReferToHumanCarer",
+                "justification": "Examining the state of affairs may conflict with the process of informing the user and referring them to a human carer.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UseChoicenLanguage",
+                "event2": "UseDefaultasEnglish",
+                "justification": "Choosing a certain language may conflict with the default setting of using English.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RequestHumanAgent",
+                "event2": "CallSupport",
+                "justification": "Requesting a human agent may conflict with the act of calling for support, as the latter suggests a more immediate or emergency necessity.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "MeetingPatient",
+                "event2": "ExamineState",
+                "justification": "In order to effectively examine the state, meeting the patient would likely have to occur first.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "MeetingUser",
+                "event2": "UserRequestInfo",
+                "justification": "The user cannot request information until they have been met by the relevant party (eg: doctor, robot, etc.).",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserRequestInfo",
+                "event2": "ProvideInfo",
+                "justification": "In order to provide information, a request for such information would first need to be made.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "PreparingExamination",
+                "event2": "ExamineState",
+                "justification": "The preparation of an examination likely needs to occur before the examination itself.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "PreparingTasks",
+                "event2": "ExamineState",
+                "justification": "Tasks usually need to be prepared before examining the current state thereby informing potential next steps.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ObtainConsent",
+                "event2": "ExamineState",
+                "justification": "Obtaining the consent of the patient is likely to precede actions such as examining the patient's health state.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "EnsurePrivateSpace",
+                "event2": "ExamineState",
+                "justification": "Ensuring a private and comfortable space for the patient comes before examining the patient's state.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ExamineState",
+                "event2": "PresentingReport",
+                "justification": "Examination of the present state precedes the presentation of a report.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "MeetingPatient",
+                "event2": "ExaminingPatient",
+                "justification": "Meeting the patient precedes the examination of the patient.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "determineThreshold",
+                "event2": "selectDAISYProtocol",
+                "justification": "Determining a threshold would need to precede the selection of a DAISY protocol based on that threshold.",
+                "HB": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userConsentAvalaible",
+                "measure2": "UserAge",
+                "justification": "If the patient is able to give consent, they must have reached the age of legal consent.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "severityOfState",
+                "measure2": "urgentNeed",
+                "justification": "If the severity of state is high, it implies there is an urgent need for medical intervention.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "medicalEmergency",
+                "measure2": "severityOfState",
+                "justification": "If there is a medical emergency, it implies that the state severity is high.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "patientComfortable",
+                "measure2": "userSensoryNeedsMet",
+                "justification": "If the patient is comfortable, it implies that their sensory needs have been met.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "stablePhysicalState",
+                "measure2": "stablePsychologicalState",
+                "justification": "Physical stability can imply psychological stability, though it is not always the case.",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "behaviorAggressive",
+                "measure2": "stablePsychologicalState",
+                "justification": "Aggressive behavior does not imply a stable psychological state.",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "UserUnableToConsent",
+                "measure2": "guardianConsentAvalaible",
+                "justification": "If a user is unable to consent, a guardian's consent may be available or required instead.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "timeElapsed",
+                "measure2": "userPayingAttention",
+                "justification": "The time elapsed does not necessarily imply whether or not the user is paying attention.",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "dataRelevantToContext",
+                "measure2": "informationAvailable",
+                "justification": "If data is relevant to the context, it implies that some form of information is available.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "dataNoiseConsidered",
+                "measure2": "dataUnnecessary",
+                "justification": "Considering data noise does not imply the presence of unnecessary data, as even necessary data can contain noise.",
+                "implies": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userConsentAvalaible",
+                "measure2": "UserUnableToConsent",
+                "justification": "A user being able to consent and a user being unable to consent are mutually exclusive conditions.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "informationAvailable",
+                "measure2": "informationDisclosureNotPermitted",
+                "justification": "Information being available and the disclosure of information not being permitted are mutually exclusive.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "patientComfortable",
+                "measure2": "behaviorAggressive",
+                "justification": "A patient being comfortable and displaying aggressive behavior are mutually exclusive.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "directlyToUser",
+                "measure2": "userDirectsOtherwise",
+                "justification": "Directing something directly to a user and a user directing otherwise are mutually exclusive.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "languagePreferenceAvailable",
+                "measure2": "UseDefaultasEnglish",
+                "justification": "Having a language preference available and using default as English can be mutually exclusive assuming the preferred language is not English.",
+                "ME": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "urgentNeed",
+                "measure2": "stablePsychologicalState",
+                "justification": "An urgent need and a stable psychological state could be mutually exclusive, as urgency could lead to psychological distress.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "medicalEmergency",
+                "measure2": "patientComfortable",
+                "justification": "A medical emergency and a patient being comfortable are likely to be mutually exclusive situations.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "patientAgeConsidered",
+                "measure2": "UserAge",
+                "justification": "Considering patient age and the age of user are not mutually exclusive, the two could be considered simultaneously or disjointedly.",
+                "ME": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "trainingDataRepresentative",
+                "measure2": "dataUnnecessary",
+                "justification": "Having representative training data and unnecessary data are mutually exclusive, as unnecessary data would not be used in a training data set.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "dataNoiseConsidered",
+                "measure2": "dataRelevantToContext",
+                "justification": "Considering data noise and data relevance to context are not mutually exclusive as noisy data can still be contextually relevant.",
+                "ME": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userConsentAvalaible",
+                "measure2": "guardianConsentAvalaible",
+                "justification": "These two measures are not guaranteed to be the same. In some situations, user consent may be available while guardian consent may not be, and vice versa.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "urgentNeed",
+                "measure2": "medicalEmergency",
+                "justification": "An urgent need for medical attention and a medical emergency are not necessarily the same thing. A condition could be urgent without necessarily being classified as an emergency.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "patientComfortable",
+                "measure2": "userSensoryNeedsMet",
+                "justification": "A patient's comfort and having their sensory needs met are likely to be directly related, but they might not always be equivalent. For instance, a patient might be physically comfortable but still have unmet sensory needs.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "informationAvailable",
+                "measure2": "informationDisclosureNotPermitted",
+                "justification": "Just because information is available doesn't mean that it is disclosed. Consequently, these two measures would not be equivalent.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "stablePhysicalState",
+                "measure2": "stablePsychologicalState",
+                "justification": "Physical stability doesn't always imply psychological stability, and vice versa. Thus, these two measures are not the same.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "behaviorAggressive",
+                "measure2": "urgentNeed",
+                "justification": "Aggressive behavior doesn't directly equate to an urgent need. While aggressive behavior may indicate a need for intervention, it doesn't automatically equate to urgency.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "UserAge",
+                "measure2": "legalAge",
+                "justification": "User's age and the legal age of becoming an adult (18 as specified in the constant) are not necessarily same.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "severityOfState",
+                "measure2": "StateThreshold",
+                "justification": "The severity of a state and the threshold of the state do not necessarily hold the same value. They have different semantic meanings and can't be equated.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "trainingDataRepresentative",
+                "measure2": "dataRelevantToContext",
+                "justification": "Though these two measures have a connection, they do not inherently mean the same thing. Therefore, these two measures do not equal each other.",
+                "equals": false
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "timeElapsed",
+                "measure2": "instructionRepeat",
+                "justification": "These two measures are not the same. Elapsed time refers to the duration of a process, while instruction repetition indicates the number of times an instruction was repeated, which doesn't directly correlate with elapsed time.",
+                "equals": false
+            }
+        }
+    ]
+}
