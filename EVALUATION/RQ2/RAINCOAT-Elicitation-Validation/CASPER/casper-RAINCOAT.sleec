@@ -1,0 +1,165 @@
+def_start
+	// events
+	event PatientGrantConsent
+	event CasperStart
+	event CasperCheckPatientConsent
+	event CasperCheckPatientCapacity
+	event CasperRecordConsent
+	event CasperRemoveConsent
+	event CasperGiveInstruction
+	event CasperConfirmUserUnderstanding
+	event CasperIntendToPrepareMeal
+	event CasperPrepareMeal
+	event CasperConfirmUserPreferredMeal
+	event UserComplainUnclearInstruction
+	event CasperRecognizeIssues
+	event UserIrregularBehavior
+	event CasperIdentifyIssues
+	event CasperSelfAdjustment
+	event CasperAddressUser
+	event CasperUnderstandUserCulturePreference
+	event CasperFollowUserCulturePreference
+	event CasperFollowUserPersonalPreference
+	event UserRequestExplanation
+	event CasperRemindUser
+	event CasperExplainRationale
+	event CasperMonitorUserForTask
+	event UserFinishTask
+	event CasperContactHealthCareProvider
+	event CasperContactFamilyMember
+	event CasperContactSupporter
+	event CasperContactNominatedPerson
+	event CasperMonitorUser
+	event NominatedPersonNotFollowUp
+	event NominatedPersonFollowUp
+	event CasperSlowDown
+	event CasperMoving
+	event CasperStopMoving
+	event CasperGiveSignal
+	event CasperExitRoom
+	event NominatedPersonLeave
+
+	//measures
+	measure patientConsented:boolean
+	measure patientLegalCapacity:boolean
+	measure casperUsedLanguage: numeric
+	measure usersLanguage: numeric
+	measure userDisturbed: boolean
+	measure reminderSeverity: scale(low, medium, high, critical)
+	measure userDangerLevel: scale(low1, medium1, high1, critical1)
+	measure controlState: scale(self, nominated)
+	measure casperUserDistance: numeric
+	measure casperSpeed: numeric
+	measure userRequestedMovement: boolean
+	measure casperLocation:scale(livingRoom, bedRoom, bathRoom, kickthen, other)
+	measure casperCurrentTask:scale(null, userTask, cleaning, calling, other)
+
+	constant MAX_TASK_TIME = 600
+    constant SAFE_DISTANCE = 10
+    constant CASPER_RESPONSE_TIME = 2
+def_end
+
+rule_start
+    //When Casper is used, check if patient gave consent.
+	Rule1 when CasperStart then CasperCheckPatientConsent
+
+	//When consent given, check if this was done by right person (capacity of consent)
+    Rule2 when PatientGrantConsent and {patientLegalCapacity} then CasperRecordConsent
+
+    //When casper is giving instructions, always confirm user understands what needs to be done. Speak in clear language.
+    Rule3 when CasperGiveInstruction then CasperConfirmUserUnderstanding
+
+    //Prior to instructing how to prepare a meal, confirm if this is what user wants.
+    Rule4 when CasperIntendToPrepareMeal then CasperConfirmUserPreferredMeal
+
+    //When user indicates instructions are unclear, repeat instructions as many times as necessary.
+    Rule5 when UserComplainUnclearInstruction then CasperGiveInstruction
+
+    //When casper detects an irregularity or confusion in user’s behaviour, identify issue and adjust accordingly.
+    Rule6 when CasperRecognizeIssues then CasperIdentifyIssues
+    Rule7 when CasperIdentifyIssues then CasperSelfAdjustment
+
+    //When person is addressed, do so politely and in accordance with the cultural requirements (title, informal versus formal etc.).
+    Rule8 when CasperAddressUser then CasperFollowUserCulturePreference
+
+    //When meal is to be prepared, must be done in terms of the indicated cultural standards and personal preferences.
+    Rule9 when CasperPrepareMeal then CasperFollowUserPersonalPreference
+    Rule10 when CasperPrepareMeal then CasperFollowUserCulturePreference
+
+    // When the user requests explanation, robot must provide one.
+    Rule11 when UserRequestExplanation then CasperExplainRationale
+
+    // When giving reminders, do so according to the users preference plan as defined in settings.
+    Rule12 when CasperRemindUser then CasperFollowUserPersonalPreference
+
+    //When give reminder, do so politely and in accordance with the cultural requirements (title, informal versus formal etc.
+    Rule13 when CasperRemindUser then CasperFollowUserCulturePreference
+
+    //When reminder is given, explain clearly why this is done.
+    Rule14 when CasperRemindUser then CasperExplainRationale
+
+    //When critical reminders are given, ensure patient completes task and follows instructions.
+    Rule15 when CasperRemindUser and ({reminderSeverity} = critical) then CasperMonitorUserForTask
+
+    //When critical reminders are not followed, this needs to be communicated to a health care provider or family member as per user settings.
+    Rule16 when CasperMonitorUserForTask then  UserFinishTask within MAX_TASK_TIME seconds otherwise {CasperContactHealthCareProvider}
+
+    //When Casper detects potential danger (fall, conditions of stroke etc.), immediately contact support.
+    Rule17 when CasperMonitorUser and ({userDangerLevel} >= critical) then CasperContactSupporter
+
+    //When contacting support, only contact approved family members and health care support in order as determined per user settings.
+    //When dangerous situation is detected and user is unable to communicate with family member or healthcare provider himself, casper will send emergency alert to nominated people.
+    Rule18 when CasperContactSupporter then CasperContactHealthCareProvider otherwise {CasperContactFamilyMember otherwise {CasperContactNominatedPerson}}
+
+    //When emergency alert is sent and nominated people do not follow up, contact emergency service.
+    Rule19 when CasperContactNominatedPerson then NominatedPersonFollowUp within MAX_TASK_TIME seconds otherwise {NominatedPersonNotFollowUp}
+    Rule20 when NominatedPersonNotFollowUp then CasperContactHealthCareProvider
+
+    //When moving in the house, do so carefully with adjusted speed to prevent harm to user.
+    Rule21 when CasperMoving and (({casperUserDistance} - ({casperSpeed} * CASPER_RESPONSE_TIME)) <= SAFE_DISTANCE) then CasperSlowDown
+
+    //When moving in the house, only do so if requested by user or if medically indicated.
+    Rule22 when CasperMoving and (not {userRequestedMovement}) then CasperStopMoving within 1 seconds
+
+    //When moving in the house, casper should not disturb or awake person unless medically indicated.
+    Rule23 when CasperMoving and {userDisturbed} then CasperStopMoving within 1 seconds unless {userRequestedMovement}
+
+    //When moving in house, give auditory and visual signals.
+    Rule23 when CasperMoving then CasperGiveSignal
+
+    //When emergency and person detected in bathroom, casper allowed to enter as per emergency protocol.
+    Rule24 when CasperMoving and ({casperLocation} = bathRoom) then CasperExitRoom unless {userRequestedMovement}
+
+rule_end
+
+concern_start
+    //casper should not move without a purpose
+    c1 exists CasperMoving and ({casperCurrentTask} = null)
+
+    //When casper do not respect user preferences
+    c2 exists CasperGiveInstruction while not CasperFollowUserPersonalPreference
+    c3 exists CasperRemindUser while not CasperFollowUserPersonalPreference
+    c4 exists CasperExplainRationale while not CasperFollowUserPersonalPreference
+    c5 exists CasperMonitorUser while not CasperFollowUserPersonalPreference
+    c6 exists CasperPrepareMeal while not CasperFollowUserPersonalPreference
+
+    //When casper gives false alarm
+    c7 exists CasperContactFamilyMember and  ({userDangerLevel} < critical)
+    c8 exists CasperContactNominatedPerson and  ({userDangerLevel} < critical)
+
+    //When casper monitor regularly wrong emergencies
+    //this cannot be formalized, need to specify what kind of wrong emergenices
+concern_end
+
+purpose_start
+    //Any assisting capabilities: Reminder, Helping cooking, etc…
+    p1 exists CasperGiveInstruction
+    p2 exists CasperPrepareMeal
+    p3 exists CasperRemindUser
+    p4 exists CasperContactHealthCareProvider
+    p5 exists CasperContactNominatedPerson
+    p6 exists CasperMoving
+    p7 exists CasperGiveSignal
+    p8 exists CasperMonitorUser
+purpose_end
+
