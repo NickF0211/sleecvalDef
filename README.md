@@ -3,7 +3,8 @@
 
 ### The repo contains:
         1. The implementation of the tool LLM-SAM
-        2. the supplementary material description: supplementary.pdf 
+        2. The supplementary material description: supplementary.pdf 
+        3. The evaluation artifacts for answering RQ1 and RQ2
 
 ## To install LLM-SAN,
        1. please follow the instrucition in `LEGO_SLVAC for dialy needs to be re made.
