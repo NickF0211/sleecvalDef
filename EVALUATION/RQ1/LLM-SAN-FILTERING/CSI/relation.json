@@ -1,0 +1,53 @@
+{
+    "name": "CSI",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "AvoidBumping",
+                "event2": "IncreaseSpeed",
+                "justification": "If the robot needs to avoid bumping into something or someone, it should not increase its speed.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "RobotStopAction",
+                "event2": "RobotMoving",
+                "justification": "If the robot stops action, it clearly means it can't be in state of moving.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "MinimizeCobotCollaboration",
+                "event2": "PrioritizeHumans",
+                "justification": "If the robot needs to minimize its cooperation with other cobots, it can't prioritise humans at same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "HumanSaysStop",
+                "event2": "RobotWorking",
+                "justification": "If a human says stop, the robot should not be continuing its work.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "humanReEnables",
+                "measure2": "HumanSaysStop",
+                "justification": "If a human re-enables the robot, this specifically implies that the human has asked the robot to stop before.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "routeAvailable",
+                "measure2": "obstaclePresent",
+                "justification": "Availability of a route strictly depends on absence of obstacles, hence inverting 'obstaclePresent' will give us 'routeAvailable'.",
+                "equals": true
+            }
+        }
+    ]
+}

@@ -1,0 +1,213 @@
+{
+    "name": "ASPEN",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "ExitArea",
+                "event2": "MonitorLand",
+                "justification": "When drone is exiting an area, it cannot monitor the land",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AnonymizeHuman",
+                "event2": "IdentifyActivity",
+                "justification": "When a human is anonymized, his activities cannot be identified",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ExitArea",
+                "event2": "EncounterHuman",
+                "justification": "When drone is exiting an area, it cannot encounter a human",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ReturnHome",
+                "event2": "CollectSample",
+                "justification": "When the drone is returning home it cannot collect samples",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "StoreData",
+                "event2": "DeletePictures",
+                "justification": "When data is saved, pictures cannot be deleted",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ExitArea",
+                "event2": "CollectSample",
+                "justification": "When drone is exiting an area, it cannot collect samples",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "ExitArea",
+                "event2": "MonitorCarbon",
+                "justification": "When drone is exiting an area, it cannot monitor carbon emissions",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GroundDrone",
+                "event2": "DeployDrone",
+                "justification": "When drone is grounded, it cannot be deployed",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "AvoidInterference",
+                "event2": "EncounterWildlife",
+                "justification": "When drone is avoiding interference, it may not encounter wildlife",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "GroundDrone",
+                "event2": "MonitorCarbon",
+                "justification": "When drone is grounded, it cannot monitor carbon emissions",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "environmentDangerous",
+                "measure2": "flightCondition",
+                "justification": "If the environment is dangerous, it implies that the flight conditions are not ideal",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "wildlifeDisturbed",
+                "measure2": "wildlifeInteractswithDrone",
+                "justification": "If wildlife is disturbed, it implies there has been an interaction with the drone",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "privateTerritory",
+                "measure2": "relevantLand",
+                "justification": "If the land is a private territory, it implies that it is relevant for local humans and animals",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "b                                                                                                                                                                                                                                         attery",
+                "measure2": "benefits",
+                "justification": "If the battery is low, it's mutually exclusive with having high benefits",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "wildlifeDisturbed",
+                "measure2": "benefits",
+                "justification": "If wildlife is disturbed, it's mutually exclusive with high benefits",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "damages",
+                "measure2": "benefits",
+                "justification": "If the drone is damaged, it's mutually exclusive with high benefits",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "environmentDangerous",
+                "measure2": "benefits",
+                "justification": "If the environment is dangerous, it's mutually exclusive with high benefits",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "humanUnderstands",
+                "measure2": "unrelatedActivity",
+                "justification": "If the human understands the drone, it's mutually exclusive with it partaking in an unrelated activity",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "onIndigenousLand",
+                "measure2": "anonymizeHuman",
+                "justification": "If the drone is on indigenous land, anonymization of human may not be required",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "wildlifeInteractswithDrone",
+                "measure2": "benefits",
+                "justification": "If the wildlife interacts with the drone, it's mutually exclusive with having high benefits",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "flightCondition",
+                "measure2": "benefits",
+                "justification": "If the flight conditions are poor, it's mutually exclusive with having high benefits",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "store",
+                "measure2": "benefits",
+                "justification": "If the storage is low, it's mutually exclusive with having high benefits",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "humanIdentified",
+                "measure2": "anonymizeHuman",
+                "justification": "If the human is identified, it's mutually exclusive with anonymizing the human",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "environmentDangerous",
+                "measure2": "flightCondition",
+                "justification": "Dangerous environment is equivalent to dangerous flight condition",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "wildlifeInteractswithDrone",
+                "measure2": "wildlifeDisturbed",
+                "justification": "Wildlife interaction with the drone results in wildlife being disturbed",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "privateTerritory",
+                "measure2": "relevantLand",
+                "justification": "Private territory is essentially the same as relevant land, in the context of their use",
+                "equals": true
+            }
+        }
+    ]
+}

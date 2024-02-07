@@ -1,0 +1,487 @@
+
+
+def_start
+	// Events
+	event PreparingDeployment
+	event AgentDeployed
+	event AskCallHelp
+	event MeetingUser
+	event InformUser
+	event InformCaregiver
+	event CallEmergencyServices
+	event RemindLater
+	event AgentHasAppropriateAppearance
+	event AskForDetailLevelOfInstructions
+	event UseFirstPersonPluralLanguage
+	event CalibrateSpeech
+	event RemindUserOfLimitations
+	// Safety
+	event AskForEmergencyContact
+	event HumanOnFloor
+	event SmokeDetectorAlarm
+	event OpenWindows
+	event FireSafetyMeasures
+	event AskUserIfOK
+	event InterfereSafely
+	event UserHasLimitation
+	event CheckTemperature
+	event FoodPreparation
+	event TrackTime
+	event UserUnpredictable
+	event GiveUserDangerousObjects
+	// Cooking/kitchen related specifically
+	event MonitorMealTime
+	event BeforeCookingBegins
+	event UserWantsToCook
+	event AllowUserToCook
+	event GiveSuggestion
+	event GivingCookingInstructions
+	event ConsiderUserPractices
+	event UserChangeItemLocation
+	event UserChangeMind
+	event RecalculateApproach
+	// Privacy
+	event ProvideDataSummaries
+	event CollectandRecordInformation
+	event UpdateInformation
+	event ShowDataHistory
+	event UpdateMap
+
+	// measures
+	measure userOccupied: boolean
+	measure timeBetweenMeals: numeric
+	measure personAuthorized: boolean
+	measure dataNeedsChecking: boolean
+	measure userAsksForAppropriateTasks: boolean
+	measure userNeedsSpecialAccomodations: boolean
+	measure userDisablesAlarm: boolean
+	measure alarmRestarts: boolean
+	measure needLevel: scale(nlow, nmedium, nhigh)
+	measure humanAssents: boolean
+	measure safePathFound: boolean
+	measure hazardDetected: boolean
+	measure kitchenSafe: boolean
+	measure riskLevel: scale(low, medium, high)
+	measure alarmOn: boolean
+
+	// constants
+	constant maxTimeBetweenMeals = 28800 // is predetermined
+def_end
+
+
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A implies the occurrence of event B at exactly the same time, if yes,
+please say A witness B, if no, please say A NOT witness B. For example, if A is a special type of B, then
+occurrence of A implies the occurrence of B (DrinkingWater witness Drinking).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "witness": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with witness relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##witness##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A blocks the occurrence of event B at exactly the same time, if yes,
+please say A conflict B, if no, please say A NOT conflict B. For example, if A is the opposite action of B, then
+occurrence of A conflict the occurrence of B (OpenDoor conflict CloseDoor).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "conflicts": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with conflict relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Note that if A witness B and B conflict C, then it must be the case A conflict C. The pair you come up with must respect this relationship.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##conflict##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A must happen prior to the occurrence of event B, if yes,
+please say A HB B, if no, please say A NOT HB B. For example, if A is the pre-requisite of B, then
+occurrence of A must happen prior to the occurrence of B (CreateForm HB ShowForm).
+Please provide your justification for each answer in
+the following Json format:
+
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "HB": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some events pairs with HB relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##HB##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must hold, if yes,
+please say A implies B, if no, please say A NOT implies B. For example, if A is a stronger condition than B, then
+A implies B (doorLocked implies doorClosed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "implies": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with implies relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##implies##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must not hold, if yes,
+please say A ME B, if no, please say A NOT ME B. ME stands for mutually exclusive. For example, if A and B represents two mutually exclusive states, then
+A ME B (in the context of traffic light, redLightOn conflicts greenLightOn).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "ME": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with conflicts relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##ME##:
+'''json
+{your json goes here}
+'''
+
+
+For every pair of measures A and B, can you please answer the following questions:
+Is it the case that if A and B always have the same value, if yes,
+please say A equals B, if no, please say A NOT equals B. For example, if A and B represent the same measures with two different name, then
+A equals B (if the only vehicle presented is car, then carSpeed equals vehicleSpeed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "equals": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some measures pairs with equals relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##equals##:
+'''json
+{your json goes here}
+'''
+response time 36.97246789932251 and tokens 989
+The relationships between events, measures and situations can be highly dependent on the application context. However, given the event names and their semantics, it's possible to make plausible interpretations of their relationships. Here are some examples:
+
+**Relationships where occurrence of event A implies occurrence of event B at exactly the same time (witness)**:
+
+##witness##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "AgentDeployed",
+            "event2": "PreparingDeployment",
+            "justification": "In the context of these events, an agent can only be deployed after or while it's being prepared for deployment.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GivingCookingInstructions",
+            "event2": "UserWantsToCook",
+            "justification": "Cooking instructions would only be given to a user who wants to cook",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "RemindUserOfLimitations",
+            "event2": "UserHasLimitation",
+            "justification": "A user would only be reminded of limitations if they had any.",
+            "witness": true
+        }
+    }
+]
+'''
+
+**Relationships where occurrence of event A blocks the occurrence of event B at exactly the same time (conflict)**:
+
+##conflict##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "OpenWindows",
+            "event2": "FireSafetyMeasures",
+            "justification": "Open windows could exacerbate a fire, which is against fire safety measures",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "GivingCookingInstructions",
+            "event2": "UserUnpredictable",
+            "justification": "An unpredictable user may not follow cooking instructions",
+            "conflicts": true
+        }
+    }
+]
+'''
+
+**Relationships where occurrence of event A must happen prior to the occurrence of event B (HB)**:
+
+##HB##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "AskUserIfOK",
+            "event2": "CallEmergencyServices",
+            "justification": "Emergency services should only be called after confirming user isn't ok",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "UserWantsToCook",
+            "event2": "MonitorMealTime",
+            "justification": "Meal times can only be monitored after the user starts cooking",
+            "HB": true
+        }
+    }
+]
+'''
+
+**Relationships where if condition A holds, then condition B must hold (implies)**:
+
+##implies##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "hazardDetected",
+            "measure2": "alarmOn",
+            "justification": "When a hazard is detected, the alarm should be on",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userOccupied",
+            "justification": "An authorized person is considered as an occupied user",
+            "implies": true
+        }
+    }
+]
+'''
+
+**Relationships where two conditions A and B are mutually exclusive (ME)**:
+
+##ME##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "alarmOn",
+            "measure2": "alarmRestarts",
+            "justification": "Both conditions cannot be true at same time.",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userDisablesAlarm",
+            "justification": "An authorized person would not disable the alarm",
+            "ME": true
+        }
+    }
+]
+'''
+
+**Relationships where condition A equals condition B**:
+
+##equals##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "kitchenSafe",
+            "measure2": "riskLevel",
+            "justification": "The kitchen is safe to use when there is a low risk level",
+            "equals": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "userOccupied",
+            "measure2": "personAuthorized",
+            "justification": "An occupied user is an authorized person",
+            "equals": true
+        }
+    }
+]
+'''
+
+Please note that, without specific rules and contexts given, these examples are not exhaustive and there could also be other interpretations of the relationships based on assumptions and judgments of semantics.
+{'Relationship': {'measure1': 'personAuthorized', 'measure2': 'userOccupied', 'justification': '{fill in your justification}', 'implies': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'personAuthorized', 'measure2': 'userOccupied', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'kitchenSafe', 'measure2': 'riskLevel', 'justification': '{fill in your justification}', 'implies': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'hazardDetected', 'measure2': 'alarmOn', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+new test case 4
+Please trying to fill in the content consider the context given above.
+['{"Relationship": {"measure1": "personAuthorized", "measure2": "userOccupied", "justification": "{fill in your justification}", "implies": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "personAuthorized", "measure2": "userOccupied", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "kitchenSafe", "measure2": "riskLevel", "justification": "{fill in your justification}", "implies": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "hazardDetected", "measure2": "alarmOn", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}']
+
+Please provide your answer in the format:
+
+##relations##:
+'''json
+{your json goes here}
+'''
+Here are the justifications and potential relationships:
+
+##relations##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userOccupied",
+            "justification": "An authorized person is considered as an occupied user",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "personAuthorized",
+            "measure2": "userOccupied",
+            "justification": "In this context, being authorized and being occupied are not mutually exclusive conditions. A person can be authorized without being occupied, and vice versa.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "kitchenSafe",
+            "measure2": "riskLevel",
+            "justification": "If the kitchen is safe (kitchenSafe is true), it implies that the risk level is low (riskLevel is 'low')",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "hazardDetected",
+            "measure2": "alarmOn",
+            "justification": "In this context, detecting a hazard doesn't necessarily mean an alarm is on, and an alarm can be on without a hazard being detected.",
+            "ME": false
+        }
+    }
+]
+'''
+response time 36.97246789932251 and tokens 284
+{'Relationship': {'measure1': 'kitchenSafe', 'measure2': 'riskLevel', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+new test case 1
+Please trying to fill in the content consider the context given above.
+['{"Relationship": {"measure1": "kitchenSafe", "measure2": "riskLevel", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}']
+
+Please provide your answer in the format:
+
+##relations##:
+'''json
+{your json goes here}
+'''
+Here is the justification and potential relationship:
+
+##relations##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "kitchenSafe",
+            "measure2": "riskLevel",
+            "justification": "The state of the kitchen being safe is not mutually exclusive with the risk level. There can be different levels of risk even when the kitchen is declared safe, so these measures cannot be exclusively one or the other",
+            "ME": false
+        }
+    }
+]
+'''
+response time 36.97246789932251 and tokens 102
+new test case 0
+
+Process finished with exit code 0

@@ -1,0 +1,658 @@
+Here are my definitions:
+def_start
+	event DPAMade
+	// For DPA shall contain (i.e regarding completion)
+	// DPA initial terms
+	event EvaluateDPAProcess 		// Prior to starting processing
+	event StartDPAProcess 		// Process information started
+	event DPAComplete
+	event DPAIncomplete
+	// After DPA completion, events that can happen
+	event DPATerminate 			// If DPA agreement has expired
+	event DPAUpdate 			// Making changes to agreement (after DPAComplete)
+	event ProcessPersonalData
+	event RemovePersonalData
+	// Events processor is doing for controller
+   	event EngageSubProcessor
+	event ChangeSubProcessor
+	event InformController 		// Concerning the addition or replacement of sub-processors
+	event AssistController
+	event ProvideControllerInformation
+	event ObtainControllerConsent 		// Obtain controller authorization
+
+	event InformSubject
+	event InformSupervisor
+	event TakeLiabilityForSubProcessor
+	event ImposeObligationsOnSubProcessor
+	// Events that happen to DPA
+	event DataBreach
+	event RightsRequested
+	event RespondToRequest
+	event AllowAudits
+	event HelpAuditors
+	event AuditsOccur //created
+	event EvaluateSecurity //created
+	event PassSecurity //created
+	event CanObjectToChange //created
+	// event DPACompliant //created
+
+	measure controllerID: boolean
+	measure controllerInfo: boolean
+	measure processorID: boolean
+	measure processorInfo: boolean
+	measure dpaPurpose: boolean
+	measure dpaNature: boolean
+	measure dpaCategories: boolean
+	measure dpaLength: numeric 			// Length of DPA processing, i.e years
+	measure dpaActive: boolean 			// Whether or not the DPA agreement is active
+	measure dataCompliance: boolean
+	measure specificControllerAuth: boolean 	// Specific controller authorization
+	measure genControllerAuth: boolean		// General controller authorization
+	measure controllerInstructions: boolean 	// Controller gave processor instructor or not
+	measure rulesConform: boolean 		// If goes along with GDPR rules
+	measure personalData: boolean 		// Whether or not personal data exists
+	measure lawRequires: boolean			// Law requires processing without controller
+	measure informingAllowed: boolean		// Processor allowed to inform Controller
+	measure confidentialityEnsured: boolean 	// Agreed to be confidential about personal data
+	measure securityEnsured: boolean 		// Security about personal data ensured
+	measure measureTaken: boolean
+	measure riskLevel: scale(low, medium, high)
+	measure typesOfRisk: scale(dataDestruction, dataLoss, dataAlter, unauthDataAccess)
+	measure auditorType: scale(controller, mandatedAuditor)
+	measure auditType: scale(audit, inspection)
+	measure art28Compliance: boolean
+def_end
+
+
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A implies the occurrence of event B at exactly the same time, if yes,
+please say A witness B, if no, please say A NOT witness B. For example, if A is a special type of B, then
+occurrence of A implies the occurrence of B (DrinkingWater witness Drinking).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "witness": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with witness relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##witness##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A blocks the occurrence of event B at exactly the same time, if yes,
+please say A conflict B, if no, please say A NOT conflict B. For example, if A is the opposite action of B, then
+occurrence of A conflict the occurrence of B (OpenDoor conflict CloseDoor).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "conflicts": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with conflict relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Note that if A witness B and B conflict C, then it must be the case A conflict C. The pair you come up with must respect this relationship.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##conflict##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A must happen prior to the occurrence of event B, if yes,
+please say A HB B, if no, please say A NOT HB B. For example, if A is the pre-requisite of B, then
+occurrence of A must happen prior to the occurrence of B (CreateForm HB ShowForm).
+Please provide your justification for each answer in
+the following Json format:
+
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "HB": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some events pairs with HB relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##HB##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must hold, if yes,
+please say A implies B, if no, please say A NOT implies B. For example, if A is a stronger condition than B, then
+A implies B (doorLocked implies doorClosed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "implies": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with implies relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##implies##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must not hold, if yes,
+please say A ME B, if no, please say A NOT ME B. ME stands for mutually exclusive. For example, if A and B represents two mutually exclusive states, then
+A ME B (in the context of traffic light, redLightOn conflicts greenLightOn).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "ME": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with conflicts relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##ME##:
+'''json
+{your json goes here}
+'''
+
+
+For every pair of measures A and B, can you please answer the following questions:
+Is it the case that if A and B always have the same value, if yes,
+please say A equals B, if no, please say A NOT equals B. For example, if A and B represent the same measures with two different name, then
+A equals B (if the only vehicle presented is car, then carSpeed equals vehicleSpeed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "equals": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some measures pairs with equals relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##equals##:
+'''json
+{your json goes here}
+'''
+response time 66.25008296966553 and tokens 1819
+##witness##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "StartDPAProcess",
+            "event2": "EvaluateDPAProcess",
+            "justification": "The start of the DPA processing implies an evaluation of the process",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAMade",
+            "event2": "EvaluateDPAProcess",
+            "justification": "The making of a DPA implies an evaluation of the process",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAComplete",
+            "event2": "EvaluateDPAProcess",
+            "justification": "The completion of the DPA implies an evaluation of the process",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAUpdate",
+            "event2": "EvaluateDPAProcess",
+            "justification": "The update of the DPA implies an evaluation of the process",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "EngageSubProcessor",
+            "event2": "InformController",
+            "justification": "Engaging a sub-processor implies informing the controller",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "ChangeSubProcessor",
+            "event2": "InformController",
+            "justification": "Changing a sub-processor implies informing the controller",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InformSupervisor",
+            "event2": "EngageSubProcessor",
+            "justification": "Informing a supervisor implies engaging a sub-processor",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "TakeLiabilityForSubProcessor",
+            "event2": "EngageSubProcessor",
+            "justification": "Take liability for a subprocessor implies engaging the subprocessor",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DataBreach",
+            "event2": "InformController",
+            "justification": "A data breach implies informing the controller",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AuditsOccur",
+            "event2": "AllowAudits",
+            "justification": "The occurrence of audits implies the allowance of audits",
+            "witness": true
+        }
+    }
+]
+'''
+##conflict##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "DPAComplete",
+            "event2": "DPAIncomplete",
+            "justification": "The DPA neither can be complete and incomplete at the same time",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAComplete",
+            "event2": "EvaluateDPAProcess",
+            "justification": "The DPA cannot be evaluated as it is already completed",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAComplete",
+            "event2": "StartDPAProcess",
+            "justification": "The DPA Process cannot be started as it is already completed",
+            "conflicts": true
+        }
+    }
+]
+'''
+##HB##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "DPAMade",
+            "event2": "StartDPAProcess",
+            "justification": "The DPA has to be made before the DPA process starts",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "StartDPAProcess",
+            "event2": "DPAComplete",
+            "justification": "The DPA process has to start before it can be completed",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAComplete",
+            "event2": "DPATerminate",
+            "justification": "The DPA has to be completed before it can be terminated",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAComplete",
+            "event2": "DPAUpdate",
+            "justification": "The DPA has to be completed before it can be updated",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAComplete",
+            "event2": "ProcessPersonalData",
+            "justification": "The DPA has to be completed before personal data can be processed",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "EngageSubProcessor",
+            "event2": "ChangeSubProcessor",
+            "justification": "Sub-processor needs to be engaged before a change can be made",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "StartDPAProcess",
+            "event2": "InformController",
+            "justification": "The DPA process needs to start before controller can be informed",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "EvaluateDPAProcess",
+            "event2": "DPAComplete",
+            "justification": "The DPA process needs to be evaluated before it can be completed",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DataBreach",
+            "event2": "InformController",
+            "justification": "Data Breach needs to occur before controller can be informed",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AuditType",
+            "event2": "AllowAudits",
+            "justification": "Audit type needs to be determined before the audits can be allowed",
+            "HB": true
+        }
+    }
+]
+'''
+##implies##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "specificControllerAuth",
+            "measure2": "genControllerAuth",
+            "justification": "Specific controller authorization implies general controller authorization",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "securityEnsured",
+            "measure2": "confidentialityEnsured",
+            "justification": "Ensuring security assumes confidentiality",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "art28Compliance",
+            "measure2": "rulesConform",
+            "justification": "Compliance under article 28 would mean that general rules are being confirmed",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "securityEnsured",
+            "measure2": "measureTaken",
+            "justification": "Ensuring security implies that measures are taken in general",
+            "implies": true
+        }
+    }
+]
+'''
+##ME##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "specificControllerAuth",
+            "measure2": "lawRequires",
+            "justification": "If specific controller authorization is required, the law does not require processing without the controller",
+            "ME": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "informingAllowed",
+            "measure2": "confidentialityEnsured",
+            "justification": "If informing is allowed, confidentiality is not necessarily ensured",
+            "ME": true
+        }
+    }
+]
+'''
+##equals##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "controllerID",
+            "measure2": "processorID",
+            "justification": "Controller ID and Processor ID could be the same if the controller is also the processor",
+            "equals": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "controllerInstructions",
+            "measure2": "rulesConform",
+            "justification": "Controller Instructions and rules conformity could have the same value if the controller's instructions comply with the rules",
+            "equals": false
+        }
+    }
+]
+'''
+inconsistent DPAComplete witness EvaluateDPAProcess
+{'Relationship': {'event1': 'StartDPAProcess', 'event2': 'EvaluateDPAProcess', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'ChangeSubProcessor', 'event2': 'InformController', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'AuditsOccur', 'event2': 'AllowAudits', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'DataBreach', 'event2': 'InformController', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'TakeLiabilityForSubProcessor', 'event2': 'EngageSubProcessor', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'art28Compliance', 'measure2': 'rulesConform', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'securityEnsured', 'measure2': 'measureTaken', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'DPAUpdate', 'event2': 'EvaluateDPAProcess', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'securityEnsured', 'measure2': 'confidentialityEnsured', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'DPAMade', 'event2': 'EvaluateDPAProcess', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'specificControllerAuth', 'measure2': 'genControllerAuth', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'InformSupervisor', 'event2': 'EngageSubProcessor', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+{'Relationship': {'event1': 'EngageSubProcessor', 'event2': 'InformController', 'justification': '{fill in your justification}', 'conflicts': '{fill in here, true of false}'}}
+new test case 13
+Please trying to fill in the content consider the context given above.
+['{"Relationship": {"event1": "StartDPAProcess", "event2": "EvaluateDPAProcess", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "ChangeSubProcessor", "event2": "InformController", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "AuditsOccur", "event2": "AllowAudits", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "DataBreach", "event2": "InformController", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "TakeLiabilityForSubProcessor", "event2": "EngageSubProcessor", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "art28Compliance", "measure2": "rulesConform", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "securityEnsured", "measure2": "measureTaken", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "DPAUpdate", "event2": "EvaluateDPAProcess", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "securityEnsured", "measure2": "confidentialityEnsured", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "DPAMade", "event2": "EvaluateDPAProcess", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "specificControllerAuth", "measure2": "genControllerAuth", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "InformSupervisor", "event2": "EngageSubProcessor", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}', '{"Relationship": {"event1": "EngageSubProcessor", "event2": "InformController", "justification": "{fill in your justification}", "conflicts": "{fill in here, true of false}"}}']
+
+Please provide your answer in the format:
+
+##relations##:
+'''json
+{your json goes here}
+'''
+##relations##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "StartDPAProcess",
+            "event2": "EvaluateDPAProcess",
+            "justification": "Starting a DPA process does not imply it is being evaluated at the same time, evaluation typically comes before starting.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "ChangeSubProcessor",
+            "event2": "InformController",
+            "justification": "Changing a sub-processor does not conflict with informing the controller, as these actions can occur independently.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AuditsOccur",
+            "event2": "AllowAudits",
+            "justification": "The occurrence of audits and the permission of audits don't conflict with each other, as audits are allowed before they occur.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DataBreach",
+            "event2": "InformController",
+            "justification": "Having a data breach does not conflict with informing the controller, as the controller should be informed in case of a breach.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "TakeLiabilityForSubProcessor",
+            "event2": "EngageSubProcessor",
+            "justification": "Taking liability for a sub-processor does not conflict with engaging a sub-processor, as liability usually is assumed after engagement.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "art28Compliance",
+            "measure2": "rulesConform",
+            "justification": "Being compliant according to Article 28 does not conflict with conforming to general rules. The two are different aspects of compliance.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "securityEnsured",
+            "measure2": "measureTaken",
+            "justification": "Assuring security does not conflict with taking measures, as taking measures can be part of ensuring security.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAUpdate",
+            "event2": "EvaluateDPAProcess",
+            "justification": "Updating a DPA does not conflict with evaluating a DPA as evaluation can happen after or during the update.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "securityEnsured",
+            "measure2": "confidentialityEnsured",
+            "justification": "Ensuring security does not conflict with ensuring confidentiality. Both actions can occur together and one does not preclude the other.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "DPAMade",
+            "event2": "EvaluateDPAProcess",
+            "justification": "Making a DPA does not conflict with evaluating the DPA process, as these actions can occur independently.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "specificControllerAuth",
+            "measure2": "genControllerAuth",
+            "justification": "Specific authorization from a controller doesn't conflict with general controller authorization; the specific is a subset of the general.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InformSupervisor",
+            "event2": "EngageSubProcessor",
+            "justification": "Informing a supervisor does not conflict with engaging a sub-processor; these actions can happen independently.",
+            "conflicts": false
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "EngageSubProcessor",
+            "event2": "InformController",
+            "justification": "Engaging a sub-processor does not conflict with informing the controller. Both actions can occur together as part of the subprocessor management process.",
+            "conflicts": false
+        }
+    }
+]
+'''
+response time 66.25008296966553 and tokens 886
+new test case 0
+
+Process finished with exit code 0

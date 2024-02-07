@@ -1,0 +1,37 @@
+{
+    "name": "BSN",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "DeleteData",
+                "event2": "DataCollected",
+                "justification": "Deleting data conflicts with data being collected because the already collected data would be deleted.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "SystemShutDown",
+                "event2": "TrackVitals",
+                "justification": "When the system is shut down, it cannot track vitals yet.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserWantsToRemoveSensors",
+                "event2": "AdjustSensors",
+                "justification": "If the user wants to remove the sensors, it blocks the event of adjusting sensors.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "emergencyDetected",
+                "measure2": "patientIsHome",
+                "justification": "These two conditions are mutually exclusive because detecting an emergency and patient being home don't necessarily align.",
+                "ME": true
+            }
+        }
+    ]
+}

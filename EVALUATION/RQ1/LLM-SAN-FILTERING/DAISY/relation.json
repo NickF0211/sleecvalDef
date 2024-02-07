@@ -1,0 +1,165 @@
+{
+    "name": "DAISY",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "event RobotStopSession",
+                "event2": "EnsurePrivateSpace",
+                "justification": "When the robot stops the session, it does not ensure a private space.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "event RobotStopSession",
+                "event2": "AskRepresentativeForConsent",
+                "justification": "If a robot stops a session, it does not continue to ask for consent.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "event RobotStopSession",
+                "event2": "PreparingExamination",
+                "justification": "If the robot stops the session, no examination preparations can happen.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "event RobotStopSession",
+                "event2": "MeetingPatient",
+                "justification": "When the robot stops the session, it is no longer meeting with the patient.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "event MeetingUser",
+                "event2": "ExamineState",
+                "justification": "When initially meeting the user, the robot is not yet in the state of examining.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "event RobotStopSession",
+                "event2": "PresentingReport",
+                "justification": "If a robot stops the session, it does not continue to present any reports.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "event RobotStopSession",
+                "event2": "ExamineState",
+                "justification": "A robot that has stopped a session cannot examine the state of a situation.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "event RobotStopSession",
+                "event2": "Speaking",
+                "justification": "If the robot stops the session, then it is no longer speaking.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "event RobotStopSession",
+                "event2": "PreparingTasks",
+                "justification": "If the robot stops the session, it's not in the process of preparing any tasks.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "event RobotStopSession",
+                "event2": "EnsureLegalPresence",
+                "justification": "When the session is stopped by the robot, it does not ensure a legal presence.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "patientComfortable",
+                "measure2": "behaviorAggressive",
+                "justification": "If the patient is comfortable, it is unlikely that their behavior will be aggressive.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userNameUnknown",
+                "measure2": "AddressUserName",
+                "justification": "If the user's name is unknown, the user should not be addressed by name.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userConsentAvalaible",
+                "measure2": "informationDisclosureNotPermitted",
+                "justification": "If user consent is available, the information disclosure should not be prohibited.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userNameUnknown",
+                "measure2": "UsePreferredName",
+                "justification": "If the user's name is unknown, the preferred name should not be used.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "behaviorAggressive",
+                "measure2": "userPayingAttention",
+                "justification": "If the behavior is aggressive, the user is likely not paying attention.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "medicalEmergency",
+                "measure2": "patientComfortable",
+                "justification": "If there's a medical emergency, then the patient is unlikely to be comfortable.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "informationDisclosureNotPermitted",
+                "measure2": "informationAvailable",
+                "justification": "If information disclosure is not permitted, it indicates that there is information available but cannot be disclosed.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "UserUnableToConsent",
+                "measure2": "userConsentAvalaible",
+                "justification": "If a user is unable to consent, then user consent should not be available.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "guardianConsentAvalaible",
+                "measure2": "userConsentAvalaible",
+                "justification": "If guardian consent is available, it indicates that the user is not able to consent themselves.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "languagePreferenceAvailable",
+                "measure2": "useDefaultasEnglish",
+                "justification": "If a language preference is available, then the default English setting should not be used.",
+                "ME": true
+            }
+        }
+    ]
+}

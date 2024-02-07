@@ -1,0 +1,656 @@
+Here are my definitions:
+
+def_start
+    // events
+	event EnsureHumanCarerPresent
+	event InteractingWithNonPatients
+	event DetermineSensitivityLevel
+	event DetectUrgentHealthIssue
+	event InformEmergencyContactAndHealthOrgs
+	event ObtainEmergencyContact
+	event FirstMeetingUser
+	event UserDiscussingPrivateInfo
+	event DiscardInformation
+	event ChangeSubject
+	event InformUserPrivateInformation
+	event DesigningAgent
+	event InformUserOfLimitations
+	event DeployingAgent
+	event ReviewInteraction
+	event RecordFashionBasedOnOccasion
+	event RecommendOtherwise
+	event PersonAsksforData
+	event sharePersonalDataAndInformWhy
+	event UserSelfMedicates
+	event LogMedication
+	event InformCarer
+	event KeepLogOfFrequentActivities
+	event SuggestPerformingActions
+	event UserInStress
+	event ShowEmpathy
+    event OfferHelp
+	event CautionWhereOrWhenTouching
+	event UserExpressDiscomfort
+	event CloseDoor
+	event UserSaysStop
+	event RobotStop
+	event AskToFinishFirst
+	event CollectionStarted
+	event StoreMinInfo
+	event StopActivity
+	event CheckForandObtainProxy
+	event ObtainAssent
+	// Resolve add the event below
+	event ObtainConsent //legal req
+	event AdmininisteringMedication
+	event InformUserandandReferToHumanCarer
+	event UserRequestInfo
+	event ProvideInfo
+	event InteractionStarted
+	event InformUserThisIsAgentnotHuman
+	event DressinginClotingX
+	event EmotionRecognitionDetected
+	event CurtainOpenRqt
+	event CurtainsOpened
+	event RefuseRequest
+	event InformUser
+	event DressingStarted
+	event CloseCurtains
+	event UserHasDifferentCulture
+	event EnsureDesiredLanguageAvailable
+
+	// measures
+	measure userUnderDressed: boolean
+	measure medicalEmergency:boolean
+	measure userDistressed : scale(low, medium, high)
+	measure roomDark:boolean
+	measure notVisible:boolean
+	measure userAssent:boolean
+	measure consentGrantedwithinXmonths:boolean //X needs to be defined.
+    measure competentIndicatorRequired: boolean
+	measure competentToGrantConsent:boolean
+	measure dressPreferenceTypeA:boolean
+	measure genderTypeB:boolean
+	measure userAdvices:boolean
+	measure clothingItemNotFound:boolean
+	measure userConfused:boolean
+	measure buildingFloor:scale(f1,f2,f3,f4,f5,f6,f7,f8,f9,f10) //the building has max 10 floors.
+	measure theUserHasBeenInformed:boolean
+	measure informationAvailable:boolean
+	measure informationDisclosureNotPermitted:boolean
+	measure userCompetenceIndicator:numeric
+	measure numTotalInteractions:numeric
+	measure userWantsHumanSubsequently:boolean
+	measure userWantsNoHuman:boolean
+	measure withholdingActivityPhysicalHarm:scale(low,moderate,severe)
+	measure consentGranted:boolean
+	measure consentIndicatorRequired:boolean
+	measure consentIndicatorisWithdrawn:boolean
+	measure consentIndicatorisRevoked:boolean
+	measure userRequiresAdaptiveClothing:boolean
+	measure contextuallyObvious:boolean
+	measure sensitiveInformationX:boolean
+	measure riskLevel:scale(r_low,r_moderate,r_severe)
+	measure unauthorizedPersonInRoom:boolean
+	measure medicationRisk:boolean
+	measure minimumFrequency:boolean
+	measure medicationAdverseEffects:boolean
+	measure irrelevant:boolean
+	measure userAdamant:boolean
+	measure clothingChoiceInappropriate:boolean
+	measure numDaysDeployed:numeric
+	measure numHoursDeployed:numeric
+	measure anthropomorphicNecessary:boolean
+	measure anthropomorphicAppearance:boolean
+
+	// constants
+	constant N = 5
+def_end
+
+
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A implies the occurrence of event B at exactly the same time, if yes,
+please say A witness B, if no, please say A NOT witness B. For example, if A is a special type of B, then
+occurrence of A implies the occurrence of B (DrinkingWater witness Drinking).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "witness": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with witness relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##witness##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A blocks the occurrence of event B at exactly the same time, if yes,
+please say A conflict B, if no, please say A NOT conflict B. For example, if A is the opposite action of B, then
+occurrence of A conflict the occurrence of B (OpenDoor conflict CloseDoor).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "conflicts": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with conflict relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Note that if A witness B and B conflict C, then it must be the case A conflict C. The pair you come up with must respect this relationship.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##conflict##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A must happen prior to the occurrence of event B, if yes,
+please say A HB B, if no, please say A NOT HB B. For example, if A is the pre-requisite of B, then
+occurrence of A must happen prior to the occurrence of B (CreateForm HB ShowForm).
+Please provide your justification for each answer in
+the following Json format:
+
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "HB": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some events pairs with HB relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##HB##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must hold, if yes,
+please say A implies B, if no, please say A NOT implies B. For example, if A is a stronger condition than B, then
+A implies B (doorLocked implies doorClosed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "implies": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with implies relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##implies##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must not hold, if yes,
+please say A ME B, if no, please say A NOT ME B. ME stands for mutually exclusive. For example, if A and B represents two mutually exclusive states, then
+A ME B (in the context of traffic light, redLightOn conflicts greenLightOn).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "ME": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with conflicts relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##ME##:
+'''json
+{your json goes here}
+'''
+
+
+For every pair of measures A and B, can you please answer the following questions:
+Is it the case that if A and B always have the same value, if yes,
+please say A equals B, if no, please say A NOT equals B. For example, if A and B represent the same measures with two different name, then
+A equals B (if the only vehicle presented is car, then carSpeed equals vehicleSpeed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "equals": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some measures pairs with equals relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##equals##:
+'''json
+{your json goes here}
+'''
+response time 155.77499294281006 and tokens 3314
+##witness##:
+'''json
+{
+    "Relationship1": {
+        "event1": "DesigningAgent",
+        "event2": "DeployingAgent",
+        "justification": "Agent must be designed before being deployed, design event indicates the deploy event",
+        "witness": true
+    },
+    "Relationship2": {
+        "event1": "ObtainEmergencyContact",
+        "event2": "InformEmergencyContactAndHealthOrgs",
+        "justification": "To inform emergency contact, one must first obtain it. Thus, ObtainEmergencyContact witnesses InformEmergencyContactAndHealthOrgs.",
+        "witness": true
+    },
+    "Relationship3": {
+        "event1": "FirstMeetingUser",
+        "event2": "InteractionStarted",
+        "justification": "When the agent first meets the user, this implies an interaction is started.",
+        "witness": true
+    },
+    "Relationship4": {
+        "event1": "AskToFinishFirst",
+        "event2": "StopActivity",
+        "justification": "When the 'AskToFinishFirst' action is executed, we can consider that the action 'StopActivity' is also executed.",
+        "witness": true
+    },
+    "Relationship5": {
+        "event1": "InteractionStarted",
+        "event2": "InformUserThisIsAgentnotHuman",
+        "justification": "As soon as the interaction starts with the user, the user is informed that they're interacting with an agent and not a human.",
+        "witness": true
+    },
+    "Relationship6": {
+        "event1": "CurtainOpenRqt",
+        "event2": "CurtainsOpened",
+        "justification": "When the user requests to open the curtain, it implies that the curtains are opened.",
+        "witness": true
+    },
+    "Relationship7": {
+        "event1": "UserExpressDiscomfort",
+        "event2": "ShowEmpathy",
+        "justification": "When the user expresses discomfort, the system needs to show empathy.",
+        "witness": true
+    },
+    "Relationship8": {
+        "event1": "AdmininisteringMedication",
+        "event2": "LogMedication",
+        "justification": "When the system administers medication, it should log that action.",
+        "witness": true
+    },
+    "Relationship9": {
+        "event1": "DetectUrgentHealthIssue",
+        "event2": "InformEmergencyContactAndHealthOrgs",
+        "justification": "Detecting an urgent health issue requires immediate contact with emergency contacts and health organizations.",
+        "witness": true
+    },
+    "Relationship10": {
+        "event1": "UserSaysStop",
+        "event2": "RobotStop",
+        "justification": "When a user says stop, it implies that the robot stops its current action.",
+        "witness": true
+    }
+}
+'''
+
+##conflict##:
+'''json
+{
+    "Relationship1": {
+        "event1": "CollectionStarted",
+        "event2": "DiscardInformation",
+        "justification": "When the system starts to collect information, it cannot discard information at the same time.",
+        "conflicts": true
+    },
+    "Relationship2": {
+        "event1": "AdmininisteringMedication",
+        "event2": "UserSelfMedicates",
+        "justification": "Administering medication by the system conflicts with the user self-medicating.",
+        "conflicts": true
+    },
+    "Relationship3": {
+        "event1": "CloseDoor",
+        "event2": "UserSaysStop",
+        "justification": "If the system is closing a door, and the user says stop, these two actions are in conflict.",
+        "conflicts": true
+    },
+    "Relationship4": {
+        "event1": "CloseCurtains",
+        "event2": "CurtainOpenRqt",
+        "justification": "Closing curtains conflicts with a request to open them.",
+        "conflicts": true
+    },
+    "Relationship5": {
+        "event1": "StoreMinInfo",
+        "event2": "DiscardInformation",
+        "justification": "Storing minimum info about an event conflicts with a demand to discard the information.",
+        "conflicts": true
+    },
+    "Relationship6": {
+        "event1": "KeepLogOfFrequentActivities",
+        "event2": "DiscardInformation",
+        "justification": "Keeping a log of frequent activities contradicts discarding information.",
+        "conflicts": true
+    },
+    "Relationship7": {
+        "event1": "DeployingAgent",
+        "event2": "ReviewInteraction",
+        "justification": "Deploying an agent to active service conflicts with reviewing its interactive performance.",
+        "conflicts": true
+    },
+    "Relationship8": {
+        "event1": "PersonAsksforData",
+        "event2": "DiscardInformation",
+        "justification": "Asking for data conflicts with the action to discard information.",
+        "conflicts": true
+    },
+    "Relationship9": {
+        "event1": "InteractionStarted",
+        "event2": "ReviewInteraction",
+        "justification": "Starting an interaction conflicts with reviewing the interaction as these actions happen at different times.",
+        "conflicts": true
+    },
+    "Relationship10": {
+        "event1": "InformUserPrivateInformation",
+        "event2": "StoreMinInfo",
+        "justification": "Informing the user of private information conflicts with the action of storing minimum info due to privacy and security concerns.",
+        "conflicts": true
+    }
+}
+'''
+
+##HB##:
+'''json
+{
+    "Relationship1": {
+        "event1": "FirstMeetingUser",
+        "event2": "InteractionStarted",
+        "justification": "The first meeting with the user should occur before any interaction.",
+        "HB": true
+    },
+    "Relationship2": {
+        "event1": "EnsureHumanCarerPresent",
+        "event2": "InteractingWithNonPatients",
+        "justification": "Before interacting with non-patients, it should be ensured that a human carer is present.",
+        "HB": true
+    },
+    "Relationship3": {
+        "event1": "ObtainEmergencyContact",
+        "event2": "InformEmergencyContactAndHealthOrgs",
+        "justification": "Before informing any emergency contacts or health organizations, you must first obtain that information.",
+        "HB": true
+    },
+    "Relationship4": {
+        "event1": "DesigningAgent",
+        "event2": "DeployingAgent",
+        "justification": "The process of designing the agent must come before its deployment.",
+        "HB": true
+    },
+    "Relationship5": {
+        "event1": "DetectUrgentHealthIssue",
+        "event2": "AdmininisteringMedication",
+        "justification": "Urgent health issues should be detected prior to administering medication.",
+        "HB": true
+    },
+     "Relationship6": {
+        "event1": "DressingStarted",
+        "event2": "DressinginClotingX",
+        "justification": "Dressing must start before dressing in specific clothing X.",
+        "HB": true
+    },
+     "Relationship7": {
+        "event1": "CurtainOpenRqt",
+        "event2": "CurtainsOpened",
+        "justification": "A request to open the curtains has to occur prior the curtains being opened.",
+        "HB": true
+    },
+     "Relationship8": {
+        "event1": "PersonAsksforData",
+        "event2": "sharePersonalDataAndInformWhy",
+        "justification": "Before sharing personal data and informing why, the person should ask for the data.",
+        "HB": true
+    },
+     "Relationship9": {
+        "event1": "UserSaysStop",
+        "event2": "RobotStop",
+        "justification": "The user has to say stop before the robot stops.",
+        "HB": true
+    },
+     "Relationship10": {
+        "event1": "UserInStress",
+        "event2": "ShowEmpathy",
+        "justification": "The user has to be in stress before the agent shows empathy.",
+        "HB": true
+    }
+}
+'''
+
+##implies##:
+'''json
+{
+    "Relationship1": {
+        "measure1": "medicalEmergency",
+        "measure2": "userDistressed",
+        "justification": "A medical emergency implies the user is distressed.",
+        "implies": true
+    },
+    "Relationship2": {
+        "measure1": "competentToGrantConsent",
+        "measure2": "consentGranted",
+        "justification": "If the user is competent to grant consent, it implies that the consent can be granted.",
+        "implies": true
+    },
+    "Relationship3": {
+        "measure1": "clothingItemNotFound",
+        "measure2": "userConfused",
+        "justification": "If a clothing item is not found, the user might get confused.",
+        "implies": true
+    },
+    "Relationship4": {
+        "measure1": "theUserHasBeenInformed",
+        "measure2": "informationAvailable",
+        "justification": "If the user has been informed, it implies that information must be available.",
+        "implies": true
+    },
+    "Relationship5": {
+        "measure1": "consentGranted",
+        "measure2": "consentIndicatorRequired",
+        "justification": "If consent is granted, it implies that a consent indicator is required.",
+        "implies": true
+    },
+    "Relationship6": {
+        "measure1": "consentGrantedwithinXmonths",
+        "measure2": "consentGranted",
+        "justification": "If consent is granted within a certain period, it implies consent is granted.",
+        "implies": true
+    },
+    "Relationship7": {
+        "measure1": "clothingChoiceInappropriate",
+        "measure2": "userUnderDressed",
+        "justification": "If clothing choice is inappropriate, it might imply that the user is under dressed.",
+        "implies": true
+    },
+    "Relationship8": {
+        "measure1": "medicationAdverseEffects",
+        "measure2": "medicalEmergency",
+        "justification": "Medication adverse effects may imply a medical emergency.",
+        "implies": true
+    },
+    "Relationship9": {
+        "measure1": "anthropomorphicAppearance",
+        "measure2": "anthropomorphicNecessary",
+        "justification": "If agent has anthropomorphic appearance, it implies that it was necessary.",
+        "implies": true
+    },
+    "Relationship10": {
+        "measure1": "userRequiresAdaptiveClothing",
+        "measure2": "dressPreferenceTypeA",
+        "justification": "If the user requires adaptive clothing, it may imply they have a dress preference of type A.",
+        "implies": true
+    }
+}
+'''
+
+##ME##:
+'''json
+{
+    "Relationship1": {
+        "measure1": "roomDark",
+        "measure2": "notVisible",
+        "justification": "If the room is dark, it typically means visibility is compromised.",
+        "ME": true
+    },
+    "Relationship2": {
+        "measure1": "consentIndicatorisWithdrawn",
+        "measure2": "consentGranted",
+        "justification": "If the consent indicator is withdrawn, it means that consent cannot be granted.",
+        "ME": true
+    },
+    "Relationship3": {
+        "measure1": "consentIndicatorisRevoked",
+        "measure2": "consentGrantedwithinXmonths",
+        "justification": "If the consent indicator is revoked, it cannot be the case that consent was granted in the last X months.",
+        "ME": true
+    },
+    "Relationship4": {
+        "measure1": "userWantsHumanSubsequently",
+        "measure2": "userWantsNoHuman",
+        "justification": "If a user wants a human subsequently, they cannot want no human at the same time.",
+        "ME": true
+    },
+    "Relationship5": {
+        "measure1": "unauthorizedPersonInRoom",
+        "measure2": "informationDisclosureNotPermitted",
+        "justification": "If an unauthorized person is in the room, information disclosure is not permitted.",
+        "ME": true
+    },
+    "Relationship6": {
+        "measure1": "numHoursDeployed",
+        "measure2": "numDaysDeployed",
+        "justification": "The count of hours deployed and days deployed cannot be the same value.",
+        "ME": true
+    },
+    "Relationship7": {
+        "measure1": "anthropomorphicAppearance",
+        "measure2": "anthropomorphicNecessary",
+        "justification": "It's not necessarily true that if an agent has an anthropomorphic appearance, then anthropomorphism is necessary, and vice versa.",
+        "ME": true
+    },
+    "Relationship8": {
+        "measure1": "userRequiresAdaptiveClothing",
+        "measure2": "dressPreferenceTypeA",
+        "justification": "Requiring adaptive clothing and having a dress preference of type A are not mutually inclusive conditions.",
+        "ME": true
+    },
+    "Relationship9": {
+        "measure1": "medicationAdverseEffects",
+        "measure2": "medicationRisk",
+        "justification": "The presence of adverse effects from medication and the risk from medication are not necessarily the same value.",
+        "ME": true
+    },
+    "Relationship10": {
+        "measure1": "clothingChoiceInappropriate",
+        "measure2": "userUnderDressed",
+        "justification": "Having an inappropriate clothing choice and being underdressed are not inclusive.",
+        "ME": true
+    }
+}
+'''
+
+##equals##:
+'''json
+{
+    "Relationship1": {
+        "measure1": "competentIndicatorRequired",
+        "measure2": "competentToGrantConsent",
+        "justification": "If a competent indicator is required, it represents that the user is competent to grant consent.",
+        "equals": true
+    },
+    "Relationship2": {
+        "measure1": "consentIndicatorisWithdrawn",
+        "measure2": "consentIndicatorisRevoked",
+        "justification": "If an indicator shows that consent is withdrawn, it can be treated as the consent is revoked.",
+        "equals": true
+    },
+    "Relationship3": {
+        "measure1": "theUserHasBeenInformed",
+        "measure2": "informationAvailable",
+        "justification": "If the user has been informed, it can be assumed the information was available.",
+        "equals": true
+    },
+    "Relationship4": {
+        "measure1": "anthropomorphicAppearance",
+        "measure2": "anthropomorphicNecessary",
+        "justification": "The measures 'anthropomorphicAppearance' and 'anthropomorphicNecessary' seem to represent the same concept.",
+        "equals": true
+    },
+    "Relationship5": {
+        "measure1": "medicalEmergency",
+        "measure2": "medicationRisk",
+        "justification": "In certain contexts, medical emergency can be equal to the risk from medication.",
+        "equals": true
+    }
+}
+'''
+There are not enough identical measures to complete 10 pairings.
+new test case 0
+
+Process finished with exit code 0

@@ -1,0 +1,69 @@
+{
+    "name": "ALMI",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "GivingCookingInstructions",
+                "event2": "UserUnpredictable",
+                "justification": "An unpredictable user may not follow cooking instructions",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "OpenWindows",
+                "event2": "FireSafetyMeasures",
+                "justification": "Open windows could exacerbate a fire, which is against fire safety measures",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "personAuthorized",
+                "measure2": "userOccupied",
+                "justification": "An authorized person is considered as an occupied user",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "kitchenSafe",
+                "measure2": "riskLevel",
+                "justification": "If the kitchen is safe (kitchenSafe is true), it implies that the risk level is low (riskLevel is 'low')",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "alarmOn",
+                "measure2": "alarmRestarts",
+                "justification": "Both conditions cannot be true at same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "personAuthorized",
+                "measure2": "userDisablesAlarm",
+                "justification": "An authorized person would not disable the alarm",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userOccupied",
+                "measure2": "personAuthorized",
+                "justification": "An occupied user is an authorized person",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "kitchenSafe",
+                "measure2": "riskLevel",
+                "justification": "The kitchen is safe to use when there is a low risk level",
+                "equals": true
+            }
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "name": "GDPR",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "DPAComplete",
+                "event2": "StartDPAProcess",
+                "justification": "The DPA Process cannot be started as it is already completed",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "DPAComplete",
+                "event2": "DPAIncomplete",
+                "justification": "The DPA neither can be complete and incomplete at the same time",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "DPAComplete",
+                "event2": "EvaluateDPAProcess",
+                "justification": "The DPA cannot be evaluated as it is already completed",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "informingAllowed",
+                "measure2": "confidentialityEnsured",
+                "justification": "If informing is allowed, confidentiality is not necessarily ensured",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "specificControllerAuth",
+                "measure2": "lawRequires",
+                "justification": "If specific controller authorization is required, the law does not require processing without the controller",
+                "ME": true
+            }
+        }
+    ]
+}

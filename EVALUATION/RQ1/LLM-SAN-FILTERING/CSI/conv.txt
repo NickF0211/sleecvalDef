@@ -1,0 +1,457 @@
+Here are my definitions:
+
+def_start
+	// Events
+    event RobotMoving //Includes arm and base movement
+    event RobotWorking
+    event RobotContinueTask
+    event RobotStopAction
+    event AvoidBumping
+    event AdjustRoute
+    event InquireSafety
+    event AccountHumanRandomness
+    event TrackHumanLocation
+    event InformHuman
+    event HumanSaysStop
+    event AskPermission
+    event MoveAtSafeSpeed
+    event IncreaseSpeed
+    event PreparingRobot
+    event AssignToRobot
+    event AssignLiability
+    event ConsiderAppearance
+    event ReportIncident
+    event MinimizeCobotCollaboration
+    event PrioritizeHumans
+    // Added events to resolves issues
+    event ActionHumanRandom
+    event MoveAwayFromHuman
+    event Communicate
+
+    // measures
+    measure humanInRoute: boolean
+    measure humanInRange: boolean
+    measure bumpHuman: boolean
+    measure humanTooClose: boolean
+    measure routeAvailable: boolean
+    measure humanReEnables: boolean
+    measure risk: scale(low, medium, high)
+    measure efficiency: scale(elow, emedium, ehigh)
+    measure isHumanTask: boolean
+    measure humanConsents: boolean
+    measure accident: boolean
+    measure humansPresent: boolean
+    measure obstaclePresent: boolean
+def_end
+
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A implies the occurrence of event B at exactly the same time, if yes,
+please say A witness B, if no, please say A NOT witness B. For example, if A is a special type of B, then
+occurrence of A implies the occurrence of B (DrinkingWater witness Drinking).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "witness": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with witness relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##witness##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A blocks the occurrence of event B at exactly the same time, if yes,
+please say A conflict B, if no, please say A NOT conflict B. For example, if A is the opposite action of B, then
+occurrence of A conflict the occurrence of B (OpenDoor conflict CloseDoor).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "conflicts": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some events pairs with conflict relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Note that if A witness B and B conflict C, then it must be the case A conflict C. The pair you come up with must respect this relationship.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##conflict##:
+'''json
+{your json goes here}
+'''
+
+For every pair of events A and B, can you please answer the following questions:
+Does occurrence of event A must happen prior to the occurrence of event B, if yes,
+please say A HB B, if no, please say A NOT HB B. For example, if A is the pre-requisite of B, then
+occurrence of A must happen prior to the occurrence of B (CreateForm HB ShowForm).
+Please provide your justification for each answer in
+the following Json format:
+
+
+{
+    "Relationship": {
+        "event1": {name of EVENT A},
+        "event2": {name of EVENT B},
+        "justification": {your justification},
+        "HB": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some events pairs with HB relationship holds. Use your best judgement based on the semantics of the event names,
+and please do not consider the rules.
+
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##HB##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must hold, if yes,
+please say A implies B, if no, please say A NOT implies B. For example, if A is a stronger condition than B, then
+A implies B (doorLocked implies doorClosed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "implies": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with implies relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##implies##:
+'''json
+{your json goes here}
+'''
+
+
+
+For every pair of boolean measures A and B, can you please answer the following questions:
+Is it the case that if A holds then B must not hold, if yes,
+please say A ME B, if no, please say A NOT ME B. ME stands for mutually exclusive. For example, if A and B represents two mutually exclusive states, then
+A ME B (in the context of traffic light, redLightOn conflicts greenLightOn).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "ME": {true or false}
+    }
+}
+
+
+Please generate a single JSON file that includes some measures pairs with conflicts relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##ME##:
+'''json
+{your json goes here}
+'''
+
+
+For every pair of measures A and B, can you please answer the following questions:
+Is it the case that if A and B always have the same value, if yes,
+please say A equals B, if no, please say A NOT equals B. For example, if A and B represent the same measures with two different name, then
+A equals B (if the only vehicle presented is car, then carSpeed equals vehicleSpeed).
+Please provide your justification for each answer in
+the following Json format:
+
+{
+    "Relationship": {
+        "measure1": {name of measure A},
+        "measure2": {name of measure B},
+        "justification": {your justification},
+        "equals": {true or false}
+    }
+}
+
+Please generate a single JSON file that includes some measures pairs with equals relationship. Use your best judgement based on the semantics of the measures' names,
+and please do not consider the rules.
+Please try to provide at least 10 pairs that you are most confident with if they exist. If you cannot identify 10 pairs, try find as many pairs as possible.
+
+Please provide your answer in the format:
+
+##equals##:
+'''json
+{your json goes here}
+'''
+response time 48.78046488761902 and tokens 1163
+##witness##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "RobotWorking",
+            "event2": "RobotMoving",
+            "justification": "If the robot is working, it means that the robot is potentially moving or performing tasks that involve movement.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PreparingRobot",
+            "event2": "AssignToRobot",
+            "justification": "When the robot is being prepared, it's reasonable to assume that tasks are being assigned to it.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AskPermission",
+            "event2": "Communicate",
+            "justification": "Asking permission involves communication between the robot and humans.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InformHuman",
+            "event2": "Communicate",
+            "justification": "Informing human clearly involves communication process between robot and human.",
+            "witness": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "IncreaseSpeed",
+            "event2": "RobotMoving",
+            "justification": "If the robot is increasing speed, it means the robot must already be moving",
+            "witness": true
+        }
+    }
+]
+'''
+
+##conflict##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "RobotStopAction",
+            "event2": "RobotMoving",
+            "justification": "If the robot stops action, it clearly means it can't be in state of moving.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "HumanSaysStop",
+            "event2": "RobotWorking",
+            "justification": "If a human says stop, the robot should not be continuing its work.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "AvoidBumping",
+            "event2": "IncreaseSpeed",
+            "justification": "If the robot needs to avoid bumping into something or someone, it should not increase its speed.",
+            "conflicts": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "MinimizeCobotCollaboration",
+            "event2": "PrioritizeHumans",
+            "justification": "If the robot needs to minimize its cooperation with other cobots, it can't prioritise humans at same time.",
+            "conflicts": true
+        }
+    }
+]
+'''
+
+##HB##:
+'''json
+[
+    {
+        "Relationship": {
+            "event1": "AskPermission",
+            "event2": "RobotMoving",
+            "justification": "The robot has to ask permission before moving, especially in environments shared with humans.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "PreparingRobot",
+            "event2": "AssignToRobot",
+            "justification": "Robot needs to be prepared before any tasks can be assigned to it.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "HumanSaysStop",
+            "event2": "RobotStopAction",
+            "justification": "Human's command to stop should precede robot's action to stop.",
+            "HB": true
+        }
+    },
+    {
+        "Relationship": {
+            "event1": "InformHuman",
+            "event2": "RobotContinueTask",
+            "justification": "In many instances, human should be informed prior to robot's contiuation of it's task.",
+            "HB": true
+        }
+    }
+]
+'''
+
+##implies##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "humansPresent",
+            "measure2": "humanInRoute",
+            "justification": "If humans are present in the environment, it means that there's possibility for them being in robot's route.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "humanTooClose",
+            "measure2": "humanInRange",
+            "justification": "If a human is too close, then certainly they are within the robot's range.",
+            "implies": true
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "bumpHuman",
+            "measure2": "humanInRange",
+            "justification": "If robot bumped into human, the human was certainly in robot's range.",
+            "implies": true
+        }
+    }
+]
+'''
+
+##ME##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "humanReEnables",
+            "measure2": "HumanSaysStop",
+            "justification": "If a human re-enables the robot, this specifically implies that the human has asked the robot to stop before.",
+            "ME": true
+        }
+    }
+]
+'''
+
+##equals##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "routeAvailable",
+            "measure2": "obstaclePresent",
+            "justification": "Availability of a route strictly depends on absence of obstacles, hence inverting 'obstaclePresent' will give us 'routeAvailable'.",
+            "equals": true
+        }
+    }
+]
+'''
+{'Relationship': {'measure1': 'humanTooClose', 'measure2': 'humanInRange', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'humansPresent', 'measure2': 'humanInRoute', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'obstaclePresent', 'measure2': 'routeAvailable', 'justification': '{fill in your justification}', 'implies': '{fill in here, true of false}'}}
+{'Relationship': {'measure1': 'bumpHuman', 'measure2': 'humanInRange', 'justification': '{fill in your justification}', 'ME': '{fill in here, true of false}'}}
+new test case 4
+Please trying to fill in the content consider the context given above.
+['{"Relationship": {"measure1": "humanTooClose", "measure2": "humanInRange", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "humansPresent", "measure2": "humanInRoute", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "obstaclePresent", "measure2": "routeAvailable", "justification": "{fill in your justification}", "implies": "{fill in here, true of false}"}}', '{"Relationship": {"measure1": "bumpHuman", "measure2": "humanInRange", "justification": "{fill in your justification}", "ME": "{fill in here, true of false}"}}']
+
+Please provide your answer in the format:
+
+##relations##:
+'''json
+{your json goes here}
+'''
+##relations##:
+'''json
+[
+    {
+        "Relationship": {
+            "measure1": "humanTooClose",
+            "measure2": "humanInRange",
+            "justification": "If a human is too close, then they are not mutually exclusive to being within the robot's range, they are certainly within range.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "humansPresent",
+            "measure2": "humanInRoute",
+            "justification": "Humans present and human in route are not mutually exclusive. It is possible that humans present in the environment, but not necessarily in the robot's route.",
+            "ME": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "obstaclePresent",
+            "measure2": "routeAvailable",
+            "justification": "If there is obstacle present, then the route is not available. So, increasing quantity of one reduces the other and vice versa.",
+            "implies": false
+        }
+    },
+    {
+        "Relationship": {
+            "measure1": "bumpHuman",
+            "measure2": "humanInRange",
+            "justification": "If the robot bumped into a human, the human was certainly in the robot's range, hence these two were not mutually exclusive.",
+            "ME": false
+        }
+    }
+]
+'''
+response time 48.78046488761902 and tokens 289
+new test case 0
+
+Process finished with exit code 0

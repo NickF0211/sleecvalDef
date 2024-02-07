@@ -1,0 +1,213 @@
+{
+    "name": "autoCar",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "ParkVehicle",
+                "event2": "CarDriving",
+                "justification": "When the vehicle is parked, it is not driving.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "TemporarilyStopCar",
+                "event2": "CarDriving",
+                "justification": "When the car is temporarily stopped, it is not driving at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserTurnOffSystem",
+                "event2": "CarDriving",
+                "justification": "When the user turns off the system, the car is not driving at that moment.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "DisplayAlert",
+                "event2": "EnvironmentClear",
+                "justification": "If an external alert is displayed, it implies the environment is not clear.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserTurnedOffSystem",
+                "event2": "TakeUserInput",
+                "justification": "If user turned off system they won't be able to give input.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserCancelPath",
+                "event2": "CarDriving",
+                "justification": "If user cancels the path, the car might have to stop driving.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "TurnOffSensors",
+                "event2": "RecordPeople",
+                "justification": "If sensors are off, they won't record people nearby.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserTurnOffSystem",
+                "event2": "SystemReady",
+                "justification": "When the user turns off the system, the system is not ready to function.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "TurnOffSensors",
+                "event2": "DisplayCarInformation",
+                "justification": "Turning off sensors might stop displaying information about the car.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "DisplayError",
+                "event2": "SystemReady",
+                "justification": "The display of an error implies that the system is not ready or fully functioning.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "ambulanceBehindCar",
+                "measure": "priorityVehicleNearby",
+                "justification": "If there is an ambulance behind the car, it implies that there is a priority vehicle nearby.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "ambulanceNextToCar",
+                "measure": "priorityVehicleNearby",
+                "justification": "If there is an ambulance next to the car, it implies that there is a priority vehicle nearby.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "ambulanceOnOppositeSide",
+                "measure": "priorityVehicleNearby",
+                "justification": "If there is an ambulance on the opposite side, it implies that there is a priority vehicle nearby.",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "redLight",
+                "measure": "greenLight",
+                "justification": "In the context of traffic lights, the lights are mutually exclusive. A red light being on implies that a green light is not on.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userTurnedOffSystem",
+                "measure": "userTurnedOnSystem",
+                "justification": "The user can't turn on and off the system at exactly the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "doorClosed",
+                "measure": "userTurnedOffSystem",
+                "justification": "The door being closed doesn't necessarily mean the user turned off the system.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "greenLight",
+                "measure": "yellowLight",
+                "justification": "In the context of traffic lights, the lights are mutually exclusive. A green light being on implies that a yellow light is not on.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "ambulanceBehindCar",
+                "measure": "ambulanceNextToCar",
+                "justification": "The ambulance can't be both behind and next to the car at exactly the same time.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "redLight",
+                "measure": "yellowLight",
+                "justification": "In the context of traffic lights, the lights are mutually exclusive. A red light being on implies that a yellow light is not on.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userTurnedOffSystem",
+                "measure": "systemReady",
+                "justification": "If the user turned off the system, it cannot be ready for operation.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "objectInPath",
+                "measure": "pathExists",
+                "justification": "If there is an object in the path, the path is not currently clear or passable.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "seatBeltOn",
+                "measure": "doorClosed",
+                "justification": "The seat belt being on doesn't necessarily mean the door is closed.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "carBehind",
+                "measure": "pathExists",
+                "justification": "If there is a car behind, the path in front doesn't necessarily exist.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "ambulanceBehindCar",
+                "measure": "priorityVehicleNearby",
+                "justification": "Both measures indicate the closeness of a priority vehicle, like an ambulance, to the car. Thus, they represent the same condition with different names.",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "ambulanceNextToCar",
+                "measure": "priorityVehicleNearby",
+                "justification": "Both measures indicate the closeness of a priority vehicle, like an ambulance, to the car. Thus, they represent the same condition with different names.",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "ambulanceOnOppositeSide",
+                "measure": "priorityVehicleNearby",
+                "justification": "Both measures indicate the closeness of a priority vehicle, like an ambulance, to the car. Thus, they represent the same condition with different names.",
+                "equals": true
+            }
+        }
+    ]
+}

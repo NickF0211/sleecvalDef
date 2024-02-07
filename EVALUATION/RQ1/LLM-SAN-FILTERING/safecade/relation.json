@@ -1,0 +1,93 @@
+{
+    "name": "safecade",
+    "relations": [
+        {
+            "Relationship": {
+                "event1": "UserDriving",
+                "event2": "SystemDriving",
+                "justification": "UserDriving and SystemDriving conflict as both cannot take place at the same time.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "StopAutonomousComponent",
+                "event2": "SystemOn",
+                "justification": "An autonomous component cannot function if the system is not on.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserEnters",
+                "event2": "UserCanTurnOffSystem",
+                "justification": "A user cannot turn off a system they have entered.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "event1": "UserWantsControl",
+                "event2": "TakeControlForSafety",
+                "justification": "If a user wants control, the system cannot take control for safety.",
+                "conflicts": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "objectNearby",
+                "measure2": "relevantObjectNearby",
+                "justification": "The presence of a relevant object nearby implies that there is an object nearby",
+                "implies": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userImpaired",
+                "measure2": "rulesFollowed",
+                "justification": "An impaired user likely does not follow the rules, hence these measures are mutually exclusive.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "substanceUse",
+                "measure2": "health",
+                "justification": "Substance use and health are generally mutually exclusive because using substances harms health.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "warningSignalOff",
+                "measure2": "alertSignalOn",
+                "justification": "Warning signal off and alert signal on cannot occur simultaneously, making them mutually exclusive measures.",
+                "ME": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "relevantObjectNearby",
+                "measure2": "objectNearby",
+                "justification": "Both are the same measures but with different names.",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "low",
+                "measure2": "low1",
+                "justification": "Both are the same measures but with different names.",
+                "equals": true
+            }
+        },
+        {
+            "Relationship": {
+                "measure1": "userNotice",
+                "measure2": "userUnderstands",
+                "justification": "Both measures are the same, implying user's understanding and notice.",
+                "equals": true
+            }
+        }
+    ]
+}
