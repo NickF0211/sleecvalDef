@@ -17,4 +17,4 @@
     2. Launch LLM_SAN/main.py. 
 
 ## Evaluation artifacts:
-1. Please in [RQ1] (EVALUATION/RQ1), LLM_SAN [semantic relations] (EVALUATION/RQ1/LLM-SAN-FILTERING), the definition sanitization [forms] (EVALUATION/RQ1/FORMS) and the non-technical stakeholders [reviews] (EVALUATION/RQ1/N-TS-RESPONSES).
+1. Please in [RQ1](EVALUATION/RQ1), LLM_SAN [semantic relations](EVALUATION/RQ1/LLM-SAN-FILTERING), the definition sanitization [forms](EVALUATION/RQ1/FORMS) and the non-technical stakeholders [reviews](EVALUATION/RQ1/N-TS-RESPONSES).
