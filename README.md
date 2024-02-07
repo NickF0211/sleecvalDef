@@ -17,4 +17,5 @@
     2. Launch LLM_SAN/main.py. 
 
 ## Evaluation artifacts:
-1. Please in [RQ1](EVALUATION/RQ1), LLM_SAN [semantic relations](EVALUATION/RQ1/LLM-SAN-FILTERING), the definition sanitization [forms](EVALUATION/RQ1/FORMS) and the non-technical stakeholders [reviews](EVALUATION/RQ1/N-TS-RESPONSES).
+1. Please find in [RQ1](EVALUATION/RQ1), LLM_SAN [semantic relations](EVALUATION/RQ1/LLM-SAN-FILTERING), the definition sanitization [forms](EVALUATION/RQ1/FORMS) and the non-technical stakeholders [reviews](EVALUATION/RQ1/N-TS-RESPONSES).
+2. Please find [RQ2](EVALUATION/RQ2), the selected [case-studies](EVALUATION/RQ2/CASESTUDIES), the requirements collected for the three configurations ([Adhoc-elicitation](EVALUATION/RQ2/AdhocElicitation), [Systematic-elicitation](EVALUATION/RQ2/SystematicElicitation), and [RAINCOAT-Elicitation-Validation](EVALUATION/RQ2/RAINCOAT-Elicitation-Validation)), and the corrected requierements for the RAINCOAT-Elicitation-Validation configuration.
