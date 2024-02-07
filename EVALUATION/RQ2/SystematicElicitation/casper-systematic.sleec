@@ -1,0 +1,315 @@
+def_start
+	// events
+	event BeforeEnterRoom
+	event InformUser
+	event EnterRoom
+	event GiveReminders
+	event UsePreferredTerms
+	event BeforeStartCookingTutorial
+	event StartCookingTutorial
+	event StopCookingTutorial
+	event GiveMedReminder
+	event AskConsent
+	event SayMedName
+	event SkipSharpObjects
+	event PrescriptionChanges
+	event SendOldPrescription
+	event DeleteOldPrescription
+	event DetectPerson
+	event ConfirmPersonAuthorization
+	event CollectPersonData
+	event ContactProvider
+	event DetectUser
+	event InstructUser
+	event AskTutorialPreference
+	event GiveMealReminders
+	event ConfirmEachStep
+	event UserWantsCommunication
+	event AllowVoiceCommand
+	event Moving
+	event GoDifferentRoom
+	event UserRequestID
+	event UserSleeping
+	event CheckSchedule
+	event UserStruggling
+	event OfferHelp
+	event Help
+	event WakeUser
+	event KeepDistance
+	event Visitor
+	event Interrupt
+	event UserRequestAloneTime
+	event StayInKitchen
+	event RespectUserDiet
+	event UserPraying
+	event DelayReminder
+	event InitiateCall
+	event UseUserLanguage
+	event UserWantConsentWithdraw
+	event ConfirmRequest
+	event PauseReminders
+	event ProviderKnowsConsentWithdraw
+	event StopSystem
+	event UserEating
+	event ReRemind
+	event UserCommunicating
+	event Wait
+	event DetectObstruction
+	event SuppliesLow
+	event AbilitiesObstructed
+	event AlertEmergencyContact
+	event UserConfirmConsentWithdraw
+
+	// measures
+	measure consent: boolean
+	measure occupied: boolean
+	measure userInKitchen: boolean
+	measure otherPerson: boolean
+	measure dementia: scale(low, medium, high)
+	measure authorized: boolean
+	measure userFound: boolean
+	measure userInRoom: boolean
+	measure lightsOn: boolean
+	measure mobility: boolean
+	measure towardsUser: boolean
+	measure reminderTime: boolean
+	measure communicating: boolean
+	measure userWantsCasperInRoom : boolean
+	measure requestHelp: boolean 
+	measure struggleLength: numeric 	// minutes
+	measure time: numeric 		// hours
+	measure userDistance: numeric 	// meters
+	measure userTakeMed: boolean 
+	measure userEat: boolean 
+	measure mealReminder: boolean 
+	measure userRequestInterruption: boolean 
+	measure userPlacedItem: boolean 
+	measure userCanRemove: boolean	
+def_end
+
+rule_start
+	// Social/Ethical/Cultural
+	// Inform occupants of room before entering 
+	R1 when BeforeEnterRoom and {occupied} then InformUser
+
+	// Wait for occupants’ consent after informing and before entering
+	R2 when InformUser and {consent} then EnterRoom
+
+	// Use the user’s preferred pronouns/name when giving reminders
+	R3 when GiveReminders then UsePreferredTerms
+
+	// Legal/Ethical
+	// Before giving the user a tutorial on how to prepare a meal Casper should inform the user of health and safety precautions and risks of abandoning cooking
+	R4_0 when BeforeStartCookingTutorial then InformUser
+	R4_1 when InformUser then StartCookingTutorial
+
+	// If in tutorial mode and user leaves kitchen, then stop tutorial mode and inform user of risks of abandoning cooking
+	R5_0 when StartCookingTutorial and (not {userInKitchen}) then StopCookingTutorial
+	R5_1 when StartCookingTutorial and (not {userInKitchen}) then InformUser
+
+	// If person other than user is detected in the room and medication reminder scheduled, ask user to consent for medication names to be publicised
+	R6 when GiveMedReminder and {otherPerson} then AskConsent
+
+	// If person other than user is detected in room and user consents to medication names publicised, mention medication names
+	R7 when AskConsent and {consent} then SayMedName
+
+	// If user dementia is >[threshold], do not use sharp objects in teaching approach
+	R8 when StartCookingTutorial and ({dementia} > low) then SkipSharpObjects
+
+	// If user medication prescriptions change, outdated prescription history should be sent to healthcare providers and then deleted from Casper’s storage
+	R9_0 when PrescriptionChanges then SendOldPrescription
+	R9_1 when PrescriptionChanges then DeleteOldPrescription
+
+	// If person other than user is detected in the room, confirm with user’s schedule whether person is authorized
+	R10 when DetectPerson and {otherPerson} then ConfirmPersonAuthorization
+
+	// If person is authorized to be in the room, system must not collect data on the person
+	R11 when ConfirmPersonAuthorization and {authorized} then not CollectPersonData
+
+	// If person is unauthorized to be in the room, inform occupants of room and contact healthcare providers immediately
+	R12_0 when ConfirmPersonAuthorization and (not {authorized}) then InformUser
+	R12_1 when ConfirmPersonAuthorization and (not {authorized}) then ContactProvider
+
+	// If Casper is unable to find user in the house then inform healthcare providers and emergency contact
+	R13 when DetectUser and (not {userFound}) then ContactProvider
+
+	// Empathetic
+	// Inform user if the room they’re in has the lights switched off
+	R14 when DetectUser and ({userInRoom} and (not {lightsOn})) then InformUser
+
+	// Inform user how to turn on lights if lights are off and they’re in the room
+	R15 when DetectUser and ({userInRoom} and (not {lightsOn})) then InstructUser
+
+	//Inform user how to turn off lights if lights are on and they’re not in the room
+	R16 when DetectUser and ((not {userInRoom}) and {lightsOn}) then InstructUser
+
+	// When reminding the user of a meal, ask if user wants to learn how to prepare it
+	R17 when GiveMealReminders then AskTutorialPreference
+
+	// After each cooking instruction, confirm with user if step is complete before moving to next step
+	R18 when StartCookingTutorial then ConfirmEachStep
+
+	// If user unable to move, and user wants to communicate with family members or healthcare providers, allow user to use voice command
+	R19 when UserWantsCommunication and (not {mobility}) then AllowVoiceCommand
+
+	// If moving toward user, alert user before moving
+	R20 when Moving and {towardsUser} then InformUser
+
+	// Empathetic/Ethical
+	// Inform user of Casper’s use/purpose if identification requested
+	R21 when UserRequestID then InformUser
+
+	// If user is resting/sleeping, do not move in the apartment
+	R22 when UserSleeping then not Moving
+
+	// If no reminders scheduled, Casper should move to different room than user
+	R23 when CheckSchedule and (not {reminderTime}) then GoDifferentRoom
+
+	// If user does not ask for help, Casper should not help
+	//	Unless user observed to struggle for >=3 minutes then Casper asks user if help required
+	R24 when UserStruggling and (not {requestHelp}) then not Help
+	unless ({struggleLength} > 2) then OfferHelp
+
+	// If user is sleeping and Casper required to give meal reminder or medication reminder or doctor appointment reminder, WakeUser
+	//	Unless time between 7pm and 5am, then not WakeUser
+	R25 when UserSleeping and {reminderTime} then WakeUser
+	unless (({time} > 19) or ({time} < 5)) then not WakeUser
+		
+	// Casper should not come closer than one metre to the user
+	//	Unless ConsentGiven 
+	R26 when Moving and ({userDistance} = 1) then KeepDistance
+	unless {consent}
+		
+	// If user has a visitor, do not interrupt the user and do not occupy same room as user
+	//	Unless there is a reminder scheduled
+	R27_0 when Visitor then not Interrupt
+	unless {reminderTime}
+	R27_1 when Visitor then GoDifferentRoom
+	unless {reminderTime}
+
+	// If user requests alone time and reminder scheduled, then inform user of reminder priority and ask user for consent to be left alone
+	R28_0 when UserRequestAloneTime and {reminderTime} then InformUser
+	R28_1 when UserRequestAloneTime and {reminderTime} then AskConsent
+
+	// If user consent to be left alone and reminder scheduled, then contact healthcare providers and emergency contact
+	R29 when AskConsent and ({consent} and {reminderTime}) then ContactProvider
+
+	// If user in kitchen then Casper should be in kitchen 
+	R30 when DetectUser and {userInKitchen} then StayInKitchen
+
+	// If user is in any room, Casper should be in a different room
+	//	Unless user in kitchen
+	//	Unless there is a reminder scheduled
+	//	Unless communicating with family or healthcare providers
+	//	Unless user requests Casper to be in the same room
+	R31 when DetectUser and {userInRoom} then GoDifferentRoom
+		unless {userInKitchen} 
+	unless {reminderTime} 
+	unless {communicating} 
+	unless {userWantsCasperInRoom} 
+
+	// Empathetic/Cultural
+	// Only teach user to prepare meals that coincide with the user’s dietary requirements and/or preferences
+	R32 when BeforeStartCookingTutorial then RespectUserDiet
+
+	// If user is praying, do not move in the apartment
+	R33 when UserPraying then not Moving
+
+	// If user is praying, delay reminder for 10 minutes
+	R34 when UserPraying and {reminderTime} then DelayReminder
+
+	// If user is praying, do not start meal tutorial
+	R35 when UserPraying then not StartCookingTutorial
+
+	// Use the user’s language when initiating calls with family members of healthcare providers
+	R36 when InitiateCall then UseUserLanguage
+
+	// Use the user’s language when giving reminders
+	R37 when GiveReminders then UseUserLanguage
+
+	// Legal/Ethical/Empathetic
+	// If user requests to withdraw consent then inform user of consequences of consent withdrawal and ask user to re-confirm withdrawal request
+	R38_0 when UserWantConsentWithdraw then InformUser
+	R38_1 when UserWantConsentWithdraw then ConfirmRequest
+
+	// If user re-confirm withdrawal request then inform healthcare provider of consent withdrawal and pause reminders for 30 minutes
+	R39_0 when UserConfirmConsentWithdraw then ContactProvider
+	R39_1 when UserConfirmConsentWithdraw then PauseReminders
+
+	// If healthcare provider acknowledges consent withdrawal then Casper should stop all system capabilities 
+	R40 when ProviderKnowsConsentWithdraw then StopSystem
+
+	// Social/Empathetic
+	// If user is eating a meal and there is a reminder scheduled, delay reminder until meal is complete
+	R41 when UserEating and {reminderTime} then DelayReminder 
+
+	// If user reminded to take medication and user not take medication within 30 minutes, remind user again
+	R42 when GiveReminders and (not {userTakeMed}) then ReRemind within 30 minutes
+
+	// If user reminded to eat a meal and user not eat meal within 30 minutes, remind user again
+	R43 when GiveReminders and (not {userEat}) then ReRemind within 30 minutes
+
+	// If user request to communicate with family members or healthcare providers, then inform user if light off
+	R44 when UserWantsCommunication and (not {lightsOn}) then InformUser
+
+	// If user communicating with family members or healthcare providers and reminder scheduled, interrupt conversation 
+	//	Unless reminder is for meal, then wait until call is over
+	//	Unless user requested to be interrupted by reminder
+	R45 when UserCommunicating and {reminderTime}  then Interrupt
+		unless {mealReminder} then Wait
+	unless {userRequestInterruption} 
+
+	// Social/Legal/Ethical
+	// If obstruction in room doorways detected, inform healthcare providers
+	//	Unless user placed obstruction intentionally and user able to remove obstruction alone
+	R46 when DetectObstruction then ContactProvider
+		unless ({userPlacedItem} and {userCanRemove})
+
+	// Social/Legal/Ethical/Empathetic
+	// If system movement, detection, monitoring, or communication abilities obstructed, alert emergency contact immediately
+	R47 when AbilitiesObstructed then AlertEmergencyContact
+
+	//Social/Ethical/Empathetic
+	// If supplies below a pre-determined, minimum level then inform emergency contact and inform user
+	R48_0 when SuppliesLow then InformUser
+	R48_1 when SuppliesLow then ContactProvider
+
+rule_end
+
+relation_start
+	// commented relations we reviewed as non correct - (see form in the validation folder)
+	//witness AskConsent InformUser
+	//witness StartCookingTutorial InformUser
+	//witness GiveMedReminder GiveReminders
+	//witness EnterRoom Moving
+	//witness GiveMealReminders GiveReminders
+	//witness SkipSharpObjects BeforeStartCookingTutorial
+	//witness AskTutorialPreference InformUser
+	//witness InstructUser InformUser
+	mutualExclusive UserSleeping StartCookingTutorial
+	//mutualExclusive StartCookingTutorial UserCommunicating
+	//mutualExclusive AskTutorialPreference UserCommunicating
+	//mutualExclusive GiveMedReminder UserRequestAloneTime
+	mutualExclusive UserRequestID ConfirmPersonAuthorization
+	//mutualExclusive InstructUser UserCommunicating
+	//mutualExclusive AskConsent UserCommunicating
+	mutualExclusive UserRequestAloneTime GiveReminders
+	//mutualExclusive UserCommunicating InformUser
+	//mutualExclusive GiveMealReminders UserRequestAloneTime
+	//mutualExclusive UserPraying StartCookingTutorial
+	//mutualExclusive UserEating GiveMealReminders
+	happenBefore  DetectPerson InstructUser
+	happenBefore BeforeEnterRoom EnterRoom
+	happenBefore ConfirmPersonAuthorization GiveReminders
+	happenBefore InformUser StartCookingTutorial
+	measure imply {userFound} {userInRoom}
+	measure imply {userInRoom} {occupied}
+	measure imply {userFound} {occupied}
+	measure imply {mobility} {occupied}
+	//forbid UserSleeping {lightsOn} 
+relation_end
+
+
+
+
+

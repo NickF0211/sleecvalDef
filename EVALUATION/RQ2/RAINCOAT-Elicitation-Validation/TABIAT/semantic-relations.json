@@ -1,0 +1,300 @@
+{
+   "name": "Tabiat_group1",
+   "relations": [
+       {
+           "Relationship": {
+               "event1": "SystemRecivingMessageFromClinician",
+               "event2": "SystemRelayMessageToUser",
+               "justification": "When the system receives a message from the clinician, it relays the message to the user potentially immediately.",
+               "witness": true
+           }
+       },
+
+       {
+           "Relationship": {
+               "event1": "SystemAccessHealthData",
+               "event2": "DataAnonymised",
+               "justification": "When accessing health data, measures can be put in place to anonymise data concurrently.",
+               "witness": true
+           }
+       }, 
+       {
+           "Relationship": {
+               "event1": "SystemTurnOffSensor",
+               "event2": "StopSystemDataCollection",
+               "justification": "When the system turns off the sensor, it stops collecting data concurrently.",
+               "witness": true
+           }
+       },
+
+
+       {
+           "Relationship": {
+               "event1": "UserConformIsFamilarwithTechnology",
+               "event2": "SystemConfig",
+               "justification": "If a user confirms they are familiar with the technology, the system configuration can occur concurrently.",
+               "witness": true
+           }
+       },
+       {
+           "Relationship": {
+               "event1": "SystemCollectData",
+               "event2": "SystemInformUserAboutStorageDuration",
+               "justification": "When data collection starts, the system can inform the user about the data storage duration at the same time which is a part of a good data transparency practice.",
+               "witness": true
+           }
+       },
+       {
+           "Relationship": {
+               "event1": "SystemEnsureSummaryRelevent",
+               "event2": "SystemInformUserAboutInput",
+               "justification": "When the system ensures the summary is relevant, it can inform the user about the input immediately.",
+               "witness": true
+           }
+       },
+
+
+       {
+           "Relationship": {
+               "event1": "SystemDataBreach",
+               "event2": "SystemInformUserAboutDataBreach",
+               "justification": "When the system detects a data breach, it informs the user at the same time.",
+               "witness": true
+           }
+       },
+
+
+       {
+           "Relationship": {
+               "event1": "UserConformIsFamilarwithTechnology",
+               "event2": "UseUserLanguage",
+               "justification": "User confirming their familiarity with technology has the potential to witness the use of their preferred language by the system.",
+               "witness": true
+           }
+       },
+
+       {
+           "Relationship": {
+               "event1": "UserConsented",
+               "event2": "AllowSendData",
+               "justification": "When the user consents, the system can begin to send data immediately.",
+               "witness": true
+           }
+       },
+
+       {
+           "Relationship": {
+               "event1": "SystemConfig",
+               "event2": "UseUserLanguage",
+               "justification": "System configuration can include setting up the preferred user language at the same instant.",
+               "witness": true
+           }
+       },
+
+
+       {
+           "Relationship": {
+               "event1": "SystemTurnOnSensor",
+               "event2": "SystemCollectData",
+               "justification": "Turning on the sensor allows the system to collect data, they could occur at the same time.",
+               "witness": true
+           }
+       },
+       {
+           "Relationship": {
+               "event1": "SystemTurnOnSensor",
+               "event2": "SystemInformUserAboutStorageDuration",
+               "justification": "System can start asking the duration to inform the user about storage duration when it turns on the sensor.",
+               "witness": true
+           }
+       },
+       {
+           "Relationship": {
+               "event1": "SystemCollectData",
+               "event2": "StopSystemDataCollection",
+               "justification": "System can't collect data and stop collecting data at the same time.",
+               "conflicts": true
+           }
+       },
+
+
+
+       {
+           "Relationship": {
+               "event1": "SystemTurnOnSensor",
+               "event2": "SystemTurnOffSensor",
+               "justification": "The sensor can't be turned on and off at the same time.",
+               "conflicts": true
+           }
+       },
+
+
+
+       {
+           "Relationship": {
+               "event1": "SystemInformUserAboutDataBreach",
+               "event2": "SystemRelayDataToClinican",
+               "justification": "When the system is informing the user about a data breach, data transmission should ideally be halted thus causing a conflict.",
+               "conflicts": true
+           }
+       }
+
+       {
+           "Relationship": {
+               "event1": "SystemDataBreach",
+               "event2": "SystemAccessHealthData",
+               "justification": "During a data breach, accessing health data may be stopped and thus these two events normally can't occur concurrently.",
+               "conflicts": true
+           }
+       },
+
+
+       {
+           "Relationship": {
+               "event1": "UserRequestedStopDataCollection",
+               "event2": "AllowSendData",
+               "justification": "When the user has requested to stop data collection, the system ideally should not send data.",
+               "conflicts": true
+           }
+       },
+
+
+
+       {
+           "Relationship": {
+               "event1": "UseUserLanguage",
+               "event2": "SystemInformUser",
+               "justification": "The language settings must be configured before system starts informing the user.",
+               "HB": true
+           }
+
+       },
+       {
+           "Relationship": {
+               "event1": "ChangeSystemLanguage",
+               "event2": "SystemNotifyUser",
+               "justification": "The system language needs to be changed before it can notify the user.",
+               "HB": true
+           }
+       },
+       {
+           "Relationship": {
+               "event1": "UserSubmitData",
+               "event2": "DataAnonymised",
+               "justification": "The user must submit data before it can be anonymised.",
+               "HB": true
+           }
+       },
+
+
+       {
+           "Relationship": {
+               "event1": "UserConsented",
+               "event2": "SystemCollectData",
+               "justification": "User consenting must happen before the system starts collecting data.",
+               "HB": true
+           }
+       },
+
+       {
+           "Relationship": {
+               "event1": "SystemDataBreach",
+               "event2": "SystemInformUserAboutDataBreach",
+               "justification": "The system must detect a data breach before it can inform the user.",
+               "HB": true
+           }
+       },
+       
+
+       {
+           "Relationship": {
+               "event1": "SystemConfig",
+               "event2": "UserChoosePronous",
+               "justification": "System must be configured such that user can choose pronouns.",
+               "HB": true
+           }
+       },
+
+
+
+
+       {
+           "Relationship": {
+               "event1": "UserConsented",
+               "event2": "AllowSendData",
+               "justification": "When the user consents, the system can begin to send data. User's consent should always happen before sending data which implies a Happens-Before relationship.",
+               "HB": true
+           }
+       },
+
+
+       {
+           "Relationship": {
+               "event1": "SystemTurnOnSensor",
+               "event2": "SystemAccessHealthData",
+               "justification": "The sensor must be turned on before the system can access health data.",
+               "HB": true
+           }
+       },
+
+       {
+           "Relationship": {
+               "event1": "SystemConfig",
+               "event2": "UseUserLanguage",
+               "justification": "System language settings must be configured before system starts using user's preferred language for interaction which implies a Happens-Before relationship.",
+               "HB": true
+           }
+       },
+
+
+       {
+           "Relationship": {
+               "event1": "SystemReceiveMessageFromClinician",
+               "event2": "SystemRelayMessageToUser",
+               "justification": "The System must receive a message from a clinician before relaying this message to the user.",
+               "HB": true
+           }
+       },
+
+
+
+       {
+           "Relationship": {
+               "event1": "SystemTurnOnSensor",
+               "event2": "SystemCollectData",
+               "justification": "System must turn on sensor before starting to collect data.",
+               "HB": true
+           }
+       },
+
+
+       {
+           "Relationship": {
+               "event1": "UserSubmitData",
+               "event2": "SystemAccessHealthData",
+               "justification": "The user must submit data before the system can access it.",
+               "HB": true
+           }
+       },
+
+
+       {
+           "Relationship": {
+               "measure1": "userComfortablewithTech",
+               "measure2": "userConformIsFamilarwithTechnology",
+               "justification": "User being comfortable with tech essentially means they are familiar with technology.",
+               "implies": true
+           }
+       },
+
+
+
+
+	{
+           "Relationship": {
+               "measure1": "userLastTimeReceiveMessage",
+               "measure2": "userLastTimeActive",
+               "justification": "User last receiving a message implies that they were active at that time.",
+               "implies": true
+           }
+       }
